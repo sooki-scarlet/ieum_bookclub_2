@@ -6,31 +6,21 @@
     <title>이음북클럽</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #F9F8F6; --main-text: #4B3621; --lavender: #9B8C9C; --mint: #829A88; --line: #EAE6E1;
-        }
+        :root { --bg: #F9F8F6; --main-text: #4B3621; --lavender: #9B8C9C; --mint: #829A88; --line: #EAE6E1; }
         body { background: var(--bg); margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--main-text); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 80px; }
         .app-frame { width: 100%; max-width: 480px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
         h1 { font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-size: 2.2rem; color: #2F3E30; margin-bottom: 60px; letter-spacing: 4px; cursor: pointer; }
         
-        /* 버튼 및 입력창 */
         .btn-base { background: transparent; padding: 14px 0; width: 220px; font-size: 1rem; letter-spacing: 10px; cursor: pointer; transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; border: 1px solid var(--line); margin: 10px auto; display: block; color: var(--main-text); }
-        .input-group { margin-bottom: 30px; text-align: center; width: 100%; }
-        .input-label { font-size: 0.85rem; color: var(--lavender); margin-bottom: 10px; display: block; letter-spacing: 1px; }
-        input { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 8px 0; color: var(--main-text); font-weight: 300; outline: none; font-size: 1.1rem; width: 85%; box-sizing: border-box; text-align: center; }
-        input::placeholder { color: #D1CDCA; }
-
-        /* 대시보드 및 카드 */
         .section-title { font-size: 0.8rem; color: var(--lavender); margin: 30px 0 10px 0; border-bottom: 1px solid var(--line); padding-bottom: 5px; text-align: left; letter-spacing: 2px; }
         .book-card { background: #fff; padding: 20px; text-align: left; margin-bottom: 15px; border: 1px solid var(--line); position: relative; }
         .btn-mini { background: transparent; border: 1px solid var(--mint); padding: 5px 12px; font-size: 0.75rem; cursor: pointer; color: var(--main-text); margin-top: 10px; }
         
-        /* 하단 탭 */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 15px 0; z-index: 1000; }
         .nav-tab { font-size: 0.75rem; color: var(--lavender); cursor: pointer; letter-spacing: 1px; }
         .nav-tab.active { color: var(--mint); font-weight: 400; }
-
         .hidden { display: none !important; }
+        input { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 8px 0; color: var(--main-text); width: 85%; text-align: center; font-size: 1.1rem; outline: none; }
     </style>
 </head>
 <body>
@@ -45,24 +35,16 @@
 
     <div id="register-screen" class="hidden">
         <div class="section-title">멤버 정보 등록</div>
-        <div class="input-group"><span class="input-label">사용할 별칭</span><input type="text" id="reg-alias" placeholder="생뚱"></div>
-        <div class="input-group"><span class="input-label">성함</span><input type="text" id="reg-name" placeholder="실명 입력"></div>
-        <div class="input-group"><span class="input-label">출생년도</span><input type="text" id="reg-birth" placeholder="1985"></div>
-        <div class="input-group"><span class="input-label">하는 일</span><input type="text" id="reg-work" placeholder="하는 일 입력"></div>
-        <div class="input-group"><span class="input-label">성별</span><input type="text" id="reg-gender" placeholder="남/여"></div>
-        <div class="input-group"><span class="input-label">감정노동자</span><input type="text" id="reg-emo" placeholder="예/아니오"></div>
+        <input type="text" id="reg-alias" placeholder="별칭 (생뚱)" style="margin-bottom:20px;">
+        <input type="text" id="reg-name" placeholder="성함 (실명)" style="margin-bottom:20px;">
         <button class="btn-base" style="border-color: var(--lavender);" onclick="handleRegister()">등록하기</button>
-        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender);" onclick="showScreen('home-screen')">이전으로</button>
+        <button onclick="showScreen('home-screen')" style="border:none; background:none; color:var(--lavender); cursor:pointer;">이전으로</button>
     </div>
 
     <div id="login-screen" class="hidden">
         <div class="section-title">이음(로그인)</div>
-        <div class="input-group">
-            <span class="input-label">별칭 입력</span>
-            <input type="text" id="login-alias" placeholder="별칭을 입력하세요">
-        </div>
-        <button class="btn-base" style="border-color: var(--mint);" onclick="handleLogin()">참여하기</button>
-        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender);" onclick="showScreen('home-screen')">이전으로</button>
+        <input type="text" id="login-alias" placeholder="별칭을 입력하세요">
+        <button class="btn-base" style="border-color: var(--mint); margin-top:30px;" onclick="handleLogin()">참여하기</button>
     </div>
 
     <div id="dashboard-screen" class="hidden">
@@ -71,21 +53,29 @@
         <div id="tab-journey">
             <div class="section-title">이번 달 이음책</div>
             <div id="current-area" class="book-card" style="border-left:4px solid var(--mint)">
-                <div id="curr-title" style="font-size:1.1rem">도서를 불러오는 중...</div>
+                <div id="curr-title" style="font-size:1.1rem">데이터를 불러오고 있습니다...</div>
                 <div id="curr-date" style="font-size:0.8rem; color:var(--lavender); margin-top:5px;"></div>
             </div>
             <div class="section-title">다음 달 이음책</div>
-            <div id="future-area" class="book-card" style="opacity:0.7"></div>
+            <div id="future-area" class="book-card" style="opacity:0.7">선정 대기 중</div>
         </div>
 
         <div id="tab-recommend" class="hidden">
-            <div class="section-title">클러버들의 추천 (관리자 확정)</div>
+            <div class="section-title">클러버들의 추천도서 (관리자 선정 가능)</div>
             <div id="recommend-list"></div>
         </div>
 
         <div id="tab-archive" class="hidden">
             <div class="section-title">이음북클럽 누적목록</div>
             <div id="archive-list"></div>
+        </div>
+
+        <div id="tab-vote" class="hidden">
+            <div class="section-title">이달의 도서 투표</div>
+            <div class="book-card">
+                <p style="font-size:0.9rem">현재 진행 중인 투표가 없습니다.</p>
+                <p style="font-size:0.75rem; color:var(--lavender)">차기 이음책 선정을 기대해주세요.</p>
+            </div>
         </div>
     </div>
 
@@ -95,12 +85,11 @@
         <div class="nav-tab active" onclick="switchTab('journey')">이음책</div>
         <div class="nav-tab" onclick="switchTab('recommend')">추천도서</div>
         <div class="nav-tab" onclick="switchTab('archive')">누적목록</div>
-        <div class="nav-tab" onclick="alert('투표 준비 중입니다.')">투표</div>
+        <div class="nav-tab" onclick="switchTab('vote')">투표</div>
     </div>
 </div>
 
 <script>
-    // 요청하신 최종 URL 반영
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjB21zgxfkvVG3vqQVdbGnDhtnZ6jHXLYK6Rx2j6004Q-s5o78_imJIfKhDm61YhEisw/exec";
     let user = null;
 
@@ -112,15 +101,14 @@
     function switchTab(tabName) {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         if(event) event.target.classList.add('active');
-        ['tab-journey', 'tab-recommend', 'tab-archive'].forEach(t => document.getElementById(t).classList.add('hidden'));
+        ['tab-journey', 'tab-recommend', 'tab-archive', 'tab-vote'].forEach(t => document.getElementById(t).classList.add('hidden'));
         document.getElementById('tab-' + tabName).classList.remove('hidden');
     }
 
-    // JSONP 로그인
     function handleLogin() {
         const alias = document.getElementById('login-alias').value;
         if(!alias) return;
-        document.getElementById('msg-area').innerText = "클러버 확인 중...";
+        document.getElementById('msg-area').innerText = "클러버 명부 확인 중...";
         
         window.loginCallback = function(res) {
             if(res.status === 'success') {
@@ -129,40 +117,36 @@
                 showScreen('dashboard-screen');
                 document.getElementById('bottom-nav').classList.remove('hidden');
                 refreshData();
-            } else { alert(res.message); document.getElementById('msg-area').innerText = ""; }
+            } else { alert(res.message); }
         };
         const script = document.createElement('script');
         script.src = `${SCRIPT_URL}?action=login&alias=${encodeURIComponent(alias)}&callback=loginCallback`;
         document.body.appendChild(script);
     }
 
-    // 데이터 새로고침 (이음책/추천/누적)
     function refreshData() {
         window.dataCallback = function(res) {
             const d = res.data;
-            // 1. 현재/미래
-            document.getElementById('curr-title').innerText = d.current ? d.current.title : "선정된 도서가 없습니다.";
+            document.getElementById('curr-title').innerText = d.current ? d.current.title : "선정 도서 없음";
             document.getElementById('curr-date').innerText = d.current ? `모임일: ${d.current.d1}, ${d.current.d2}` : "";
-            document.getElementById('future-area').innerText = d.future.length > 0 ? d.future[0].title : "준비 중입니다.";
+            document.getElementById('future-area').innerText = d.future.length > 0 ? d.future[0].title : "준비 중";
 
-            // 2. 추천 목록 (관리자 버튼 제어)
             const recList = document.getElementById('recommend-list');
             recList.innerHTML = '';
             d.recommendations.forEach(b => {
                 const card = document.createElement('div');
                 card.className = 'book-card';
-                card.innerHTML = `<div>${b.title} <small style="color:var(--lavender)">by ${b.alias}</small></div>`;
+                card.innerHTML = `<div>${b.title} <small>by ${b.alias}</small></div>`;
                 if(user.isAdmin) {
                     const btn = document.createElement('button');
                     btn.className = 'btn-mini';
-                    btn.innerText = '이번 달 책으로 선정';
+                    btn.innerText = '이달의 책으로 확정하기';
                     btn.onclick = () => updateStatus(b.row, '이번달');
                     card.appendChild(btn);
                 }
                 recList.appendChild(card);
             });
 
-            // 3. 아카이빙(누적)
             const arcList = document.getElementById('archive-list');
             arcList.innerHTML = '';
             d.past.forEach(b => {
@@ -178,32 +162,12 @@
         document.body.appendChild(script);
     }
 
-    // 관리자 전용: 클릭 시 바로 시트 반영
     function updateStatus(row, status) {
-        if(!confirm('이 도서를 이번 달 이음책으로 선정할까요?')) return;
-        window.confCallback = function() { alert('시트에 반영되었습니다!'); refreshData(); };
+        if(!confirm('이 도서를 이번 달 책으로 선정할까요?')) return;
+        window.confCallback = function() { alert('반영되었습니다!'); refreshData(); };
         const script = document.createElement('script');
         script.src = `${SCRIPT_URL}?action=confirmBook&row=${row}&status=${encodeURIComponent(status)}&callback=confCallback`;
         document.body.appendChild(script);
-    }
-
-    // 회원가입 (POST)
-    async function handleRegister() {
-        const alias = document.getElementById('reg-alias').value;
-        const name = document.getElementById('reg-name').value;
-        if(!alias || !name) { alert("별칭과 성함은 필수입니다."); return; }
-        document.getElementById('msg-area').innerText = "등록 중...";
-        
-        try {
-            await fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `action=register&alias=${encodeURIComponent(alias)}&name=${encodeURIComponent(name)}&birth=${encodeURIComponent(document.getElementById('reg-birth').value)}&work=${encodeURIComponent(document.getElementById('reg-work').value)}&gender=${encodeURIComponent(document.getElementById('reg-gender').value)}&isEmotionalWorker=${encodeURIComponent(document.getElementById('reg-emo').value)}`
-            });
-            alert("등록 성공! 로그인해 주세요.");
-            showScreen('login-screen');
-        } catch(e) { alert("오류 발생"); }
     }
 
     window.onload = () => showScreen('home-screen');
