@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이음북클럽</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F9F8F6;
+            --deep-green: #2F3E30; /* 제목: 짙은 초록 */
+            --dark-brown: #4B3621; /* 본문 강조: 브라운 */
+            --lavender: #9B8C9C;   /* 처음 버튼 및 선 */
+            --mint: #829A88;       /* 이음 버튼 및 포인트 */
+            --line: #EAE6E1;
+        }
+
+        body {
+            background-color: var(--bg);
+            margin: 0; padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 100;
+            color: var(--deep-green);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+
+        .app-frame { width: 100%; max-width: 450px; text-align: center; padding: 40px 20px; }
+
+        h1 {
+            font-family: 'Nanum Myeongjo', serif;
+            font-weight: 400; font-size: 2.2rem;
+            color: var(--deep-green);
+            margin-bottom: 80px; letter-spacing: 4px;
+        }
+
+        .btn-container { display: flex; flex-direction: column; gap: 24px; align-items: center; }
+        
+        .btn-base {
+            background: transparent; padding: 14px 0; width: 200px;
+            font-size: 0.9rem; letter-spacing: 10px; cursor: pointer;
+            transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; font-weight: 100;
+            text-indent: 10px;
+        }
+        
+        .btn-first { border: 1px solid var(--lavender); color: var(--dark-brown); }
+        .btn-ieum { border: 1px solid var(--mint); color: var(--dark-brown); }
+        .btn-base:hover { opacity: 0.5; }
+
+        .form-group { display: flex; flex-direction: column; gap: 22px; margin-top: 40px; animation: fadeIn 1s; }
+        input, textarea {
+            background: transparent; border: none; border-bottom: 1px solid var(--line);
+            padding: 10px; color: var(--deep-green); font-weight: 100;
+            text-align: center; outline: none; font-size: 0.95rem; width: 100%;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .label { font-size: 0.75rem; color: var(--lavender); margin-bottom: -18px; }
+
+        nav { display: flex; justify-content: space-around; margin-top: 40px; font-size: 0.85rem; }
+        .nav-item { cursor: pointer; color: var(--lavender); padding-bottom: 4px; }
+        .nav-item.active { border-bottom: 1px solid var(--lavender); color: var(--dark-brown); }
+
+        .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .separator { width: 30px; height: 1px; background: var(--lavender); margin: 30px auto; }
+    </style>
+</head>
+<body>
+
+<div class="app-frame">
+    <h1>이음북클럽</h1>
+
+    <div id="home-screen" class="btn-container">
+        <button class="btn-base btn-first" onclick="showScreen('register-screen')">처음</button>
+        <button class="btn-base btn-ieum" onclick="showScreen('login-screen')">이음</button>
+    </div>
+
+    <div id="register-screen" class="hidden">
+        <div class="form-group">
+            <span class="label">이름</span><input type="text" id="reg-name">
+            <span class="label">별칭</span><input type="text" id="reg-alias">
+            <span class="label">출생연도</span><input type="number" id="reg-birth">
+            <span class="label">하는 일</span><input type="text" id="reg-work">
+            <span class="label">거주지</span><input type="text" id="reg-location">
+            <button class="btn-base btn-first" style="margin-top:20px; width:100%;" onclick="submitRegister()">등록 완료</button>
+            <button class="btn-base" style="border:none; font-size:0.7rem; letter-spacing: 2px;" onclick="showScreen('home-screen')">돌아가기</button>
+        </div>
+    </div>
+
+    <div id="login-screen" class="hidden">
+        <div class="form-group">
+            <input type="text" id="login-alias" placeholder="별칭을 입력하세요">
+            <button class="btn-base btn-ieum" style="margin-top:20px; width:100%;" onclick="enterDashboard()">참여하기</button>
+            <button class="btn-base" style="border:none; font-size:0.7rem; letter-spacing: 2px;" onclick="showScreen('home-screen')">돌아가기</button>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="hidden">
+        <p id="welcome-msg" style="font-size: 1.1rem; color: var(--dark-brown);"></p>
+        <div class="separator"></div>
+        <p id="session-info" style="font-size: 0.85rem;">진행 예정 도서를 불러오는 중...</p>
+        
+        <nav>
+            <span class="nav-item active" onclick="showScreen('dashboard-screen')">홈</span>
+            <span class="nav-item" onclick="showScreen('recommend-screen')">추천</span>
+            <span class="nav-item" onclick="showScreen('vote-screen')">투표</span>
+            <span id="admin-link" class="nav-item hidden" onclick="showScreen('admin-screen')">관리</span>
+        </nav>
+    </div>
+
+    <div id="admin-screen" class="hidden">
+        <p style="font-size: 1rem; color: var(--dark-brown);">관리자 설정</p>
+        <div class="separator"></div>
+        <div class="btn-container">
+            <button class="btn-base btn-ieum" style="width:100%; letter-spacing: 2px;">추천 도서 선정</button>
+            <button class="btn-base btn-first" style="width:100%; letter-spacing: 2px;">투표 기한 관리</button>
+        </div>
+        <button class="btn-base" style="border:none; font-size:0.7rem; margin-top:40px;" onclick="showScreen('dashboard-screen')">대시보드</button>
+    </div>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-wXuK9AAnQH2CO-h_J_GllH0su5RaMUTFIlLnwpZ6KMkRcg7zPAg3oUJwQabx4T7kBw/exec"; // 
+    function showScreen(id) {
+        document.querySelectorAll('.app-frame > div').forEach(div => div.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+        document.getElementById(id).classList.add('fade-in');
+    }
+
+    async function submitRegister() {
+        const name = document.getElementById('reg-name').value;
+        const alias = document.getElementById('reg-alias').value;
+        
+        // 김숙희 또는 생뚱인 경우 관리자 권한 부여 여부 결정 (스크립트에서 처리)
+        const payload = {
+            action: 'register',
+            name: name,
+            alias: alias,
+            birth: document.getElementById('reg-birth').value,
+            work: document.getElementById('reg-work').value,
+            location: document.getElementById('reg-location').value
+        };
+
+        const res = await fetch(SCRIPT_URL, { method: 'POST', body: new URLSearchParams(payload) });
+        const result = await res.json();
+        
+        if(result.status === 'success') {
+            alert("등록되었습니다. '이음'으로 참여해주세요.");
+            showScreen('home-screen');
+        }
+    }
+
+    async function enterDashboard() {
+        const alias = document.getElementById('login-alias').value;
+        if(!alias) return;
+
+        const res = await fetch(SCRIPT_URL + "?action=login&alias=" + encodeURIComponent(alias));
+        const user = await res.json();
+
+        if(user.status === 'success') {
+            document.getElementById('welcome-msg').innerText = user.data.name + " 클러버님";
+            
+            // 시트의 isAdmin 값이 TRUE인 경우에만 관리자 메뉴 노출
+            if(user.data.isAdmin) {
+                document.getElementById('admin-link').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-link').classList.add('hidden');
+            }
+            
+            showScreen('dashboard-screen');
+        } else {
+            alert("등록되지 않은 별칭입니다.");
+        }
+    }
+</script>
+</body>
+</html>
