@@ -23,8 +23,9 @@ body{background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--main
 .ntab{font-size:0.92rem;color:#aaa;cursor:pointer;font-weight:500;letter-spacing:1px;padding:3px 5px;transition:color .2s;}
 .ntab.on{color:#000;font-weight:900;border-bottom:3px solid var(--mint);}
 .ig{margin-bottom:20px;}
-.il{font-size:0.72rem;color:var(--lav);display:block;font-weight:700;letter-spacing:1.5px;margin-bottom:5px;text-transform:uppercase;}
+.il{font-size:0.75rem;color:var(--lav);display:block;font-weight:500;letter-spacing:0.5px;margin-bottom:5px;}
 input[type=text],input[type=number],input[type=password],textarea,select{background:transparent;border:none;border-bottom:1px solid var(--line);padding:9px 0;color:var(--main);width:100%;font-size:0.98rem;outline:none;font-family:inherit;transition:border-color .2s;}
+input::placeholder,textarea::placeholder{font-style:italic;color:#bbb;font-weight:300;}
 input:focus,textarea:focus,select:focus{border-bottom-color:var(--mint);}
 select{cursor:pointer;}textarea{resize:vertical;min-height:64px;line-height:1.6;}
 .btn{border:1px solid var(--line);padding:13px 0;width:100%;background:none;font-size:0.95rem;letter-spacing:5px;cursor:pointer;display:block;margin:8px 0;font-family:inherit;color:var(--main);transition:background .15s;}
@@ -100,7 +101,7 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:64px;line-height:1.6;
 
   <!-- ④ 대시보드 -->
   <div id="s-dash" class="hidden">
-    <p id="welcome" style="font-size:1.1rem;font-weight:900;margin-bottom:18px;"></p>
+    <p id="welcome" style="font-size:0.82rem;font-weight:300;color:var(--lav);margin-bottom:18px;letter-spacing:2px;"></p>
 
     <div id="t-main" class="fade">
       <div class="st">이달의 이음책</div>
@@ -142,11 +143,20 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:64px;line-height:1.6;
 
         <div class="st" style="margin-top:0;">이달의 책 / 다음달 책 선정</div>
         <div class="card" style="margin-bottom:14px;">
-          <div class="ig"><span class="il">구분</span><select id="adm-which"><option value="current">이달의 책</option><option value="next">다음달 책</option></select></div>
+          <div class="ig"><span class="il">구분</span>
+            <select id="adm-which" onchange="toggleDateFields()">
+              <option value="current">이달의 책</option>
+              <option value="next">다음달 책</option>
+            </select>
+          </div>
           <div class="ig"><span class="il">추천 목록에서 선택</span><select id="adm-pick-rec"><option value="">— 직접 입력 —</option></select></div>
           <div class="ig"><span class="il">책 제목</span><input type="text" id="adm-book-title"></div>
           <div class="ig"><span class="il">저자</span><input type="text" id="adm-book-author"></div>
           <div class="ig"><span class="il">월 (숫자)</span><input type="number" id="adm-book-month" placeholder="5"></div>
+          <div id="adm-date-fields">
+            <div class="ig"><span class="il">1회 모임일</span><input type="text" id="adm-book-d1" placeholder="2026-05-09"></div>
+            <div class="ig"><span class="il">2회 모임일</span><input type="text" id="adm-book-d2" placeholder="2026-05-23"></div>
+          </div>
           <button class="mini" onclick="admSetBook()">선정하기</button>
         </div>
 
@@ -284,7 +294,7 @@ async function doLogin(){
 }
 
 function enterDash(){
-  d("welcome").innerText=`${U.alias} 님, 반갑습니다.`;
+  d("welcome").innerText=`${U.alias} 이음`;
   show("s-dash");d("bnav").classList.remove("hidden");
   if(U.isAdmin)d("nt-admin").classList.remove("hidden");
   switchTab("main");loadMain();
@@ -502,17 +512,23 @@ async function loadLibNew(){
     const r=await jsonp({action:"getArchive",year:"2026"});
     d("lib-new").dataset.loaded="1";
     if(!r.data||!r.data.length){d("lib-new").innerHTML=`<div class="card dim">완료된 북토크가 없습니다.</div>`;return;}
-    d("lib-new").innerHTML=r.data.map(b=>`
-      <div class="card" style="cursor:pointer;" data-sid="${b.sessionId}" onclick="toggleLibDetail(this,'${b.sessionId}')">
+    d("lib-new").innerHTML=r.data.map(b=>{
+      // listOnly: 참여자/소감 없이 목록만 표시 (2026년 1~3월 등 초기 데이터)
+      const listOnly = b.listOnly === true || b.listOnly === "true";
+      return `
+      <div class="card${listOnly?"":" "}" style="${listOnly?"":"cursor:pointer;"}"
+        ${listOnly?"":` onclick="toggleLibDetail(this,'${b.sessionId}')"`}>
         <div style="font-weight:700;font-size:1rem;">${b.bookTitle}</div>
         <div style="font-size:0.83rem;color:var(--lav);margin-top:3px;">${b.bookAuthor||""}</div>
         <div style="display:flex;gap:10px;margin-top:7px;font-size:0.78rem;color:#aaa;">
-          <span>${b.sessionId}</span><span>참석 ${b.attendeeCount||0}명</span>
-          ${b.avgRating?`<span>★ ${parseFloat(b.avgRating).toFixed(1)}</span>`:""}
+          <span>${b.sessionId||""}</span>
+          ${!listOnly?`<span>참석 ${b.attendeeCount||0}명</span>`:""}
+          ${!listOnly&&b.avgRating?`<span>★ ${parseFloat(b.avgRating).toFixed(1)}</span>`:""}
+          ${listOnly?`<span class="badge bg">목록</span>`:""}
         </div>
-        <div style="font-size:0.75rem;color:var(--mint);margin-top:4px;">▶ 소감 & 평점 보기</div>
-        <div class="detail-area"></div>
-      </div>`).join("");
+        ${!listOnly?`<div style="font-size:0.75rem;color:var(--mint);margin-top:4px;">▶ 소감 & 평점 보기</div><div class="detail-area"></div>`:""}
+      </div>`;
+    }).join("");
   }catch(e){d("lib-new").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 
@@ -599,12 +615,22 @@ async function loadAdminData(){
   }catch(e){}
 }
 
+function toggleDateFields(){
+  const which=d("adm-which").value;
+  d("adm-date-fields").style.display=which==="current"?"block":"none";
+}
+
 async function admSetBook(){
   const which=d("adm-which").value,title=d("adm-book-title").value.trim();
   if(!title)return alert("책 제목을 입력하세요.");
   setMsg("선정 중...",true);
   try{
-    await post({action:"setBook",which,title,author:d("adm-book-author").value,month:d("adm-book-month").value});
+    await post({action:"setBook",which,title,
+      author:d("adm-book-author").value,
+      month:d("adm-book-month").value,
+      date1:which==="current"?(d("adm-book-d1").value||""):"",
+      date2:which==="current"?(d("adm-book-d2").value||""):"",
+    });
     setMsg("");alert(`${which==="current"?"이달의":"다음달"} 책으로 선정되었습니다!`);
     loadMain();loadRecs();
   }catch(e){setMsg("");alert("오류 발생");}
