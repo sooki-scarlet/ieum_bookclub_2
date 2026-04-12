@@ -4,23 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이음북클럽</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;700&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #F9F8F6; --main-text: #4B3621; --lavender: #9B8C9C; --mint: #829A88; --line: #EAE6E1; }
-        body { background: var(--bg); margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--main-text); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 80px; }
+        :root {
+            --bg: #F9F8F6;
+            --main-text: #3D3D33; /* 진한 톤 */
+            --lavender: #7A6F7B;
+            --mint: #5F7A67;
+            --line: #EAE6E1;
+        }
+
+        body { background: var(--bg); margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--main-text); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 100px; }
         .app-frame { width: 100%; max-width: 480px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
         h1 { font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-size: 2.2rem; color: #2F3E30; margin-bottom: 60px; letter-spacing: 4px; cursor: pointer; }
         
-        .btn-base { background: transparent; padding: 14px 0; width: 220px; font-size: 1rem; letter-spacing: 10px; cursor: pointer; transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; border: 1px solid var(--line); margin: 10px auto; display: block; color: var(--main-text); }
-        .section-title { font-size: 0.8rem; color: var(--lavender); margin: 30px 0 10px 0; border-bottom: 1px solid var(--line); padding-bottom: 5px; text-align: left; letter-spacing: 2px; }
-        .book-card { background: #fff; padding: 20px; text-align: left; margin-bottom: 15px; border: 1px solid var(--line); position: relative; }
-        .btn-mini { background: transparent; border: 1px solid var(--mint); padding: 5px 12px; font-size: 0.75rem; cursor: pointer; color: var(--main-text); margin-top: 10px; }
+        /* 버튼 및 입력창 */
+        .btn-base { background: transparent; padding: 14px 0; width: 220px; font-size: 1rem; letter-spacing: 10px; cursor: pointer; transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; border: 1px solid var(--line); margin: 10px auto; display: block; color: var(--main-text); }
+        .section-title { font-size: 0.95rem; color: var(--lavender); margin: 30px 0 15px 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; text-align: left; letter-spacing: 2px; font-weight: 400; }
         
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 15px 0; z-index: 1000; }
-        .nav-tab { font-size: 0.75rem; color: var(--lavender); cursor: pointer; letter-spacing: 1px; }
-        .nav-tab.active { color: var(--mint); font-weight: 400; }
+        /* 카드 스타일 */
+        .book-card { background: #fff; padding: 20px; text-align: left; margin-bottom: 15px; border: 1px solid var(--line); box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .btn-mini { background: transparent; border: 1px solid var(--mint); padding: 8px 15px; font-size: 0.85rem; cursor: pointer; color: var(--main-text); margin-top: 10px; width: 100%; letter-spacing: 1px; }
+
+        /* 하단 탭 - 크고 진하게 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 20px 0; z-index: 1000; box-shadow: 0 -2px 15px rgba(0,0,0,0.05); }
+        .nav-tab { font-size: 1.05rem; color: #5A4D40; cursor: pointer; letter-spacing: 1px; font-weight: 400; transition: 0.3s; }
+        .nav-tab.active { color: #2F3E30; font-weight: 700; border-bottom: 2px solid var(--mint); }
+
         .hidden { display: none !important; }
-        input { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 8px 0; color: var(--main-text); width: 85%; text-align: center; font-size: 1.1rem; outline: none; }
+        input { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 10px 0; color: var(--main-text); width: 85%; text-align: center; font-size: 1.1rem; outline: none; margin-bottom: 20px; box-sizing: border-box; }
+        .input-label { font-size: 0.8rem; color: var(--lavender); margin-bottom: 5px; display: block; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -35,33 +48,42 @@
 
     <div id="register-screen" class="hidden">
         <div class="section-title">멤버 정보 등록</div>
-        <input type="text" id="reg-alias" placeholder="별칭 (생뚱)" style="margin-bottom:20px;">
-        <input type="text" id="reg-name" placeholder="성함 (실명)" style="margin-bottom:20px;">
-        <button class="btn-base" style="border-color: var(--lavender);" onclick="handleRegister()">등록하기</button>
-        <button onclick="showScreen('home-screen')" style="border:none; background:none; color:var(--lavender); cursor:pointer;">이전으로</button>
+        <div class="input-group"><span class="input-label">사용할 별칭</span><input type="text" id="reg-alias" placeholder="생뚱"></div>
+        <div class="input-group"><span class="input-label">성함</span><input type="text" id="reg-name" placeholder="실명 입력"></div>
+        <div class="input-group"><span class="input-label">출생년도</span><input type="text" id="reg-birth" placeholder="1985"></div>
+        <div class="input-group"><span class="input-label">하는 일</span><input type="text" id="reg-work" placeholder="활동가"></div>
+        <div class="input-group"><span class="input-label">성별</span><input type="text" id="reg-gender" placeholder="남/여"></div>
+        <div class="input-group"><span class="input-label">감정노동자</span><input type="text" id="reg-emo" placeholder="예/아니오"></div>
+        <button class="btn-base" style="border-color: var(--lavender); width:100%;" onclick="handleRegister()">등록하기</button>
+        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender);" onclick="showScreen('home-screen')">이전으로</button>
     </div>
 
     <div id="login-screen" class="hidden">
-        <div class="section-title">이음(로그인)</div>
+        <div class="section-title">이음</div>
         <input type="text" id="login-alias" placeholder="별칭을 입력하세요">
-        <button class="btn-base" style="border-color: var(--mint); margin-top:30px;" onclick="handleLogin()">참여하기</button>
+        <button class="btn-base" style="border-color: var(--mint); margin-top:20px;" onclick="handleLogin()">참여하기</button>
+        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender);" onclick="showScreen('home-screen')">이전으로</button>
     </div>
 
     <div id="dashboard-screen" class="hidden">
-        <p id="welcome-msg" style="text-align: left; margin-bottom: 20px; font-size: 1.1rem;"></p>
+        <p id="welcome-msg" style="text-align: left; margin-bottom: 25px; font-size: 1.15rem; font-weight: 400;"></p>
         
         <div id="tab-journey">
             <div class="section-title">이번 달 이음책</div>
             <div id="current-area" class="book-card" style="border-left:4px solid var(--mint)">
-                <div id="curr-title" style="font-size:1.1rem">데이터를 불러오고 있습니다...</div>
-                <div id="curr-date" style="font-size:0.8rem; color:var(--lavender); margin-top:5px;"></div>
+                <div id="curr-title" style="font-size:1.2rem; font-weight:400;">데이터 로딩 중...</div>
+                <div id="curr-date" style="font-size:0.85rem; color:var(--lavender); margin-top:8px;"></div>
             </div>
-            <div class="section-title">다음 달 이음책</div>
-            <div id="future-area" class="book-card" style="opacity:0.7">선정 대기 중</div>
         </div>
 
         <div id="tab-recommend" class="hidden">
-            <div class="section-title">클러버들의 추천도서 (관리자 선정 가능)</div>
+            <div class="section-title">책 추천하기</div>
+            <div class="book-card" style="text-align: center;">
+                <input type="text" id="rec-title" placeholder="도서명" style="font-size: 1rem; margin-bottom:10px;">
+                <input type="text" id="rec-author" placeholder="저자명" style="font-size: 1rem; margin-bottom:10px;">
+                <button class="btn-mini" onclick="submitRecommendation()">추천 시트에 기록하기</button>
+            </div>
+            <div class="section-title">클러버들의 추천 도서</div>
             <div id="recommend-list"></div>
         </div>
 
@@ -69,29 +91,20 @@
             <div class="section-title">이음북클럽 누적목록</div>
             <div id="archive-list"></div>
         </div>
-
-        <div id="tab-vote" class="hidden">
-            <div class="section-title">이달의 도서 투표</div>
-            <div class="book-card">
-                <p style="font-size:0.9rem">현재 진행 중인 투표가 없습니다.</p>
-                <p style="font-size:0.75rem; color:var(--lavender)">차기 이음책 선정을 기대해주세요.</p>
-            </div>
-        </div>
     </div>
 
     <div id="msg-area" style="font-size:0.85rem; color:var(--lavender); margin-top:20px;"></div>
 
     <div id="bottom-nav" class="bottom-nav hidden">
-        <div class="nav-tab active" onclick="switchTab('journey')">이음책</div>
-        <div class="nav-tab" onclick="switchTab('recommend')">추천도서</div>
-        <div class="nav-tab" onclick="switchTab('archive')">누적목록</div>
-        <div class="nav-tab" onclick="switchTab('vote')">투표</div>
+        <div class="nav-tab active" id="tab-btn-journey" onclick="switchTab('journey')">이음책</div>
+        <div class="nav-tab" id="tab-btn-recommend" onclick="switchTab('recommend')">추천도서</div>
+        <div class="nav-tab" id="tab-btn-archive" onclick="switchTab('archive')">누적목록</div>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjB21zgxfkvVG3vqQVdbGnDhtnZ6jHXLYK6Rx2j6004Q-s5o78_imJIfKhDm61YhEisw/exec";
-    let user = null;
+    let currentUser = null;
 
     function showScreen(id) {
         document.querySelectorAll('.app-frame > div').forEach(div => { if(div.id !== 'bottom-nav') div.classList.add('hidden'); });
@@ -100,28 +113,68 @@
 
     function switchTab(tabName) {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        if(event) event.target.classList.add('active');
-        ['tab-journey', 'tab-recommend', 'tab-archive', 'tab-vote'].forEach(t => document.getElementById(t).classList.add('hidden'));
+        document.getElementById('tab-btn-' + tabName).classList.add('active');
+        ['tab-journey', 'tab-recommend', 'tab-archive'].forEach(t => document.getElementById(t).classList.add('hidden'));
         document.getElementById('tab-' + tabName).classList.remove('hidden');
     }
 
     function handleLogin() {
         const alias = document.getElementById('login-alias').value;
         if(!alias) return;
-        document.getElementById('msg-area').innerText = "클러버 명부 확인 중...";
-        
+        document.getElementById('msg-area').innerText = "확인 중...";
         window.loginCallback = function(res) {
             if(res.status === 'success') {
-                user = res.data;
-                document.getElementById('welcome-msg').innerText = `${user.alias} 님, 반갑습니다.`;
+                currentUser = res.data;
+                document.getElementById('welcome-msg').innerText = `${currentUser.alias} 님, 반갑습니다.`;
                 showScreen('dashboard-screen');
                 document.getElementById('bottom-nav').classList.remove('hidden');
                 refreshData();
             } else { alert(res.message); }
+            document.getElementById('msg-area').innerText = "";
         };
         const script = document.createElement('script');
         script.src = `${SCRIPT_URL}?action=login&alias=${encodeURIComponent(alias)}&callback=loginCallback`;
         document.body.appendChild(script);
+    }
+
+    async function handleRegister() {
+        const alias = document.getElementById('reg-alias').value;
+        const name = document.getElementById('reg-name').value;
+        const birth = document.getElementById('reg-birth').value;
+        const work = document.getElementById('reg-work').value;
+        const gender = document.getElementById('reg-gender').value;
+        const emo = document.getElementById('reg-emo').value;
+
+        if(!alias || !name) { alert("별칭과 성함은 필수입니다."); return; }
+
+        document.getElementById('msg-area').innerText = "등록 중입니다...";
+        try {
+            await fetch(SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `action=register&alias=${encodeURIComponent(alias)}&name=${encodeURIComponent(name)}&birth=${encodeURIComponent(birth)}&work=${encodeURIComponent(work)}&gender=${encodeURIComponent(gender)}&isEmotionalWorker=${encodeURIComponent(emo)}`
+            });
+            alert("등록 성공! 이제 '이음' 메뉴에서 로그인해 주세요.");
+            showScreen('login-screen');
+        } catch(e) { alert("등록 중 오류가 발생했습니다."); }
+        document.getElementById('msg-area').innerText = "";
+    }
+
+    async function submitRecommendation() {
+        const title = document.getElementById('rec-title').value;
+        const author = document.getElementById('rec-author').value;
+        if(!title) return alert("도서명을 입력해주세요.");
+        try {
+            await fetch(SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `action=addRecommendation&title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&alias=${encodeURIComponent(currentUser.alias)}`
+            });
+            alert("추천 도서가 시트에 기록되었습니다.");
+            document.getElementById('rec-title').value = "";
+            document.getElementById('rec-author').value = "";
+            refreshData();
+        } catch(e) { alert("추천 중 오류 발생"); }
     }
 
     function refreshData() {
@@ -129,18 +182,17 @@
             const d = res.data;
             document.getElementById('curr-title').innerText = d.current ? d.current.title : "선정 도서 없음";
             document.getElementById('curr-date').innerText = d.current ? `모임일: ${d.current.d1}, ${d.current.d2}` : "";
-            document.getElementById('future-area').innerText = d.future.length > 0 ? d.future[0].title : "준비 중";
 
             const recList = document.getElementById('recommend-list');
             recList.innerHTML = '';
             d.recommendations.forEach(b => {
                 const card = document.createElement('div');
                 card.className = 'book-card';
-                card.innerHTML = `<div>${b.title} <small>by ${b.alias}</small></div>`;
-                if(user.isAdmin) {
+                card.innerHTML = `<div>${b.title} <small style="color:var(--lavender)">by ${b.alias}</small></div>`;
+                if(currentUser.isAdmin) {
                     const btn = document.createElement('button');
                     btn.className = 'btn-mini';
-                    btn.innerText = '이달의 책으로 확정하기';
+                    btn.innerText = '이달의 책으로 선정';
                     btn.onclick = () => updateStatus(b.row, '이번달');
                     card.appendChild(btn);
                 }
@@ -152,10 +204,9 @@
             d.past.forEach(b => {
                 const card = document.createElement('div');
                 card.className = 'book-card';
-                card.innerHTML = `<div style="font-size:0.95rem">${b.title}</div><div style="font-size:0.75rem; color:var(--lavender); margin-top:5px;">${b.date} 이음 완료</div>`;
+                card.innerHTML = `<div>${b.title}</div><div style="font-size:0.75rem; color:var(--lavender); margin-top:5px;">${b.date || ''} 이음 완료</div>`;
                 arcList.appendChild(card);
             });
-            document.getElementById('msg-area').innerText = "";
         };
         const script = document.createElement('script');
         script.src = `${SCRIPT_URL}?action=getDashboardData&callback=dataCallback`;
@@ -163,8 +214,8 @@
     }
 
     function updateStatus(row, status) {
-        if(!confirm('이 도서를 이번 달 책으로 선정할까요?')) return;
-        window.confCallback = function() { alert('반영되었습니다!'); refreshData(); };
+        if(!confirm('상태를 변경하시겠습니까?')) return;
+        window.confCallback = () => { alert('반영되었습니다.'); refreshData(); };
         const script = document.createElement('script');
         script.src = `${SCRIPT_URL}?action=confirmBook&row=${row}&status=${encodeURIComponent(status)}&callback=confCallback`;
         document.body.appendChild(script);
