@@ -7,151 +7,139 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #F9F8F6; --deep-green: #2F3E30; --dark-brown: #4B3621;
-            --lavender: #9B8C9C; --mint: #829A88; --line: #EAE6E1;
+            --bg: #F9F8F6;
+            --main-text: #4B3621; /* 부드러운 중간 톤 브라운 */
+            --lavender: #9B8C9C;
+            --mint: #829A88;
+            --line: #EAE6E1;
         }
 
-        body { background: var(--bg); margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--dark-brown); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 70px; }
-        .app-frame { width: 100%; max-width: 480px; padding: 40px 20px; text-align: center; }
-        h1 { font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-size: 2.2rem; color: var(--deep-green); margin-bottom: 60px; letter-spacing: 4px; }
+        body { background: var(--bg); margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; color: var(--main-text); display: flex; justify-content: center; min-height: 100vh; }
+        .app-frame { width: 100%; max-width: 480px; padding: 60px 20px; text-align: center; box-sizing: border-box; }
         
-        .btn-base { background: transparent; padding: 12px 0; width: 100%; font-size: 0.95rem; letter-spacing: 6px; cursor: pointer; transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; margin-bottom: 10px; border-radius: 0; }
-        .btn-first { border: 1px solid var(--lavender); color: var(--dark-brown); }
-        .btn-ieum { border: 1px solid var(--mint); color: var(--dark-brown); }
+        h1 { font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-size: 2.2rem; color: #2F3E30; margin-bottom: 80px; letter-spacing: 4px; cursor: pointer; }
         
-        .input-group { margin-bottom: 25px; text-align: left; }
-        .input-label { font-size: 0.75rem; color: var(--lavender); margin-bottom: 5px; display: block; letter-spacing: 1px; }
-        input, textarea { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 10px 0; color: var(--deep-green); font-weight: 300; outline: none; font-size: 1rem; width: 100%; box-sizing: border-box; transition: 0.3s; }
+        /* 처음/이음 상하 배치 */
+        .btn-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .btn-base { background: transparent; padding: 14px 0; width: 220px; font-size: 1rem; letter-spacing: 10px; cursor: pointer; transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; border-radius: 0; color: var(--main-text); }
+        .btn-first { border: 1px solid var(--lavender); }
+        .btn-ieum { border: 1px solid var(--mint); }
+        
+        /* 입력창 가운데 맞춤 및 예시 텍스트 크기 조정 */
+        .input-group { margin-bottom: 30px; text-align: center; width: 100%; }
+        .input-label { font-size: 0.85rem; color: var(--lavender); margin-bottom: 10px; display: block; letter-spacing: 1px; }
+        input { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 8px 0; color: var(--main-text); font-weight: 300; outline: none; font-size: 1.1rem; width: 85%; box-sizing: border-box; text-align: center; }
+        input::placeholder { color: #D1CDCA; font-size: 1.1rem; }
         input:focus { border-bottom: 1px solid var(--mint); }
 
-        .section-title { font-size: 0.8rem; color: var(--lavender); margin: 30px 0 10px 0; border-bottom: 1px solid var(--line); padding-bottom: 5px; text-align: left; }
         .hidden { display: none !important; }
-        
-        /* 알림 메시지 */
-        #msg { font-size: 0.85rem; margin-top: 15px; min-height: 1.2rem; color: var(--lavender); }
-
-        /* 하단 내비게이션 */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 15px 0; z-index: 100; }
-        .nav-tab { font-size: 0.8rem; color: var(--lavender); cursor: pointer; }
+        .section-title { font-size: 0.9rem; color: var(--lavender); margin: 30px 0 40px 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; text-align: center; width: 80%; margin-left: auto; margin-right: auto; }
+        #msg-area { font-size: 0.85rem; margin-top: 20px; color: var(--lavender); min-height: 1.5rem; }
     </style>
 </head>
 <body>
 
 <div class="app-frame">
-    <h1 onclick="location.reload()" style="cursor:pointer">이음북클럽</h1>
+    <h1 onclick="location.reload()">이음북클럽</h1>
 
-    <div id="home-screen">
-        <button class="btn-base btn-first" style="width: 200px; margin: 0 auto 15px;" onclick="showScreen('register-screen')">처음</button>
-        <button class="btn-base btn-ieum" style="width: 200px; margin: 0 auto;" onclick="showScreen('login-screen')">이음</button>
+    <div id="home-screen" class="btn-container">
+        <button class="btn-base btn-first" onclick="showScreen('register-screen')">처음</button>
+        <button class="btn-base btn-ieum" onclick="showScreen('login-screen')">이음</button>
     </div>
 
     <div id="register-screen" class="hidden">
         <div class="section-title">멤버 정보 등록</div>
         <div class="input-group">
-            <span class="input-label">사용할 별칭 (로그인 ID 겸용)</span>
-            <input type="text" id="reg-alias" placeholder="예: 생뚱">
+            <span class="input-label">사용할 별칭</span>
+            <input type="text" id="reg-alias" placeholder="생뚱">
         </div>
         <div class="input-group">
-            <span class="input-label">실명</span>
-            <input type="text" id="reg-name" placeholder="본명을 입력해주세요">
+            <span class="input-label">성함</span>
+            <input type="text" id="reg-name" placeholder="실명 입력">
         </div>
         <div class="input-group">
-            <span class="input-label">생년월일 (6자리)</span>
-            <input type="text" id="reg-birth" placeholder="예: 850101">
+            <span class="input-label">출생년도</span>
+            <input type="text" id="reg-birth" placeholder="1985">
         </div>
         <div class="input-group">
-            <span class="input-label">직장/활동지역</span>
-            <input type="text" id="reg-work" placeholder="예: 부천시 일심지원센터">
+            <span class="input-label">하는 일</span>
+            <input type="text" id="reg-work" placeholder="하는 일 입력">
         </div>
         <div class="input-group">
             <span class="input-label">성별</span>
-            <input type="text" id="reg-gender" placeholder="남/여">
+            <input type="text" id="reg-gender" placeholder="남 또는 여">
+        </div>
+        <div class="input-group">
+            <span class="input-label">감정노동자</span>
+            <input type="text" id="reg-emo" placeholder="예 또는 아니오">
         </div>
         <button class="btn-base btn-first" onclick="handleRegister()">등록하기</button>
-        <p id="reg-msg" style="font-size: 0.8rem; color: var(--lavender);"></p>
-        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender); margin-top:10px;" onclick="showScreen('home-screen')">이전으로</button>
+        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender); letter-spacing:2px;" onclick="showScreen('home-screen')">이전으로</button>
     </div>
 
     <div id="login-screen" class="hidden">
-        <div class="section-title">로그인</div>
+        <div class="section-title">이음(로그인)</div>
         <div class="input-group">
             <span class="input-label">별칭 입력</span>
-            <input type="text" id="login-alias" placeholder="등록하신 별칭을 입력하세요">
+            <input type="text" id="login-alias" placeholder="별칭을 입력하세요">
         </div>
         <button class="btn-base btn-ieum" onclick="handleLogin()">참여하기</button>
-        <p id="login-msg" style="font-size: 0.8rem; color: var(--lavender);"></p>
-        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender); margin-top:10px;" onclick="showScreen('home-screen')">이전으로</button>
+        <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender); letter-spacing:2px;" onclick="showScreen('home-screen')">이전으로</button>
     </div>
 
-    <div id="dashboard-screen" class="hidden">
-        <p id="welcome-msg" style="text-align: left; color: var(--dark-brown); margin-bottom: 40px;"></p>
-        <div class="section-title">이번 달의 이음책</div>
-        <div id="current-book-area">
-            <div id="current-title" style="font-size: 1.3rem; text-align: left;">도서 정보를 불러오고 있습니다...</div>
-        </div>
-        </div>
+    <div id="msg-area"></div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWxK5JVNVuhdndODtqhaczORX2Zwkb6xkXxfBcKZvjCTjVDYzQUT9gjcNxsIY7wnmq6g/exec";
+    // 사용자님이 새로 발급받으신 URL로 교체되었습니다.
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz8yJ86MQbOGfNhPHXSkLutVR9nnpxvgmJ8F12HEYKdOegmy-W33bhj85KgYHuZ_BD09w/exec";
 
     function showScreen(id) {
-        document.querySelectorAll('.app-frame > div').forEach(div => div.classList.add('hidden'));
-        document.getElementById(id).classList.remove('hidden');
+        ['home-screen', 'register-screen', 'login-screen'].forEach(s => {
+            const el = document.getElementById(s);
+            if (el) s === id ? el.classList.remove('hidden') : el.classList.add('hidden');
+        });
+        document.getElementById('msg-area').innerText = "";
     }
 
-    // [처음] 등록 로직
     async function handleRegister() {
         const alias = document.getElementById('reg-alias').value;
         const name = document.getElementById('reg-name').value;
         const birth = document.getElementById('reg-birth').value;
         const work = document.getElementById('reg-work').value;
         const gender = document.getElementById('reg-gender').value;
+        const isEmotionalWorker = document.getElementById('reg-emo').value;
 
-        if(!alias || !name) {
-            alert("별칭과 이름은 필수입니다.");
-            return;
-        }
+        if(!alias || !name) { alert("별칭과 성함은 필수입니다."); return; }
 
-        document.getElementById('reg-msg').innerText = "등록 중입니다...";
+        document.getElementById('msg-area').innerText = "정보를 등록하고 있습니다...";
         
         try {
-            const res = await fetch(SCRIPT_URL, {
+            await fetch(SCRIPT_URL, {
                 method: "POST",
-                mode: "no-cors", // Apps Script POST를 위한 설정
+                mode: "no-cors",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `action=register&alias=${encodeURIComponent(alias)}&name=${encodeURIComponent(name)}&birth=${encodeURIComponent(birth)}&work=${encodeURIComponent(work)}&gender=${encodeURIComponent(gender)}`
+                body: `action=register&alias=${encodeURIComponent(alias)}&name=${encodeURIComponent(name)}&birth=${encodeURIComponent(birth)}&work=${encodeURIComponent(work)}&gender=${encodeURIComponent(gender)}&isEmotionalWorker=${encodeURIComponent(isEmotionalWorker)}`
             });
-            
-            document.getElementById('reg-msg').innerText = "등록이 완료되었습니다! 이제 로그인(이음) 해주세요.";
-            setTimeout(() => showScreen('login-screen'), 2000);
-        } catch(e) {
-            document.getElementById('reg-msg').innerText = "오류가 발생했습니다. 다시 시도해주세요.";
-        }
+            document.getElementById('msg-area').innerText = "등록 완료! 로그인 화면으로 이동합니다.";
+            setTimeout(() => showScreen('login-screen'), 1500);
+        } catch(e) { document.getElementById('msg-area').innerText = "연결 오류가 발생했습니다."; }
     }
 
-    // [이음] 로그인 로직
     async function handleLogin() {
         const alias = document.getElementById('login-alias').value;
         if(!alias) return;
-
-        document.getElementById('login-msg').innerText = "확인 중...";
-        
+        document.getElementById('msg-area').innerText = "확인 중...";
         try {
             const response = await fetch(`${SCRIPT_URL}?action=login&alias=${encodeURIComponent(alias)}`);
             const result = await response.json();
-
             if(result.status === 'success') {
-                document.getElementById('welcome-msg').innerText = `${result.data.alias} 님, 반갑습니다.`;
-                showScreen('dashboard-screen');
-                // 여기서 대시보드 데이터 로드 함수 호출
-            } else {
-                document.getElementById('login-msg').innerText = result.message;
-            }
-        } catch(e) {
-            document.getElementById('login-msg').innerText = "데이터를 불러오지 못했습니다.";
-        }
+                alert(`${result.data.alias}님 반갑습니다.`);
+            } else { document.getElementById('msg-area').innerText = result.message; }
+        } catch(e) { document.getElementById('msg-area').innerText = "통신 오류가 발생했습니다."; }
     }
+
+    window.onload = () => showScreen('home-screen');
 </script>
 </body>
 </html>
