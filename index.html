@@ -7,940 +7,660 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F9F8F6;
-  --main: #2D2D2D;
-  --lavender: #6A5D6B;
-  --mint: #4A6352;
-  --line: #EAE6E1;
-  --card-bg: #fff;
-  --soft: #F3F0EC;
-  --warn: #C0392B;
+  --bg: #F9F8F6; --main: #2D2D2D; --lav: #6A5D6B; --mint: #4A6352;
+  --line: #EAE6E1; --soft: #F3F0EC; --card: #FFFFFF; --red: #B94040; --gold: #8A7240;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  font-family: 'Noto Sans KR', sans-serif;
-  color: var(--main);
-  display: flex;
-  justify-content: center;
-  padding-bottom: 90px;
-  min-height: 100vh;
-}
-.app-frame {
-  width: 100%;
-  max-width: 480px;
-  padding: 40px 20px 20px;
-}
-h1.logo {
-  font-family: 'Nanum Myeongjo', serif;
-  font-size: 2.2rem;
-  color: #2F3E30;
-  text-align: center;
-  letter-spacing: 6px;
-  cursor: pointer;
-  margin-bottom: 48px;
-  user-select: none;
-}
-
-/* ── 섹션 타이틀 ── */
-.section-title {
-  font-size: 0.82rem;
-  color: var(--lavender);
-  margin: 32px 0 14px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 8px;
-  text-align: left;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* ── 카드 ── */
-.book-card {
-  background: var(--card-bg);
-  padding: 20px;
-  text-align: left;
-  margin-bottom: 14px;
-  border: 1px solid var(--line);
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-  border-radius: 2px;
-}
-.book-card.accent-mint  { border-left: 5px solid var(--mint); }
-.book-card.accent-lav   { border-left: 5px solid var(--lavender); }
-.book-card.dimmed       { opacity: 0.65; }
-
-/* ── 뱃지 ── */
-.badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  padding: 3px 9px;
-  border-radius: 20px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-left: 6px;
-  vertical-align: middle;
-}
-.badge-mint { background: #E6F0EA; color: var(--mint); }
-.badge-lav  { background: #EDE8EE; color: var(--lavender); }
-.badge-gray { background: #EFEFEF; color: #888; }
-
-/* ── 하단 내비 ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0; left: 0;
-  width: 100%;
-  background: #fff;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-around;
-  padding: 16px 0 18px;
-  z-index: 1000;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.07);
-}
-.nav-tab {
-  font-size: 1.05rem;
-  color: #999;
-  cursor: pointer;
-  font-weight: 500;
-  letter-spacing: 1px;
-  padding: 4px 8px;
-  transition: color .2s;
-}
-.nav-tab.active {
-  color: #000;
-  font-weight: 900;
-  border-bottom: 3px solid var(--mint);
-}
-
-/* ── 입력 ── */
-.input-group { margin-bottom: 22px; }
-.input-label {
-  font-size: 0.78rem;
-  color: var(--lavender);
-  display: block;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-}
-input[type=text], input[type=number], textarea, select {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--line);
-  padding: 10px 0;
-  color: var(--main);
-  width: 100%;
-  font-size: 1rem;
-  outline: none;
-  font-family: inherit;
-  transition: border-color .2s;
-}
-input:focus, textarea:focus, select:focus {
-  border-bottom-color: var(--mint);
-}
-select { cursor: pointer; }
-textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
-
-/* ── 버튼 ── */
-.btn-main {
-  border: 1px solid var(--line);
-  padding: 14px 0;
-  width: 100%;
-  background: none;
-  font-size: 1rem;
-  letter-spacing: 6px;
-  cursor: pointer;
-  display: block;
-  margin: 10px 0;
-  font-family: inherit;
-  color: var(--main);
-  transition: background .2s, border-color .2s;
-}
-.btn-main:hover { background: var(--soft); }
-.btn-main.mint  { border-color: var(--mint); color: var(--mint); }
-.btn-main.lav   { border-color: var(--lavender); color: var(--lavender); }
-.btn-mini {
-  border: 1px solid var(--mint);
-  padding: 9px 12px;
-  width: 100%;
-  background: none;
-  cursor: pointer;
-  font-size: 0.88rem;
-  margin-top: 12px;
-  font-weight: 700;
-  color: var(--mint);
-  font-family: inherit;
-  letter-spacing: 1px;
-  transition: background .15s;
-}
-.btn-mini:hover { background: #E6F0EA; }
-.btn-mini.danger { border-color: var(--warn); color: var(--warn); }
-.btn-mini.danger:hover { background: #FFF0EE; }
-.btn-ghost {
-  background: none; border: none;
-  font-size: 0.8rem; color: var(--lavender);
-  cursor: pointer; display: block;
-  margin: 8px auto 0; font-family: inherit;
-  letter-spacing: 1px;
-}
-
-/* ── 별점 슬라이더 ── */
-.rating-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  gap: 10px;
-}
-.rating-row label { flex: 0 0 80px; font-size: 0.85rem; color: var(--lavender); font-weight: 700; }
-.rating-row input[type=range] {
-  flex: 1;
-  border: none;
-  padding: 0;
-  accent-color: var(--mint);
-  height: 4px;
-}
-.rating-row .val { flex: 0 0 28px; text-align: right; font-weight: 900; font-size: 0.9rem; }
-
-/* ── 소감 말줄임 ── */
-.comment-preview {
-  font-size: 0.9rem; line-height: 1.6;
-  overflow: hidden; white-space: nowrap;
-  text-overflow: ellipsis;
-  cursor: pointer; color: #555;
-}
-.comment-preview.expanded { white-space: normal; }
-
-/* ── 투표 바 ── */
-.vote-bar-wrap { background: var(--line); border-radius: 2px; height: 8px; margin: 6px 0; overflow: hidden; }
-.vote-bar      { background: var(--mint); height: 100%; border-radius: 2px; transition: width .5s; }
-
-/* ── 통계 그리드 ── */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.stat-box {
-  background: var(--card-bg);
-  border: 1px solid var(--line);
-  padding: 16px;
-  text-align: center;
-}
-.stat-num { font-size: 2rem; font-weight: 900; color: var(--mint); }
-.stat-lbl { font-size: 0.75rem; color: var(--lavender); letter-spacing: 1px; margin-top: 4px; }
-
-/* ── 메시지 ── */
-#msg-area { font-size: 0.82rem; color: var(--lavender); text-align: center; margin: 12px 0; min-height: 18px; }
-.hidden { display: none !important; }
-
-/* ── 스피너 ── */
-.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--mint); border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── 홈 버튼 그룹 ── */
-.home-btn-group { display: flex; gap: 16px; margin-top: 60px; }
-.home-btn-group .btn-main { flex: 1; padding: 22px 0; font-size: 1.1rem; letter-spacing: 8px; }
-
-/* ── 탭 콘텐츠 전환 애니메이션 ── */
-.tab-content { animation: fadeIn .25s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ── 어드민 섹션 ── */
-.admin-section { background: #FFF8F0; border: 1px dashed #F0C080; padding: 16px; margin-bottom: 16px; border-radius: 2px; }
-.admin-label { font-size: 0.75rem; color: #C07020; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--main);display:flex;justify-content:center;padding-bottom:80px;min-height:100vh;}
+.app{width:100%;max-width:480px;padding:36px 20px 20px;}
+.logo{font-family:'Nanum Myeongjo',serif;font-size:2rem;color:#2F3E30;text-align:center;letter-spacing:6px;margin-bottom:44px;cursor:pointer;user-select:none;}
+.st{font-size:0.75rem;color:var(--lav);margin:28px 0 12px;border-bottom:1px solid var(--line);padding-bottom:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.card{background:var(--card);border:1px solid var(--line);padding:18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.card.ml{border-left:5px solid var(--mint);}.card.ll{border-left:5px solid var(--lav);}.card.gl{border-left:5px solid var(--gold);}.card.dim{opacity:0.7;}
+.badge{display:inline-block;font-size:0.68rem;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:1px;margin-left:6px;vertical-align:middle;}
+.bm{background:#E6F0EA;color:var(--mint);}.bl{background:#EDE8EE;color:var(--lav);}.bg{background:#F2EDE3;color:var(--gold);}.br{background:#FAEAEA;color:var(--red);}
+.bnav{position:fixed;bottom:0;left:0;width:100%;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:13px 0 16px;z-index:100;box-shadow:0 -3px 16px rgba(0,0,0,0.06);}
+.ntab{font-size:0.92rem;color:#aaa;cursor:pointer;font-weight:500;letter-spacing:1px;padding:3px 5px;transition:color .2s;}
+.ntab.on{color:#000;font-weight:900;border-bottom:3px solid var(--mint);}
+.ig{margin-bottom:20px;}
+.il{font-size:0.72rem;color:var(--lav);display:block;font-weight:700;letter-spacing:1.5px;margin-bottom:5px;text-transform:uppercase;}
+input[type=text],input[type=number],input[type=password],textarea,select{background:transparent;border:none;border-bottom:1px solid var(--line);padding:9px 0;color:var(--main);width:100%;font-size:0.98rem;outline:none;font-family:inherit;transition:border-color .2s;}
+input:focus,textarea:focus,select:focus{border-bottom-color:var(--mint);}
+select{cursor:pointer;}textarea{resize:vertical;min-height:64px;line-height:1.6;}
+.btn{border:1px solid var(--line);padding:13px 0;width:100%;background:none;font-size:0.95rem;letter-spacing:5px;cursor:pointer;display:block;margin:8px 0;font-family:inherit;color:var(--main);transition:background .15s;}
+.btn:hover{background:var(--soft);}.btn.m{border-color:var(--mint);color:var(--mint);}.btn.l{border-color:var(--lav);color:var(--lav);}
+.mini{border:1px solid var(--mint);padding:8px 10px;width:100%;background:none;cursor:pointer;font-size:0.84rem;margin-top:10px;font-weight:700;color:var(--mint);font-family:inherit;letter-spacing:1px;transition:background .15s;}
+.mini:hover{background:#E6F0EA;}.mini.r{border-color:var(--red);color:var(--red);}.mini.r:hover{background:#FAEAEA;}.mini.l{border-color:var(--lav);color:var(--lav);}
+.ghost{background:none;border:none;font-size:0.78rem;color:var(--lav);cursor:pointer;display:block;margin:6px auto 0;font-family:inherit;letter-spacing:1px;}
+.hbtns{display:flex;gap:14px;margin-top:50px;}.hbtns .btn{flex:1;padding:20px 0;font-size:1rem;letter-spacing:8px;}
+.rrow{display:flex;align-items:center;margin-bottom:11px;gap:10px;}
+.rrow label{flex:0 0 70px;font-size:0.82rem;color:var(--lav);font-weight:700;}
+.rrow input[type=range]{flex:1;border:none;padding:0;accent-color:var(--mint);height:4px;}
+.rrow .rv{flex:0 0 24px;text-align:right;font-weight:900;font-size:0.88rem;}
+.vbw{background:var(--line);border-radius:2px;height:7px;margin:5px 0;overflow:hidden;}
+.vb{background:var(--mint);height:100%;border-radius:2px;transition:width .5s;}
+.atabs{display:flex;border-bottom:2px solid var(--line);margin-bottom:14px;}
+.atab{padding:7px 16px;cursor:pointer;font-size:0.85rem;font-weight:500;color:#aaa;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.atab.on{color:var(--mint);font-weight:700;border-bottom-color:var(--mint);}
+.chkrow{display:flex;gap:10px;margin-bottom:12px;}
+.chkbox{flex:1;border:1px solid var(--line);padding:12px;text-align:center;cursor:pointer;font-size:0.88rem;font-weight:700;color:#aaa;transition:all .2s;}
+.chkbox.done{border-color:var(--mint);color:var(--mint);background:#E6F0EA;}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--mint);border-radius:50%;animation:sp .6s linear infinite;vertical-align:middle;margin-right:5px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.cprev{font-size:0.88rem;line-height:1.6;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;color:#666;}
+.cprev.exp{white-space:normal;}
+.adm-wrap{background:#FFF9F0;border:1px dashed #E0B870;padding:16px;margin-bottom:14px;}
+.adm-lbl{font-size:0.7rem;color:#C07820;font-weight:900;letter-spacing:2px;margin-bottom:10px;}
+.yrgrp{margin-bottom:20px;}
+.yrttl{font-size:0.78rem;color:var(--gold);font-weight:900;letter-spacing:3px;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:10px;}
+.morow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dotted var(--line);font-size:0.9rem;align-items:center;}
+.morow:last-child{border-bottom:none;}.molbl{color:var(--lav);font-size:0.75rem;font-weight:700;flex:0 0 36px;}
+#msg{font-size:0.8rem;color:var(--lav);text-align:center;margin:10px 0;min-height:16px;}
+.hidden{display:none!important;}
+.fade{animation:fd .22s ease;}
+@keyframes fd{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
-<div class="app-frame">
-  <h1 class="logo" onclick="goHome()">이음북클럽</h1>
+<div class="app">
+  <div class="logo" id="logo" onclick="clickLogo()">이음북클럽</div>
 
-  <!-- ───── 홈 ───── -->
-  <div id="home-screen">
-    <div class="home-btn-group">
-      <button class="btn-main lav" onclick="showScreen('register-screen')">처음</button>
-      <button class="btn-main mint" onclick="showScreen('login-screen')">이음</button>
+  <!-- ① 홈 -->
+  <div id="s-home">
+    <div class="hbtns">
+      <button class="btn l" onclick="show('s-reg')">처음</button>
+      <button class="btn m" onclick="show('s-login')">이음</button>
     </div>
   </div>
 
-  <!-- ───── 등록 ───── -->
-  <div id="register-screen" class="hidden">
-    <div class="section-title">신규 클러버 등록</div>
-    <div class="input-group"><span class="input-label">별칭</span><input type="text" id="reg-alias" placeholder="이음책방에서 불릴 이름"></div>
-    <div class="input-group"><span class="input-label">성함</span><input type="text" id="reg-name" placeholder="실명"></div>
-    <div class="input-group"><span class="input-label">출생년도</span><input type="number" id="reg-birth" placeholder="1985"></div>
-    <div class="input-group">
-      <span class="input-label">직업분류</span>
-      <select id="reg-job">
-        <option>관리자/전문가</option><option>사무직</option><option>서비스/판매</option>
-        <option>농림어업</option><option>기능원</option><option>단순노무</option>
-        <option>군인</option><option>무직/기타</option>
-      </select>
+  <!-- ② 등록 -->
+  <div id="s-reg" class="hidden">
+    <div class="st">신규 클러버 등록</div>
+    <div class="ig"><span class="il">별칭 *</span><input type="text" id="r-alias" placeholder="이음책방에서 불릴 이름"></div>
+    <div class="ig"><span class="il">성함 *</span><input type="text" id="r-name"></div>
+    <div class="ig"><span class="il">출생년도 *</span><input type="number" id="r-birth" placeholder="1985"></div>
+    <div class="ig"><span class="il">직업분류</span>
+      <select id="r-job"><option>관리자/전문가</option><option>사무직</option><option>서비스/판매</option><option>농림어업</option><option>기능원</option><option>단순노무</option><option>군인</option><option>무직/기타</option></select>
     </div>
-    <div class="input-group">
-      <span class="input-label">감정노동 여부</span>
-      <select id="reg-emo"><option>예</option><option>아니오</option></select>
-    </div>
-    <div class="input-group"><span class="input-label">거주지</span><input type="text" id="reg-loc" placeholder="부천시 원미구"></div>
-    <div class="input-group">
-      <span class="input-label">성별</span>
-      <select id="reg-gender"><option>여성</option><option>남성</option><option>비공개</option></select>
-    </div>
-    <button class="btn-main mint" onclick="handleRegister()">등록하기</button>
-    <button class="btn-ghost" onclick="showScreen('home-screen')">이전으로</button>
+    <div class="ig"><span class="il">감정노동 여부</span><select id="r-emo"><option>예</option><option>아니오</option></select></div>
+    <div class="ig"><span class="il">거주지</span><input type="text" id="r-loc" placeholder="부천시 원미구"></div>
+    <div class="ig"><span class="il">성별</span><select id="r-gender"><option>여성</option><option>남성</option><option>비공개</option></select></div>
+    <button class="btn m" onclick="doRegister()">등록하기</button>
+    <button class="ghost" onclick="show('s-home')">← 이전</button>
   </div>
 
-  <!-- ───── 로그인 ───── -->
-  <div id="login-screen" class="hidden">
-    <div class="section-title">이음</div>
-    <div class="input-group"><span class="input-label">별칭</span><input type="text" id="login-alias" placeholder="별칭을 입력하세요" onkeydown="if(event.key==='Enter')handleLogin()"></div>
-    <button class="btn-main mint" onclick="handleLogin()">참여하기</button>
-    <button class="btn-ghost" onclick="showScreen('home-screen')">이전으로</button>
+  <!-- ③ 로그인 -->
+  <div id="s-login" class="hidden">
+    <div class="st">이음</div>
+    <div class="ig"><span class="il">별칭</span><input type="text" id="l-alias" placeholder="별칭 입력" oninput="onAliasInput()" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="ig hidden" id="pw-group"><span class="il">비밀번호 (관리자)</span><input type="password" id="l-pw" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn m" onclick="doLogin()">참여하기</button>
+    <button class="ghost" onclick="show('s-home')">← 이전</button>
   </div>
 
-  <!-- ───── 대시보드 ───── -->
-  <div id="dashboard-screen" class="hidden">
-    <p id="welcome-msg" style="font-size:1.15rem; font-weight:900; margin-bottom:20px;"></p>
+  <!-- ④ 대시보드 -->
+  <div id="s-dash" class="hidden">
+    <p id="welcome" style="font-size:1.1rem;font-weight:900;margin-bottom:18px;"></p>
 
-    <!-- 탭: 이음책 -->
-    <div id="tab-journey" class="tab-content">
+    <div id="t-main" class="fade">
+      <div class="st">이달의 이음책</div>
+      <div id="curr-area"><div class="card"><span class="spin"></span> 불러오는 중...</div></div>
+      <div class="st">다음 달 예고</div>
+      <div id="next-area"><div class="card dim">확인 중...</div></div>
+    </div>
 
-      <!-- 이달의 북클럽 -->
-      <div class="section-title">이번 달 이음책</div>
-      <div id="current-session-area"><div class="book-card"><span class="spinner"></span> 불러오는 중...</div></div>
-
-      <!-- 다음달 예고 -->
-      <div class="section-title">다음 달 예고</div>
-      <div id="next-book-area"><div class="book-card dimmed">확인 중...</div></div>
-
-      <!-- 빠른 메뉴 -->
-      <div class="section-title">바로가기</div>
-      <div style="display:flex; gap:10px;">
-        <button class="btn-mini" onclick="switchTab('recommend')">📖 책 추천</button>
-        <button class="btn-mini" onclick="switchTab('vote')">🗳️ 투표</button>
-        <button class="btn-mini" onclick="switchTab('archive')">📚 아카이브</button>
+    <div id="t-rec" class="fade hidden">
+      <div class="st">책 추천하기</div>
+      <div class="card">
+        <div class="ig"><span class="il">도서명 *</span><input type="text" id="rec-title" placeholder="책 제목"></div>
+        <div class="ig"><span class="il">저자</span><input type="text" id="rec-author"></div>
+        <div class="ig"><span class="il">출판사</span><input type="text" id="rec-pub"></div>
+        <div class="ig"><span class="il">추천 이유</span><textarea id="rec-reason" placeholder="이 책을 추천하는 이유"></textarea></div>
+        <button class="mini" onclick="submitRec()">추천 목록에 올리기</button>
       </div>
+      <div class="st">추천 도서 목록</div>
+      <div id="rec-list"><div class="card dim"><span class="spin"></span></div></div>
     </div>
 
-    <!-- 탭: 추천도서 -->
-    <div id="tab-recommend" class="tab-content hidden">
-      <div class="section-title">책 추천하기</div>
-      <div class="book-card">
-        <div class="input-group"><span class="input-label">도서명 *</span><input type="text" id="rec-title" placeholder="책 제목"></div>
-        <div class="input-group"><span class="input-label">저자</span><input type="text" id="rec-author" placeholder="저자명"></div>
-        <div class="input-group"><span class="input-label">출판사</span><input type="text" id="rec-pub" placeholder="출판사"></div>
-        <div class="input-group"><span class="input-label">추천 이유</span><textarea id="rec-reason" placeholder="이 책을 추천하는 이유를 적어주세요"></textarea></div>
-        <button class="btn-mini" onclick="submitRecommendation()">추천 목록에 올리기</button>
+    <div id="t-vote" class="fade hidden">
+      <div class="st">이음책 투표</div>
+      <div id="vote-area"><div class="card dim"><span class="spin"></span></div></div>
+    </div>
+
+    <div id="t-lib" class="fade hidden">
+      <div class="atabs">
+        <div class="atab on" id="atab-new" onclick="switchLib('new')">2026~</div>
+        <div class="atab"    id="atab-old" onclick="switchLib('old')">2022–2025</div>
       </div>
-
-      <div class="section-title">클러버들의 추천 도서</div>
-      <div id="recommend-list"><div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div></div>
+      <div id="lib-new"></div>
+      <div id="lib-old" class="hidden"></div>
     </div>
 
-    <!-- 탭: 투표 -->
-    <div id="tab-vote" class="tab-content hidden">
-      <div class="section-title">이달의 책 투표</div>
-      <div id="vote-area"><div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div></div>
-    </div>
+    <div id="t-admin" class="fade hidden">
+      <div class="adm-wrap">
+        <div class="adm-lbl">⚙ 관리자 — 이음1</div>
 
-    <!-- 탭: 아카이브 -->
-    <div id="tab-archive" class="tab-content hidden">
-      <div id="archive-tabs" style="display:flex; gap:0; margin-bottom:0; border-bottom:2px solid var(--line);">
-        <div class="arch-tab active" data-tab="2026" onclick="switchArchive('2026')" style="padding:8px 20px; cursor:pointer; font-size:0.88rem; font-weight:700; border-bottom:3px solid var(--mint); color:var(--mint);">2026~</div>
-        <div class="arch-tab" data-tab="2025" onclick="switchArchive('2025')" style="padding:8px 20px; cursor:pointer; font-size:0.88rem; font-weight:500; color:#aaa;">~2025</div>
-      </div>
-      <div id="archive-2026" style="margin-top:16px;"><div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div></div>
-      <div id="archive-2025" class="hidden" style="margin-top:16px;"></div>
-    </div>
-
-    <!-- 탭: 분석 -->
-    <div id="tab-analysis" class="tab-content hidden">
-      <div class="section-title">클럽 통계</div>
-      <div class="stat-grid">
-        <div class="stat-box"><div class="stat-num" id="stat-members">–</div><div class="stat-lbl">총 클러버</div></div>
-        <div class="stat-box"><div class="stat-num" id="stat-books">–</div><div class="stat-lbl">읽은 책</div></div>
-      </div>
-
-      <div class="section-title">평가 항목별 평균</div>
-      <div id="rating-stats"></div>
-
-      <div class="section-title">클러버별 평균 평점</div>
-      <div id="member-stats"></div>
-    </div>
-
-    <!-- 탭: 관리자 -->
-    <div id="tab-admin" class="tab-content hidden">
-      <div class="admin-section">
-        <div class="admin-label">⚙ 관리자 메뉴</div>
-
-        <div class="section-title" style="margin-top:0;">투표 생성</div>
-        <div class="input-group"><span class="input-label">투표 제목</span><input type="text" id="adm-vote-title" placeholder="2604 이음책 선정 투표"></div>
-        <div id="adm-vote-books">
-          <div class="input-group"><span class="input-label">후보 도서 1</span><input type="text" class="vote-book-input" placeholder="책 제목"></div>
-          <div class="input-group"><span class="input-label">후보 도서 2</span><input type="text" class="vote-book-input" placeholder="책 제목"></div>
+        <div class="st" style="margin-top:0;">이달의 책 / 다음달 책 선정</div>
+        <div class="card" style="margin-bottom:14px;">
+          <div class="ig"><span class="il">구분</span><select id="adm-which"><option value="current">이달의 책</option><option value="next">다음달 책</option></select></div>
+          <div class="ig"><span class="il">추천 목록에서 선택</span><select id="adm-pick-rec"><option value="">— 직접 입력 —</option></select></div>
+          <div class="ig"><span class="il">책 제목</span><input type="text" id="adm-book-title"></div>
+          <div class="ig"><span class="il">저자</span><input type="text" id="adm-book-author"></div>
+          <div class="ig"><span class="il">월 (숫자)</span><input type="number" id="adm-book-month" placeholder="5"></div>
+          <button class="mini" onclick="admSetBook()">선정하기</button>
         </div>
-        <button class="btn-mini" onclick="addVoteBookRow()">+ 후보 추가</button>
-        <div class="input-group" style="margin-top:14px;"><span class="input-label">투표 마감일</span><input type="text" id="adm-vote-deadline" placeholder="2026-05-10"></div>
-        <button class="btn-mini" onclick="createVote()">투표 생성하기</button>
 
-        <div class="section-title">북토크 세션 생성</div>
-        <div class="input-group"><span class="input-label">회차 ID</span><input type="text" id="adm-sess-id" placeholder="2604_1"></div>
-        <div class="input-group"><span class="input-label">책 제목</span><input type="text" id="adm-sess-title" placeholder="편안함의 습격"></div>
-        <div class="input-group"><span class="input-label">저자</span><input type="text" id="adm-sess-author" placeholder="저자명"></div>
-        <div class="input-group"><span class="input-label">모임일</span><input type="text" id="adm-sess-date" placeholder="2026-04-19"></div>
-        <button class="btn-mini" onclick="createSession()">세션 생성하기</button>
+        <div class="st">세션(북토크) 생성</div>
+        <div class="card" style="margin-bottom:14px;">
+          <div class="ig"><span class="il">회차 ID</span><input type="text" id="adm-sid" placeholder="2604_1"></div>
+          <div class="ig"><span class="il">책 제목</span><input type="text" id="adm-stitle"></div>
+          <div class="ig"><span class="il">저자</span><input type="text" id="adm-sauthor"></div>
+          <div class="ig"><span class="il">1회 모임일</span><input type="text" id="adm-sd1" placeholder="2026-04-19"></div>
+          <div class="ig"><span class="il">2회 모임일</span><input type="text" id="adm-sd2" placeholder="2026-05-03"></div>
+          <button class="mini" onclick="admCreateSession()">세션 생성</button>
+        </div>
 
-        <div class="section-title">다음달 책 예고</div>
-        <div class="input-group"><span class="input-label">책 제목</span><input type="text" id="adm-next-title" placeholder="미정이면 비워두세요"></div>
-        <div class="input-group"><span class="input-label">저자</span><input type="text" id="adm-next-author"></div>
-        <div class="input-group"><span class="input-label">월 (숫자)</span><input type="number" id="adm-next-month" placeholder="5"></div>
-        <button class="btn-mini" onclick="setNextBook()">예고 등록하기</button>
+        <div class="st">투표 생성</div>
+        <div class="card" style="margin-bottom:14px;">
+          <div class="ig"><span class="il">투표 제목</span><input type="text" id="adm-vtitle" placeholder="5월 이음책 선정 투표"></div>
+          <div class="ig"><span class="il">투표 방식</span><select id="adm-vtype"><option value="single">단수선택</option><option value="multi">복수선택</option></select></div>
+          <div class="ig"><span class="il">마감일</span><input type="text" id="adm-vdeadline" placeholder="2026-04-30"></div>
+          <div id="adm-vbooks">
+            <div class="ig"><span class="il">후보 1</span><input type="text" class="vbi" placeholder="책 제목"></div>
+            <div class="ig"><span class="il">후보 2</span><input type="text" class="vbi" placeholder="책 제목"></div>
+          </div>
+          <button class="mini l" onclick="addVoteBook()">+ 후보 추가</button>
+          <button class="mini" style="margin-top:8px;" onclick="admCreateVote()">투표 생성</button>
+        </div>
+
+        <div class="st">진행중 투표 관리</div>
+        <div id="adm-vote-list"><div class="card dim"><span class="spin"></span></div></div>
+
+        <div class="st">세션 완료 처리</div>
+        <div id="adm-sess-list"><div class="card dim"><span class="spin"></span></div></div>
       </div>
     </div>
   </div>
 
-  <div id="msg-area"></div>
+  <div id="msg"></div>
 </div>
 
-<!-- 하단 내비 (로그인 후) -->
-<div id="bottom-nav" class="bottom-nav hidden">
-  <div class="nav-tab active" id="btn-journey"  onclick="switchTab('journey')">이음책</div>
-  <div class="nav-tab"        id="btn-recommend" onclick="switchTab('recommend')">추천</div>
-  <div class="nav-tab"        id="btn-vote"      onclick="switchTab('vote')">투표</div>
-  <div class="nav-tab"        id="btn-archive"   onclick="switchTab('archive')">아카이브</div>
-  <div class="nav-tab"        id="btn-analysis"  onclick="switchTab('analysis')">분석</div>
-  <div class="nav-tab hidden" id="btn-admin"     onclick="switchTab('admin')">관리자</div>
+<div id="bnav" class="bnav hidden">
+  <div class="ntab on"     id="nt-main"  onclick="switchTab('main')">이음책</div>
+  <div class="ntab"        id="nt-rec"   onclick="switchTab('rec')">추천</div>
+  <div class="ntab"        id="nt-vote"  onclick="switchTab('vote')">투표</div>
+  <div class="ntab"        id="nt-lib"   onclick="switchTab('lib')">라이브러리</div>
+  <div class="ntab hidden" id="nt-admin" onclick="switchTab('admin')">관리자</div>
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// CONFIG — Apps Script URL 여기에 입력
-// ══════════════════════════════════════════
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-S2B0H9BGd_QMXCFGNVotk9Oyb5Gu9c6WEYQ4m7hg8YUd8SFWEzrWYFg1k-KZAwrwNg/exec";
+const SCRIPT_URL   = "https://script.google.com/macros/s/AKfycbzDdIMiPZAVrblpXuZeUJh2zFP_gUQ9q707rKRrmh32x_-2iCDeWEQf7caGwSoeSsVO0Q/exec";
+const ADMIN_ALIAS  = "이음1";
+const ADMIN_PW     = "1111";
+const RLABELS      = ["전환","생각변화","감동","울림","문장","배움"];
+let U = null;
 
-let currentUser = null;
-let dashboardData = null;
-let currentVoteId = null;
+// ── 화면 ──
+function d(id){return document.getElementById(id);}
+function show(id){
+  ["s-home","s-reg","s-login","s-dash"].forEach(s=>d(s).classList.add("hidden"));
+  d(id).classList.remove("hidden"); setMsg("");
+}
+function clickLogo(){if(!U)show("s-home");}
 
-// ══════════════════════════════════════════
-// 화면 전환
-// ══════════════════════════════════════════
-function showScreen(id) {
-  ['home-screen','register-screen','login-screen','dashboard-screen'].forEach(s => {
-    document.getElementById(s).classList.add('hidden');
+function switchTab(t){
+  ["main","rec","vote","lib","admin"].forEach(x=>{
+    d("t-"+x).classList.add("hidden");
+    const b=d("nt-"+x);if(b)b.classList.remove("on");
   });
-  document.getElementById(id).classList.remove('hidden');
-  setMsg('');
+  d("t-"+t).classList.remove("hidden");
+  const nb=d("nt-"+t);if(nb)nb.classList.add("on");
+  if(t==="rec")  loadRecs();
+  if(t==="vote") loadVote();
+  if(t==="lib")  loadLibNew();
+  if(t==="admin")loadAdminData();
 }
 
-function goHome() {
-  if(currentUser) { /* 로그인 상태면 대시 유지 */ return; }
-  showScreen('home-screen');
-}
-
-function switchTab(t) {
-  ['journey','recommend','vote','archive','analysis','admin'].forEach(tab => {
-    document.getElementById('tab-'+tab).classList.add('hidden');
-    const btn = document.getElementById('btn-'+tab);
-    if(btn) btn.classList.remove('active');
+function switchLib(w){
+  ["new","old"].forEach(x=>{
+    d("lib-"+x).classList[x===w?"remove":"add"]("hidden");
+    d("atab-"+x).classList[x===w?"add":"remove"]("on");
   });
-  document.getElementById('tab-'+t).classList.remove('hidden');
-  const btn = document.getElementById('btn-'+t);
-  if(btn) btn.classList.add('active');
-
-  // 탭 진입 시 데이터 로드
-  if(t==='recommend') loadRecommendations();
-  if(t==='vote')      loadVote();
-  if(t==='archive')   loadArchive();
-  if(t==='analysis')  loadAnalysis();
+  if(w==="old"&&!d("lib-old").dataset.loaded)loadLibOld();
 }
 
-function switchArchive(tab) {
-  document.querySelectorAll('.arch-tab').forEach(el => {
-    el.style.borderBottom = 'none';
-    el.style.color = '#aaa';
-    el.style.fontWeight = '500';
-  });
-  const el = document.querySelector(`.arch-tab[data-tab="${tab}"]`);
-  el.style.borderBottom = '3px solid var(--mint)';
-  el.style.color = 'var(--mint)';
-  el.style.fontWeight = '700';
-  ['2026','2025'].forEach(y => {
-    document.getElementById('archive-'+y).classList[y===tab?'remove':'add']('hidden');
-  });
-  if(tab==='2025' && !document.getElementById('archive-2025').dataset.loaded) {
-    loadArchive2025();
-  }
-}
-
-// ══════════════════════════════════════════
-// 메시지
-// ══════════════════════════════════════════
-function setMsg(txt, loading=false) {
-  const el = document.getElementById('msg-area');
-  el.innerHTML = loading ? `<span class="spinner"></span>${txt}` : txt;
-}
-
-// ══════════════════════════════════════════
-// JSONP 헬퍼
-// ══════════════════════════════════════════
-let _cbIdx = 0;
-function jsonp(params) {
-  return new Promise((resolve, reject) => {
-    const cbName = '__cb_' + (++_cbIdx);
-    const timeout = setTimeout(() => {
-      delete window[cbName];
-      reject(new Error('timeout'));
-    }, 12000);
-    window[cbName] = (res) => {
-      clearTimeout(timeout);
-      delete window[cbName];
-      resolve(res);
-    };
-    const qs = Object.entries({...params, callback: cbName})
-      .map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
-    const s = document.createElement('script');
-    s.src = `${SCRIPT_URL}?${qs}`;
-    s.onerror = () => { clearTimeout(timeout); delete window[cbName]; reject(new Error('script error')); };
+// ── 메시지 / JSONP / POST ──
+function setMsg(t,ld=false){d("msg").innerHTML=ld?`<span class="spin"></span>${t}`:t;}
+let _ci=0;
+function jsonp(p){
+  return new Promise((res,rej)=>{
+    const cb="__cb"+(++_ci);
+    const to=setTimeout(()=>{delete window[cb];rej(new Error("timeout"));},12000);
+    window[cb]=r=>{clearTimeout(to);delete window[cb];res(r);};
+    const qs=Object.entries({...p,callback:cb}).map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join("&");
+    const s=document.createElement("script");
+    s.src=`${SCRIPT_URL}?${qs}`;
+    s.onerror=()=>{clearTimeout(to);delete window[cb];rej(new Error("err"));};
     document.body.appendChild(s);
   });
 }
-
-// POST 헬퍼 (no-cors)
-async function postAction(params) {
-  const body = Object.entries(params)
-    .map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
-  await fetch(SCRIPT_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body
-  });
+async function post(p){
+  const body=Object.entries(p).map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join("&");
+  await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
 }
 
-// ══════════════════════════════════════════
-// 등록
-// ══════════════════════════════════════════
-async function handleRegister() {
-  const alias = document.getElementById('reg-alias').value.trim();
-  const name  = document.getElementById('reg-name').value.trim();
-  const birth = document.getElementById('reg-birth').value.trim();
-  if(!alias || !name || !birth) return alert('별칭, 성함, 출생년도는 필수입니다.');
-  setMsg('등록 중...', true);
-  try {
-    await postAction({
-      action: 'register',
-      alias, name, birth,
-      job:           document.getElementById('reg-job').value,
-      emotionalLabor:document.getElementById('reg-emo').value,
-      location:      document.getElementById('reg-loc').value,
-      gender:        document.getElementById('reg-gender').value,
-    });
-    setMsg('');
-    alert('등록되었습니다! 이음 메뉴에서 로그인해 주세요.');
-    showScreen('login-screen');
-  } catch(e) { setMsg(''); alert('오류가 발생했습니다. 다시 시도해 주세요.'); }
+// ── 관리자 비번 토글 ──
+function onAliasInput(){
+  d("pw-group").classList[d("l-alias").value.trim()===ADMIN_ALIAS?"remove":"add"]("hidden");
 }
 
-// ══════════════════════════════════════════
-// 로그인
-// ══════════════════════════════════════════
-async function handleLogin() {
-  const alias = document.getElementById('login-alias').value.trim();
-  if(!alias) return alert('별칭을 입력하세요.');
-  setMsg('확인 중...', true);
-  try {
-    const res = await jsonp({ action: 'login', alias });
-    setMsg('');
-    if(res.status === 'success') {
-      currentUser = res.data;
-      enterDashboard();
-    } else {
-      alert(res.message || '등록된 별칭이 없습니다.');
-    }
-  } catch(e) {
-    setMsg('');
-    alert('연결 오류. Apps Script URL을 확인해 주세요.');
+// ── 등록 ──
+async function doRegister(){
+  const alias=d("r-alias").value.trim(),name=d("r-name").value.trim(),birth=d("r-birth").value.trim();
+  if(!alias||!name||!birth)return alert("별칭, 성함, 출생년도는 필수입니다.");
+  setMsg("등록 중...",true);
+  try{
+    await post({action:"register",alias,name,birth,
+      job:d("r-job").value,emotionalLabor:d("r-emo").value,
+      location:d("r-loc").value,gender:d("r-gender").value});
+    setMsg("");alert("등록되었습니다! 이음 메뉴에서 로그인해 주세요.");show("s-login");
+  }catch(e){setMsg("");alert("오류가 발생했습니다.");}
+}
+
+// ── 로그인 ──
+async function doLogin(){
+  const alias=d("l-alias").value.trim();
+  if(!alias)return alert("별칭을 입력하세요.");
+  if(alias===ADMIN_ALIAS){
+    if(d("l-pw").value!==ADMIN_PW)return alert("관리자 비밀번호가 틀립니다.");
+    U={alias:ADMIN_ALIAS,name:"이음1",isAdmin:true};enterDash();return;
   }
+  setMsg("확인 중...",true);
+  try{
+    const r=await jsonp({action:"login",alias});setMsg("");
+    if(r.status==="success"){U=r.data;enterDash();}
+    else alert(r.message||"등록된 별칭이 없습니다.");
+  }catch(e){setMsg("");alert("연결 오류. 잠시 후 다시 시도해 주세요.");}
 }
 
-function enterDashboard() {
-  document.getElementById('welcome-msg').innerText = `${currentUser.alias} 님, 반갑습니다.`;
-  showScreen('dashboard-screen');
-  document.getElementById('bottom-nav').classList.remove('hidden');
-  if(currentUser.isAdmin) document.getElementById('btn-admin').classList.remove('hidden');
-  switchTab('journey');
-  loadMainSession();
+function enterDash(){
+  d("welcome").innerText=`${U.alias} 님, 반갑습니다.`;
+  show("s-dash");d("bnav").classList.remove("hidden");
+  if(U.isAdmin)d("nt-admin").classList.remove("hidden");
+  switchTab("main");loadMain();
 }
 
-// ══════════════════════════════════════════
-// 메인: 이달의 세션 + 다음달 예고
-// ══════════════════════════════════════════
-async function loadMainSession() {
-  try {
-    const res = await jsonp({ action: 'getDashboardData' });
-    dashboardData = res.data;
+// ══ 이달의 책 ══
+async function loadMain(){
+  d("curr-area").innerHTML=`<div class="card"><span class="spin"></span> 불러오는 중...</div>`;
+  d("next-area").innerHTML=`<div class="card dim">확인 중...</div>`;
+  try{
+    const r=await jsonp({action:"getDashboard",alias:U.alias});
+    const dt=r.data;
 
-    // 현재 세션
-    const area = document.getElementById('current-session-area');
-    if(res.data.current) {
-      const s = res.data.current;
-      const isAttending = s.attendees && s.attendees.includes(currentUser.alias);
-      area.innerHTML = `
-        <div class="book-card accent-mint">
-          <div style="font-size:1.4rem; font-weight:900; line-height:1.4;">${s.title}</div>
-          <div style="font-size:0.9rem; color:var(--lavender); margin-top:6px;">${s.author || ''}</div>
-          <div style="margin-top:14px; display:flex; gap:8px; align-items:center;">
-            <span style="font-size:0.85rem;">📅 ${s.date || '일정 미정'}</span>
-            <span class="badge ${s.status==='완료'?'badge-gray':'badge-mint'}">${s.status||'예정'}</span>
+    if(dt.current){
+      const s=dt.current;
+      const a1=(s.attend1||"").split(",").filter(Boolean).includes(U.alias);
+      const a2=(s.attend2||"").split(",").filter(Boolean).includes(U.alias);
+      const myR=dt.myRating;
+      const isDone=s.status==="완료";
+
+      d("curr-area").innerHTML=`
+        <div class="card ml">
+          <div style="font-size:1.35rem;font-weight:900;line-height:1.4;">${s.bookTitle}</div>
+          <div style="font-size:0.88rem;color:var(--lav);margin-top:5px;">${s.bookAuthor||""}</div>
+          <div style="margin-top:10px;font-size:0.82rem;color:#888;">
+            ${s.date1?"1회 "+s.date1:""}${s.date2?" · 2회 "+s.date2:""}
           </div>
-          <div style="margin-top:8px; font-size:0.82rem; color:#888;">${s.sessionId || ''}</div>
-          ${s.status !== '완료' ? `
-            <button class="btn-mini" id="attend-btn" onclick="toggleAttend('${s.sessionId}', ${isAttending})" style="margin-top:14px;">
-              ${isAttending ? '✅ 참석 취소' : '참석 등록하기'}
-            </button>` : `
-            <div style="margin-top:14px; font-size:0.85rem; color:#888;">참석인원: ${s.attendeeCount || 0}명 · 평균평점: ${s.avgRating ? s.avgRating.toFixed(1) : '–'}</div>
-          `}
-          ${s.status === '완료' && !s.myRating ? `<button class="btn-mini" onclick="showRatingPanel('${s.sessionId}')" style="margin-top:8px;">평점 & 소감 남기기</button>` : ''}
+          <div style="margin-top:6px;">
+            <span class="badge ${isDone?"bg":"bm"}">${s.status||"예정"}</span>
+            <span style="font-size:0.78rem;color:#aaa;margin-left:6px;">${s.sessionId||""}</span>
+          </div>
+          ${!isDone?`
+            <div class="st" style="margin-top:16px;">북클럽 참여 체크</div>
+            <div class="chkrow">
+              <div class="chkbox${a1?" done":""}" onclick="toggleAttend('${s.sessionId}',1,${a1})">
+                ${a1?"✓ 1회 참석":"1회 참석 등록"}
+              </div>
+              <div class="chkbox${a2?" done":""}" onclick="toggleAttend('${s.sessionId}',2,${a2})">
+                ${a2?"✓ 2회 참석":"2회 참석 등록"}
+              </div>
+            </div>`:""}
+          ${(a1||a2||isDone)?
+            (!myR?`
+              <div class="st">소감 & 별점 남기기</div>
+              <div class="card" style="border:none;padding:0;">
+                <div class="ig"><span class="il">소감 (100자)</span>
+                  <textarea id="rp-comment" maxlength="100" placeholder="이번 북토크에서 어떤 이음이 있었나요?"></textarea>
+                </div>
+                ${RLABELS.map((l,i)=>`
+                  <div class="rrow">
+                    <label>${l}</label>
+                    <input type="range" min="1" max="10" value="5" id="rp-r${i}"
+                      oninput="d('rp-rv${i}').innerText=this.value">
+                    <span class="rv" id="rp-rv${i}">5</span>
+                  </div>`).join("")}
+                <button class="mini" style="margin-top:10px;" onclick="submitRating('${s.sessionId}')">소감 & 별점 제출</button>
+              </div>`:
+            `<div class="card ml" style="margin-top:10px;padding:12px 14px;">
+              <span style="font-size:0.8rem;color:var(--mint);font-weight:700;">★ 평균 ${parseFloat(myR.avgRating).toFixed(1)}점 제출 완료</span>
+              ${myR.comment?`<div style="margin-top:5px;font-size:0.85rem;color:#666;">"${myR.comment}"</div>`:""}
+            </div>`):""}
         </div>
-        ${s.status === '완료' ? renderComments(s.comments || []) : ''}
-        ${renderRatingPanel(s.sessionId)}
-      `;
+        ${isDone?renderComments(dt.comments||[]):""}`;
     } else {
-      area.innerHTML = `<div class="book-card dimmed">현재 진행 중인 북클럽이 없습니다.</div>`;
+      d("curr-area").innerHTML=`<div class="card dim">현재 진행 중인 이음책이 없습니다.</div>`;
     }
 
-    // 다음달 예고
-    const nxt = document.getElementById('next-book-area');
-    if(res.data.next) {
-      const n = res.data.next;
-      nxt.innerHTML = `<div class="book-card accent-lav">
-        <div style="font-size:1.1rem; font-weight:700;">${n.title || '미정'}</div>
-        <div style="font-size:0.85rem; color:var(--lavender); margin-top:4px;">${n.author || ''}</div>
-        <div style="margin-top:8px;"><span class="badge ${n.title?'badge-lav':'badge-gray'}">${n.title?'확정':'미정'}</span> <span style="font-size:0.82rem; color:#aaa;">${n.month||''}월 예정</span></div>
-      </div>`;
+    if(dt.next){
+      const n=dt.next;
+      d("next-area").innerHTML=`
+        <div class="card ll">
+          <div style="font-size:1.05rem;font-weight:700;">${n.title||"미정"}</div>
+          <div style="font-size:0.85rem;color:var(--lav);margin-top:4px;">${n.author||""}</div>
+          <div style="margin-top:8px;">
+            <span class="badge ${n.title?"bl":"bg"}">${n.title?"확정":"미정"}</span>
+            <span style="font-size:0.78rem;color:#aaa;margin-left:6px;">${n.month?n.month+"월 예정":""}</span>
+          </div>
+        </div>`;
     } else {
-      nxt.innerHTML = `<div class="book-card dimmed">아직 선정되지 않았습니다.</div>`;
+      d("next-area").innerHTML=`<div class="card dim">아직 선정되지 않았습니다.</div>`;
     }
-  } catch(e) {
-    document.getElementById('current-session-area').innerHTML = `<div class="book-card dimmed">데이터를 불러올 수 없습니다.</div>`;
+  }catch(e){
+    d("curr-area").innerHTML=`<div class="card dim">데이터를 불러올 수 없습니다.</div>`;
   }
 }
 
-// ── 참석 토글 ──
-async function toggleAttend(sessionId, isAttending) {
-  const btn = document.getElementById('attend-btn');
-  if(btn) btn.disabled = true;
-  setMsg(isAttending ? '취소 중...' : '등록 중...', true);
-  try {
-    await postAction({ action: isAttending ? 'cancelAttend' : 'attend', sessionId, alias: currentUser.alias });
-    setMsg('');
-    loadMainSession();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+function renderComments(cs){
+  if(!cs.length)return"";
+  return`<div class="st">클러버 소감</div>`+
+    cs.slice(0,6).map(c=>`
+      <div class="card" style="padding:12px 16px;">
+        <div style="font-size:0.75rem;color:var(--mint);font-weight:700;margin-bottom:5px;">${c.alias}</div>
+        <div class="cprev" onclick="this.classList.toggle('exp')">${c.comment}</div>
+      </div>`).join("");
 }
 
-// ── 소감 렌더 ──
-function renderComments(comments) {
-  if(!comments.length) return '';
-  return `<div class="section-title">클러버 소감</div>` +
-    comments.slice(0,5).map(c => `
-      <div class="book-card" style="padding:14px 18px;">
-        <div style="font-size:0.78rem; color:var(--mint); font-weight:700; margin-bottom:6px;">${c.alias}</div>
-        <div class="comment-preview" onclick="this.classList.toggle('expanded')">${c.comment}</div>
-      </div>`).join('');
+async function toggleAttend(sid,num,isOn){
+  setMsg(isOn?"취소 중...":"등록 중...",true);
+  try{await post({action:isOn?"cancelAttend":"attend",sessionId:sid,alias:U.alias,num});setMsg("");loadMain();}
+  catch(e){setMsg("");alert("오류 발생");}
 }
 
-// ── 평점 패널 ──
-const RATING_LABELS = ['전환','생각변화','감동','울림','문장','배움'];
-function renderRatingPanel(sessionId) {
-  return `<div id="rating-panel-${sessionId}" class="hidden">
-    <div class="section-title">평점 & 소감</div>
-    <div class="book-card">
-      ${RATING_LABELS.map((lbl,i) => `
-        <div class="rating-row">
-          <label>${lbl}</label>
-          <input type="range" min="1" max="10" value="5" id="r${i}-${sessionId}" oninput="document.getElementById('rv${i}-${sessionId}').innerText=this.value">
-          <span class="val" id="rv${i}-${sessionId}">5</span>
-        </div>`).join('')}
-      <div class="input-group" style="margin-top:16px;">
-        <span class="input-label">소감 (200자)</span>
-        <textarea id="comment-${sessionId}" maxlength="200" placeholder="이번 북토크에서 어떤 이음이 있었나요?"></textarea>
-      </div>
-      <button class="btn-mini" onclick="submitRating('${sessionId}')">제출하기</button>
-      <button class="btn-ghost" onclick="document.getElementById('rating-panel-${sessionId}').classList.add('hidden')">닫기</button>
-    </div>
-  </div>`;
+async function submitRating(sid){
+  const scores=RLABELS.map((_,i)=>d(`rp-r${i}`).value);
+  const comment=d("rp-comment").value.trim();
+  setMsg("제출 중...",true);
+  try{
+    await post({action:"submitRating",sessionId:sid,alias:U.alias,
+      r0:scores[0],r1:scores[1],r2:scores[2],r3:scores[3],r4:scores[4],r5:scores[5],comment});
+    setMsg("");alert("소감과 별점이 등록되었습니다!");loadMain();
+  }catch(e){setMsg("");alert("오류 발생");}
 }
 
-function showRatingPanel(sessionId) {
-  document.getElementById(`rating-panel-${sessionId}`).classList.remove('hidden');
-}
-
-async function submitRating(sessionId) {
-  const ratings = RATING_LABELS.map((_,i) => document.getElementById(`r${i}-${sessionId}`).value);
-  const comment = document.getElementById(`comment-${sessionId}`).value.trim();
-  setMsg('제출 중...', true);
-  try {
-    await postAction({
-      action: 'submitRating',
-      sessionId, alias: currentUser.alias,
-      r0:ratings[0], r1:ratings[1], r2:ratings[2], r3:ratings[3], r4:ratings[4], r5:ratings[5],
-      comment
-    });
-    setMsg('');
-    alert('소감이 등록되었습니다!');
-    loadMainSession();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
-}
-
-// ══════════════════════════════════════════
-// 추천도서
-// ══════════════════════════════════════════
-async function loadRecommendations() {
-  const list = document.getElementById('recommend-list');
-  list.innerHTML = `<div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div>`;
-  try {
-    const res = await jsonp({ action: 'getRecommendations' });
-    if(!res.data || !res.data.length) {
-      list.innerHTML = `<div class="book-card dimmed">아직 추천된 책이 없습니다.</div>`; return;
+// ══ 추천 ══
+async function loadRecs(){
+  d("rec-list").innerHTML=`<div class="card dim"><span class="spin"></span></div>`;
+  try{
+    const r=await jsonp({action:"getRecommendations"});
+    if(!r.data||!r.data.length){d("rec-list").innerHTML=`<div class="card dim">아직 추천된 책이 없습니다.</div>`;return;}
+    d("rec-list").innerHTML=r.data.map(b=>`
+      <div class="card">
+        <div style="font-weight:900;font-size:1.1rem;">${b.title}</div>
+        <div style="font-size:0.83rem;color:var(--lav);margin-top:4px;">${b.author||""}${b.pub?" · "+b.pub:""}</div>
+        ${b.reason?`<div style="margin-top:9px;font-size:0.88rem;border-top:1px dashed var(--line);padding-top:9px;line-height:1.6;">💬 ${b.reason}</div>`:""}
+        <div style="font-size:0.78rem;color:var(--mint);margin-top:7px;font-weight:700;">추천인: ${b.alias}</div>
+        ${U.isAdmin?`<button class="mini r" onclick="admDelRec('${b.row}')">추천 삭제</button>`:""}
+      </div>`).join("");
+    if(U.isAdmin){
+      const sel=d("adm-pick-rec");
+      sel.innerHTML=`<option value="">— 직접 입력 —</option>`;
+      r.data.forEach(b=>{
+        const o=document.createElement("option");
+        o.value=b.row;o.text=b.title;o.dataset.author=b.author||"";sel.appendChild(o);
+      });
+      sel.onchange=function(){
+        const o=this.options[this.selectedIndex];
+        if(o.value){d("adm-book-title").value=o.text;d("adm-book-author").value=o.dataset.author||"";}
+      };
     }
-    list.innerHTML = res.data.map(b => `
-      <div class="book-card">
-        <div style="font-weight:900; font-size:1.15rem;">${b.title}</div>
-        <div style="font-size:0.85rem; color:var(--lavender); margin-top:4px;">${b.author||''} ${b.pub?'· '+b.pub:''}</div>
-        ${b.reason ? `<div style="margin-top:10px; font-size:0.9rem; border-top:1px dashed var(--line); padding-top:10px; line-height:1.6;">💬 ${b.reason}</div>` : ''}
-        <div style="font-size:0.8rem; color:var(--mint); margin-top:8px; font-weight:700;">추천인: ${b.alias}</div>
-        ${currentUser.isAdmin ? `
-          <button class="btn-mini" onclick="confirmBook('${b.row||b.id}','${b.title}')">이달의 책으로 선정</button>
-          <button class="btn-mini danger" onclick="deleteRecommend('${b.row||b.id}')">삭제</button>` : ''}
-      </div>`).join('');
-  } catch(e) { list.innerHTML = `<div class="book-card dimmed">불러오기 실패</div>`; }
+  }catch(e){d("rec-list").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 
-async function submitRecommendation() {
-  const title = document.getElementById('rec-title').value.trim();
-  if(!title) return alert('도서명은 필수입니다.');
-  setMsg('기록 중...', true);
-  try {
-    await postAction({
-      action: 'addRecommendation',
-      title, alias: currentUser.alias,
-      author: document.getElementById('rec-author').value,
-      pub:    document.getElementById('rec-pub').value,
-      reason: document.getElementById('rec-reason').value,
-    });
-    setMsg('');
-    alert('추천이 등록되었습니다!');
-    ['rec-title','rec-author','rec-pub','rec-reason'].forEach(id => document.getElementById(id).value='');
-    loadRecommendations();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+async function submitRec(){
+  const title=d("rec-title").value.trim();
+  if(!title)return alert("도서명은 필수입니다.");
+  setMsg("기록 중...",true);
+  try{
+    await post({action:"addRecommendation",title,alias:U.alias,
+      author:d("rec-author").value,pub:d("rec-pub").value,reason:d("rec-reason").value});
+    setMsg("");alert("추천이 등록되었습니다!");
+    ["rec-title","rec-author","rec-pub","rec-reason"].forEach(id=>d(id).value="");
+    loadRecs();
+  }catch(e){setMsg("");alert("오류 발생");}
 }
 
-async function confirmBook(rowOrId, title) {
-  if(!confirm(`"${title}"을(를) 이달의 책으로 선정하시겠습니까?`)) return;
-  setMsg('선정 중...', true);
-  try {
-    await postAction({ action: 'confirmBook', row: rowOrId, status: '이번달' });
-    setMsg(''); alert('선정되었습니다!');
-    loadMainSession(); loadRecommendations();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+async function admDelRec(row){
+  if(!confirm("이 추천 도서를 삭제하시겠습니까?"))return;
+  setMsg("삭제 중...",true);
+  try{await post({action:"deleteRecommendation",row});setMsg("");loadRecs();}
+  catch(e){setMsg("");alert("오류 발생");}
 }
 
-async function deleteRecommend(rowOrId) {
-  if(!confirm('이 추천 도서를 삭제하시겠습니까?')) return;
-  setMsg('삭제 중...', true);
-  try {
-    await postAction({ action: 'deleteRecommendation', row: rowOrId });
-    setMsg(''); loadRecommendations();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
-}
-
-// ══════════════════════════════════════════
-// 투표
-// ══════════════════════════════════════════
-async function loadVote() {
-  const area = document.getElementById('vote-area');
-  area.innerHTML = `<div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div>`;
-  try {
-    const res = await jsonp({ action: 'getActiveVote', alias: currentUser.alias });
-    if(!res.data || !res.data.vote) {
-      area.innerHTML = `<div class="book-card dimmed">진행 중인 투표가 없습니다.</div>`; return;
-    }
-    const v = res.data.vote;
-    currentVoteId = v.id;
-    const myVote = res.data.myVote;
-    const total  = v.options.reduce((s,o) => s+(o.count||0), 0);
-    const deadline = v.deadline ? `마감: ${v.deadline}` : '';
-
-    area.innerHTML = `
-      <div class="book-card">
-        <div style="font-weight:900; font-size:1.1rem;">${v.title} <span class="badge badge-mint">투표중</span></div>
-        <div style="font-size:0.8rem; color:#aaa; margin-top:4px;">${deadline}</div>
-        <div style="margin-top:18px;">
-          ${v.options.map((opt,i) => `
-            <div style="margin-bottom:18px;">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-weight:${myVote===opt.title?'900':'400'}; font-size:0.95rem;">${opt.title}${myVote===opt.title?' ✓':''}</span>
-                <span style="font-size:0.8rem; color:#888;">${opt.count||0}표 (${total?Math.round((opt.count||0)/total*100):0}%)</span>
+// ══ 투표 ══
+async function loadVote(){
+  d("vote-area").innerHTML=`<div class="card dim"><span class="spin"></span></div>`;
+  try{
+    const r=await jsonp({action:"getActiveVotes",alias:U.alias});
+    if(!r.data||!r.data.length){d("vote-area").innerHTML=`<div class="card dim">진행 중인 투표가 없습니다.</div>`;return;}
+    d("vote-area").innerHTML=r.data.map(v=>{
+      const total=v.options.reduce((s,o)=>s+(o.count||0),0);
+      const myVotes=v.myVotes||[];
+      const isMulti=v.voteType==="multi";
+      return`<div class="card gl" style="margin-bottom:14px;">
+        <div style="font-weight:900;font-size:1.05rem;">${v.title}
+          <span class="badge bm">${isMulti?"복수선택":"단수선택"}</span>
+        </div>
+        <div style="font-size:0.78rem;color:#aaa;margin-top:4px;">마감: ${v.deadline||"미정"}</div>
+        <div style="margin-top:14px;">
+          ${v.options.map(opt=>{
+            const pct=total?Math.round((opt.count||0)/total*100):0;
+            const voted=myVotes.includes(opt.title);
+            return`<div style="margin-bottom:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.92rem;font-weight:${voted?"900":"400"};">${opt.title}${voted?" ✓":""}</span>
+                <span style="font-size:0.78rem;color:#888;">${opt.count||0}표 (${pct}%)</span>
               </div>
-              <div class="vote-bar-wrap"><div class="vote-bar" style="width:${total?Math.round((opt.count||0)/total*100):0}%"></div></div>
-              ${!myVote || myVote===opt.title ? `<button class="btn-mini" onclick="castVote('${v.id}','${opt.title}')" style="margin-top:6px;">
-                ${myVote===opt.title ? '다시 선택하기' : '이 책에 투표'}
-              </button>` : ''}
-            </div>`).join('')}
+              <div class="vbw"><div class="vb" style="width:${pct}%"></div></div>
+              <button class="mini${voted?" r":""}" style="margin-top:4px;"
+                onclick="castVote('${v.id}','${opt.title}',${voted},'${v.voteType}')">
+                ${voted?"선택 취소":"이 책에 투표"}
+              </button>
+            </div>`;
+          }).join("")}
         </div>
-        ${myVote ? `<div style="font-size:0.82rem; color:var(--mint); margin-top:8px; font-weight:700;">현재 투표: ${myVote}</div>` : ''}
+        ${myVotes.length?`<div style="font-size:0.8rem;color:var(--mint);font-weight:700;margin-top:6px;">내 선택: ${myVotes.join(", ")}</div>`:""}
       </div>`;
-  } catch(e) { area.innerHTML = `<div class="book-card dimmed">불러오기 실패</div>`; }
+    }).join("");
+  }catch(e){d("vote-area").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 
-async function castVote(voteId, bookTitle) {
-  setMsg('투표 중...', true);
-  try {
-    await postAction({ action: 'castVote', voteId, bookTitle, alias: currentUser.alias });
-    setMsg(''); loadVote();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+async function castVote(vid,bookTitle,isVoted,voteType){
+  setMsg("처리 중...",true);
+  try{
+    await post({action:"castVote",voteId:vid,bookTitle,alias:U.alias,
+      cancel:isVoted?"true":"false",voteType});
+    setMsg("");loadVote();
+  }catch(e){setMsg("");alert("오류 발생");}
 }
 
-// ══════════════════════════════════════════
-// 아카이브
-// ══════════════════════════════════════════
-async function loadArchive() {
-  const el = document.getElementById('archive-2026');
-  if(el.dataset.loaded) return;
-  el.innerHTML = `<div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div>`;
-  try {
-    const res = await jsonp({ action: 'getArchive', year: '2026' });
-    el.dataset.loaded = '1';
-    if(!res.data || !res.data.length) {
-      el.innerHTML = `<div class="book-card dimmed">아직 완료된 북토크가 없습니다.</div>`; return;
-    }
-    el.innerHTML = res.data.map(b => `
-      <div class="book-card dimmed" style="opacity:0.85;">
-        <div style="font-weight:700; font-size:1.05rem;">${b.title}</div>
-        <div style="font-size:0.85rem; color:var(--lavender); margin-top:4px;">${b.author||''}</div>
-        <div style="display:flex; gap:10px; margin-top:8px; font-size:0.8rem; color:#aaa;">
-          <span>${b.sessionId||''}</span>
-          <span>참석 ${b.attendeeCount||0}명</span>
-          ${b.avgRating ? `<span>★ ${Number(b.avgRating).toFixed(1)}</span>` : ''}
+// ══ 라이브러리 ══
+async function loadLibNew(){
+  if(d("lib-new").dataset.loaded)return;
+  d("lib-new").innerHTML=`<div class="card dim"><span class="spin"></span></div>`;
+  try{
+    const r=await jsonp({action:"getArchive",year:"2026"});
+    d("lib-new").dataset.loaded="1";
+    if(!r.data||!r.data.length){d("lib-new").innerHTML=`<div class="card dim">완료된 북토크가 없습니다.</div>`;return;}
+    d("lib-new").innerHTML=r.data.map(b=>`
+      <div class="card" style="cursor:pointer;" data-sid="${b.sessionId}" onclick="toggleLibDetail(this,'${b.sessionId}')">
+        <div style="font-weight:700;font-size:1rem;">${b.bookTitle}</div>
+        <div style="font-size:0.83rem;color:var(--lav);margin-top:3px;">${b.bookAuthor||""}</div>
+        <div style="display:flex;gap:10px;margin-top:7px;font-size:0.78rem;color:#aaa;">
+          <span>${b.sessionId}</span><span>참석 ${b.attendeeCount||0}명</span>
+          ${b.avgRating?`<span>★ ${parseFloat(b.avgRating).toFixed(1)}</span>`:""}
         </div>
-      </div>`).join('');
-  } catch(e) { el.innerHTML = `<div class="book-card dimmed">불러오기 실패</div>`; }
+        <div style="font-size:0.75rem;color:var(--mint);margin-top:4px;">▶ 소감 & 평점 보기</div>
+        <div class="detail-area"></div>
+      </div>`).join("");
+  }catch(e){d("lib-new").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 
-async function loadArchive2025() {
-  const el = document.getElementById('archive-2025');
-  el.innerHTML = `<div class="book-card dimmed"><span class="spinner"></span> 불러오는 중...</div>`;
-  try {
-    const res = await jsonp({ action: 'getArchive', year: '2025' });
-    el.dataset.loaded = '1';
-    if(!res.data || !res.data.length) {
-      el.innerHTML = `<div class="book-card dimmed">2025년 이전 기록이 없습니다.</div>`; return;
-    }
-    el.innerHTML = res.data.map(b => `
-      <div class="book-card dimmed" style="opacity:0.85;">
-        <div style="font-weight:700; font-size:1.05rem;">${b.title}</div>
-        <div style="font-size:0.85rem; color:var(--lavender); margin-top:4px;">${b.author||''}</div>
-        <div style="display:flex; gap:10px; margin-top:8px; font-size:0.8rem; color:#aaa;">
-          <span>${b.sessionId||b.date||''}</span>
-          <span>참석 ${b.attendeeCount||0}명</span>
-          ${b.avgRating ? `<span>★ ${Number(b.avgRating).toFixed(1)}</span>` : ''}
-        </div>
-      </div>`).join('');
-  } catch(e) { el.innerHTML = `<div class="book-card dimmed">불러오기 실패</div>`; }
+async function toggleLibDetail(el,sid){
+  const da=el.querySelector(".detail-area");
+  if(da.dataset.loaded==="1"){
+    da.classList.toggle("hidden");
+    el.querySelector("[style*='mint']").textContent=da.classList.contains("hidden")?"▶ 소감 & 평점 보기":"▲ 닫기";
+    return;
+  }
+  setMsg("불러오는 중...",true);
+  try{
+    const r=await jsonp({action:"getSessionDetail",sessionId:sid});setMsg("");
+    const dt=r.data;
+    da.dataset.loaded="1";
+    da.innerHTML=`<div style="margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;">
+      ${dt.ratingAvg&&dt.ratingAvg.some(v=>v>0)?`
+        <div style="font-size:0.72rem;color:var(--lav);font-weight:700;letter-spacing:1px;margin-bottom:8px;">항목별 평균 별점</div>
+        ${RLABELS.map((l,i)=>{
+          const av=parseFloat(dt.ratingAvg[i]||0).toFixed(1);
+          const pct=Math.round((dt.ratingAvg[i]||0)/10*100);
+          return`<div style="margin-bottom:7px;">
+            <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+              <span style="color:var(--lav);">${l}</span><span style="font-weight:900;">${av}</span>
+            </div>
+            <div class="vbw"><div class="vb" style="width:${pct}%"></div></div>
+          </div>`;
+        }).join("")}`:""}
+      ${dt.comments&&dt.comments.length?`
+        <div style="font-size:0.72rem;color:var(--lav);font-weight:700;letter-spacing:1px;margin:12px 0 8px;">클러버 소감</div>
+        ${dt.comments.map(c=>`
+          <div style="margin-bottom:8px;padding:8px 10px;background:var(--soft);font-size:0.85rem;line-height:1.6;">
+            <span style="color:var(--mint);font-weight:700;font-size:0.73rem;">${c.alias}</span>
+            <div style="margin-top:3px;color:#555;">${c.comment}</div>
+          </div>`).join("")}`
+      :"<div style='font-size:0.82rem;color:#aaa;margin-top:8px;'>등록된 소감이 없습니다.</div>"}
+    </div>`;
+    el.querySelector("[style*='mint']").textContent="▲ 닫기";
+  }catch(e){setMsg("");alert("불러오기 실패");}
 }
 
-// ══════════════════════════════════════════
-// 분석
-// ══════════════════════════════════════════
-async function loadAnalysis() {
-  const rs = document.getElementById('rating-stats');
-  const ms = document.getElementById('member-stats');
-  rs.innerHTML = `<span class="spinner"></span>`;
-  ms.innerHTML = `<span class="spinner"></span>`;
-  try {
-    const res = await jsonp({ action: 'getAnalysis' });
-    const d = res.data;
-    document.getElementById('stat-members').innerText = d.totalMembers || '–';
-    document.getElementById('stat-books').innerText   = d.totalBooks   || '–';
-
-    // 항목별 평균
-    rs.innerHTML = RATING_LABELS.map((lbl,i) => {
-      const avg = d.ratingAvg ? (d.ratingAvg[i]||0).toFixed(1) : '–';
-      const pct = d.ratingAvg ? Math.round((d.ratingAvg[i]||0)/10*100) : 0;
-      return `<div style="margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; font-size:0.88rem;">
-          <span style="color:var(--lavender); font-weight:700;">${lbl}</span>
-          <span style="font-weight:900;">${avg}</span>
-        </div>
-        <div class="vote-bar-wrap" style="margin-top:4px;"><div class="vote-bar" style="width:${pct}%"></div></div>
-      </div>`;
-    }).join('');
-
-    // 클러버별 평점
-    if(d.memberRatings && d.memberRatings.length) {
-      ms.innerHTML = d.memberRatings.map(m => `
-        <div class="book-card" style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-weight:700;">${m.alias}</span>
-          <span style="font-weight:900; color:var(--mint);">★ ${Number(m.avg).toFixed(1)}</span>
-        </div>`).join('');
-    } else { ms.innerHTML = `<div class="book-card dimmed">데이터 없음</div>`; }
-  } catch(e) { rs.innerHTML = `<div style="color:#aaa;">불러오기 실패</div>`; }
+async function loadLibOld(){
+  d("lib-old").innerHTML=`<div class="card dim"><span class="spin"></span></div>`;
+  try{
+    const r=await jsonp({action:"getArchiveOld"});
+    d("lib-old").dataset.loaded="1";
+    if(!r.data||!Object.keys(r.data).length){d("lib-old").innerHTML=`<div class="card dim">2022–2025 기록이 없습니다.</div>`;return;}
+    d("lib-old").innerHTML=Object.entries(r.data).sort((a,b)=>b[0]-a[0]).map(([yr,books])=>`
+      <div class="yrgrp">
+        <div class="yrttl">${yr}</div>
+        ${books.map(b=>`
+          <div class="morow">
+            <span class="molbl">${b.month||""}월</span>
+            <span style="flex:1;">${b.bookTitle}</span>
+            <span style="font-size:0.78rem;color:#aaa;">${b.bookAuthor||""}</span>
+          </div>`).join("")}
+      </div>`).join("");
+  }catch(e){d("lib-old").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 
-// ══════════════════════════════════════════
-// 관리자 기능
-// ══════════════════════════════════════════
-function addVoteBookRow() {
-  const wrap = document.getElementById('adm-vote-books');
-  const idx = wrap.querySelectorAll('.vote-book-input').length + 1;
-  const div = document.createElement('div');
-  div.className = 'input-group';
-  div.innerHTML = `<span class="input-label">후보 도서 ${idx}</span><input type="text" class="vote-book-input" placeholder="책 제목">`;
+// ══ 관리자 ══
+async function loadAdminData(){
+  loadRecs();
+  try{
+    const r=await jsonp({action:"getActiveVotes",alias:U.alias});
+    d("adm-vote-list").innerHTML=r.data&&r.data.length
+      ?r.data.map(v=>`
+        <div class="card" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.9rem;font-weight:700;">${v.title}</span>
+          <button class="mini r" style="width:auto;padding:6px 14px;" onclick="admDelVote('${v.id}')">삭제</button>
+        </div>`).join("")
+      :`<div class="card dim">진행중 투표 없음</div>`;
+  }catch(e){}
+  try{
+    const r=await jsonp({action:"getSessions"});
+    const active=r.data?r.data.filter(s=>s.status!=="완료"):[];
+    d("adm-sess-list").innerHTML=active.length
+      ?active.map(s=>`
+        <div class="card" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+          <span style="font-size:0.85rem;font-weight:700;flex:1;">${s.sessionId} · ${s.bookTitle}</span>
+          <button class="mini" style="width:auto;padding:6px 12px;flex-shrink:0;" onclick="admCompleteSession('${s.sessionId}')">완료처리</button>
+        </div>`).join("")
+      :`<div class="card dim">예정 세션 없음</div>`;
+  }catch(e){}
+}
+
+async function admSetBook(){
+  const which=d("adm-which").value,title=d("adm-book-title").value.trim();
+  if(!title)return alert("책 제목을 입력하세요.");
+  setMsg("선정 중...",true);
+  try{
+    await post({action:"setBook",which,title,author:d("adm-book-author").value,month:d("adm-book-month").value});
+    setMsg("");alert(`${which==="current"?"이달의":"다음달"} 책으로 선정되었습니다!`);
+    loadMain();loadRecs();
+  }catch(e){setMsg("");alert("오류 발생");}
+}
+
+function addVoteBook(){
+  const wrap=d("adm-vbooks"),n=wrap.querySelectorAll(".vbi").length+1;
+  const div=document.createElement("div");div.className="ig";
+  div.innerHTML=`<span class="il">후보 ${n}</span><input type="text" class="vbi" placeholder="책 제목">`;
   wrap.appendChild(div);
 }
 
-async function createVote() {
-  const title    = document.getElementById('adm-vote-title').value.trim();
-  const books    = [...document.querySelectorAll('.vote-book-input')].map(i=>i.value.trim()).filter(Boolean);
-  const deadline = document.getElementById('adm-vote-deadline').value.trim();
-  if(!title || books.length < 2) return alert('제목과 후보 도서 2개 이상이 필요합니다.');
-  setMsg('생성 중...', true);
-  try {
-    await postAction({ action: 'createVote', title, books: books.join('||'), deadline });
-    setMsg(''); alert('투표가 생성되었습니다!');
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+async function admCreateVote(){
+  const title=d("adm-vtitle").value.trim();
+  const books=[...document.querySelectorAll(".vbi")].map(i=>i.value.trim()).filter(Boolean);
+  const deadline=d("adm-vdeadline").value.trim(),voteType=d("adm-vtype").value;
+  if(!title||books.length<2)return alert("제목과 후보 2개 이상 필요합니다.");
+  setMsg("생성 중...",true);
+  try{
+    await post({action:"createVote",title,books:books.join("||"),deadline,voteType});
+    setMsg("");alert("투표가 생성되었습니다!");
+    d("adm-vtitle").value="";d("adm-vdeadline").value="";
+    document.querySelectorAll(".vbi").forEach(i=>i.value="");
+    loadAdminData();
+  }catch(e){setMsg("");alert("오류 발생");}
 }
 
-async function createSession() {
-  const sessionId = document.getElementById('adm-sess-id').value.trim();
-  const title     = document.getElementById('adm-sess-title').value.trim();
-  if(!sessionId || !title) return alert('회차 ID와 책 제목은 필수입니다.');
-  setMsg('생성 중...', true);
-  try {
-    await postAction({
-      action: 'createSession', sessionId, title,
-      author: document.getElementById('adm-sess-author').value,
-      date:   document.getElementById('adm-sess-date').value,
-    });
-    setMsg(''); alert('세션이 생성되었습니다!');
-    loadMainSession();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+async function admDelVote(id){
+  if(!confirm("이 투표를 삭제하시겠습니까?"))return;
+  setMsg("삭제 중...",true);
+  try{await post({action:"deleteVote",voteId:id});setMsg("");loadAdminData();loadVote();}
+  catch(e){setMsg("");alert("오류 발생");}
 }
 
-async function setNextBook() {
-  const title = document.getElementById('adm-next-title').value.trim();
-  const month = document.getElementById('adm-next-month').value.trim();
-  setMsg('등록 중...', true);
-  try {
-    await postAction({
-      action: 'setNextBook', title,
-      author: document.getElementById('adm-next-author').value,
-      month
-    });
-    setMsg(''); alert('예고가 등록되었습니다!');
-    loadMainSession();
-  } catch(e) { setMsg(''); alert('오류 발생'); }
+async function admCreateSession(){
+  const sid=d("adm-sid").value.trim(),title=d("adm-stitle").value.trim();
+  if(!sid||!title)return alert("회차 ID와 책 제목은 필수입니다.");
+  setMsg("생성 중...",true);
+  try{
+    await post({action:"createSession",sessionId:sid,title,
+      author:d("adm-sauthor").value,date1:d("adm-sd1").value,date2:d("adm-sd2").value});
+    setMsg("");alert("세션이 생성되었습니다!");loadMain();loadAdminData();
+  }catch(e){setMsg("");alert("오류 발생");}
 }
 
-// ══════════════════════════════════════════
-// 초기화
-// ══════════════════════════════════════════
-window.onload = () => showScreen('home-screen');
+async function admCompleteSession(sid){
+  if(!confirm(`세션 ${sid}을 완료 처리하시겠습니까?\n다음달 책이 있으면 이달의 책으로 자동 승격됩니다.`))return;
+  setMsg("처리 중...",true);
+  try{
+    await post({action:"completeSession",sessionId:sid});
+    setMsg("");alert("완료 처리되었습니다!");
+    d("lib-new").dataset.loaded="";loadMain();loadAdminData();
+  }catch(e){setMsg("");alert("오류 발생");}
+}
+
+window.onload=()=>show("s-home");
 </script>
 </body>
 </html>
