@@ -19,13 +19,13 @@
         
         h1 { font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-size: 2.2rem; color: #2F3E30; margin-bottom: 80px; letter-spacing: 4px; cursor: pointer; }
         
-        /* 처음/이음 상하 배치 */
+        /* 버튼 상하 배치 */
         .btn-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
         .btn-base { background: transparent; padding: 14px 0; width: 220px; font-size: 1rem; letter-spacing: 10px; cursor: pointer; transition: 0.4s; font-family: 'Noto Sans KR', sans-serif; font-weight: 300; border-radius: 0; color: var(--main-text); }
         .btn-first { border: 1px solid var(--lavender); }
         .btn-ieum { border: 1px solid var(--mint); }
         
-        /* 입력창 가운데 맞춤 및 예시 텍스트 크기 조정 */
+        /* 입력창 가운데 맞춤 및 예시 텍스트 크기 조절 */
         .input-group { margin-bottom: 30px; text-align: center; width: 100%; }
         .input-label { font-size: 0.85rem; color: var(--lavender); margin-bottom: 10px; display: block; letter-spacing: 1px; }
         input { background: transparent; border: none; border-bottom: 1px solid var(--line); padding: 8px 0; color: var(--main-text); font-weight: 300; outline: none; font-size: 1.1rem; width: 85%; box-sizing: border-box; text-align: center; }
@@ -87,15 +87,21 @@
         <button class="btn-base" style="border:none; font-size:0.8rem; color:var(--lavender); letter-spacing:2px;" onclick="showScreen('home-screen')">이전으로</button>
     </div>
 
+    <div id="dashboard-screen" class="hidden">
+        <p id="welcome-msg" style="text-align: center; margin-bottom: 40px; font-size: 1.2rem;"></p>
+        <div class="section-title">참여 공간</div>
+        <p style="color: var(--lavender);">준비 중인 페이지입니다.</p>
+    </div>
+
     <div id="msg-area"></div>
 </div>
 
 <script>
-    // 사용자님이 새로 발급받으신 URL로 교체되었습니다.
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz8yJ86MQbOGfNhPHXSkLutVR9nnpxvgmJ8F12HEYKdOegmy-W33bhj85KgYHuZ_BD09w/exec";
+    // 사용자님이 새로 발급받으신 최종 URL이 적용되었습니다.
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrEH9N14O_PHK8cM8qatzUZMrH2KgFDWvNcf_f5KWmkCCa0YFBPvlNheeUxosLH3yYw/exec";
 
     function showScreen(id) {
-        ['home-screen', 'register-screen', 'login-screen'].forEach(s => {
+        ['home-screen', 'register-screen', 'login-screen', 'dashboard-screen'].forEach(s => {
             const el = document.getElementById(s);
             if (el) s === id ? el.classList.remove('hidden') : el.classList.add('hidden');
         });
@@ -123,20 +129,37 @@
             });
             document.getElementById('msg-area').innerText = "등록 완료! 로그인 화면으로 이동합니다.";
             setTimeout(() => showScreen('login-screen'), 1500);
-        } catch(e) { document.getElementById('msg-area').innerText = "연결 오류가 발생했습니다."; }
+        } catch(e) { 
+            document.getElementById('msg-area').innerText = "연결 오류가 발생했습니다."; 
+        }
     }
 
     async function handleLogin() {
         const alias = document.getElementById('login-alias').value;
         if(!alias) return;
-        document.getElementById('msg-area').innerText = "확인 중...";
+
+        document.getElementById('msg-area').innerText = "클러버 명부를 확인 중입니다...";
+        
         try {
-            const response = await fetch(`${SCRIPT_URL}?action=login&alias=${encodeURIComponent(alias)}`);
-            const result = await response.json();
+            // CORS 및 리다이렉트 문제를 해결하기 위해 redirect: 'follow'를 사용합니다.
+            const response = await fetch(`${SCRIPT_URL}?action=login&alias=${encodeURIComponent(alias)}`, {
+                method: 'GET',
+                redirect: 'follow'
+            });
+            
+            const text = await response.text();
+            const result = JSON.parse(text);
+
             if(result.status === 'success') {
-                alert(`${result.data.alias}님 반갑습니다.`);
-            } else { document.getElementById('msg-area').innerText = result.message; }
-        } catch(e) { document.getElementById('msg-area').innerText = "통신 오류가 발생했습니다."; }
+                document.getElementById('welcome-msg').innerText = `${result.data.alias} 님, 반갑습니다.`;
+                showScreen('dashboard-screen');
+            } else {
+                document.getElementById('msg-area').innerText = result.message;
+            }
+        } catch(e) {
+            console.error(e);
+            document.getElementById('msg-area').innerText = "통신 오류가 발생했습니다. 앱스 스크립트 배포 설정을 확인해주세요.";
+        }
     }
 
     window.onload = () => showScreen('home-screen');
