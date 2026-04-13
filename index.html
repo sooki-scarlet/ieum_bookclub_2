@@ -10,12 +10,12 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--main);display:flex;justify-content:center;padding-bottom:80px;min-height:100vh;}
 .app{width:100%;max-width:480px;padding:28px 20px 20px;}
-.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
-.logo{font-family:'Nanum Myeongjo',serif;font-size:1.65rem;color:#2F3E30;letter-spacing:5px;cursor:pointer;user-select:none;flex:1;text-align:center;}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.logo{font-family:'Nanum Myeongjo',serif;font-size:1.6rem;color:#2F3E30;letter-spacing:5px;cursor:pointer;user-select:none;flex:1;text-align:center;}
 .logout-btn{font-size:0.68rem;color:#bbb;background:none;border:1px solid var(--line);padding:4px 8px;cursor:pointer;font-family:inherit;}
 .logout-btn:hover{color:var(--red);border-color:var(--red);}
 .utag{font-size:0.68rem;font-weight:300;color:var(--lav);letter-spacing:2px;text-align:center;margin-bottom:12px;}
-.st{font-size:0.7rem;color:var(--lav);margin:18px 0 7px;border-bottom:1px solid var(--line);padding-bottom:4px;font-weight:500;letter-spacing:.5px;}
+.st{font-size:0.7rem;color:var(--lav);margin:16px 0 7px;border-bottom:1px solid var(--line);padding-bottom:4px;font-weight:500;letter-spacing:.5px;}
 .card{background:var(--card);border:1px solid var(--line);padding:13px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,0.03);}
 .card.ml{border-left:5px solid var(--mint);}.card.ll{border-left:5px solid var(--lav);}.card.gl{border-left:5px solid var(--gold);}.card.dim{opacity:.6;}
 .badge{display:inline-block;font-size:0.61rem;padding:2px 6px;border-radius:20px;font-weight:700;margin-left:3px;vertical-align:middle;}
@@ -25,13 +25,13 @@ body{background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--main
 .ntab.on{color:#000;font-weight:900;border-bottom:3px solid var(--mint);}
 .ig{margin-bottom:13px;}
 .il{font-size:0.68rem;color:var(--lav);display:block;font-weight:500;margin-bottom:3px;}
-input[type=text],input[type=number],input[type=password],input[type=date],textarea,select{background:transparent;border:none;border-bottom:1px solid var(--line);padding:7px 0;color:var(--main);width:100%;font-size:0.92rem;outline:none;font-family:inherit;transition:border-color .2s;}
+input[type=text],input[type=number],input[type=password],input[type=date],textarea,select{background:transparent;border:none;border-bottom:1px solid var(--line);padding:7px 0;color:var(--main);width:100%;font-size:0.91rem;outline:none;font-family:inherit;transition:border-color .2s;}
 input::placeholder,textarea::placeholder{font-style:italic;color:#ccc;font-weight:300;}
 input:focus,textarea:focus,select:focus{border-bottom-color:var(--mint);}
 select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;}
 .btn{border:1px solid var(--line);padding:11px 0;width:100%;background:none;font-size:0.9rem;letter-spacing:4px;cursor:pointer;display:block;margin:6px 0;font-family:inherit;color:var(--main);}
 .btn:hover{background:var(--soft);}.btn.m{border-color:var(--mint);color:var(--mint);}.btn.l{border-color:var(--lav);color:var(--lav);}
-.mini{border:1px solid var(--mint);padding:6px 10px;width:100%;background:none;cursor:pointer;font-size:0.78rem;margin-top:7px;font-weight:700;color:var(--mint);font-family:inherit;}
+.mini{border:1px solid var(--mint);padding:6px 10px;width:100%;background:none;cursor:pointer;font-size:0.78rem;margin-top:7px;font-weight:700;color:var(--mint);font-family:inherit;transition:background .12s;}
 .mini:hover{background:#E6F0EA;}.mini.r{border-color:var(--red);color:var(--red);}.mini.r:hover{background:#FAEAEA;}
 .mini.l{border-color:var(--lav);color:var(--lav);}.mini.g{border-color:var(--gold);color:var(--gold);}
 .mini.sm{padding:4px 8px;font-size:0.71rem;margin-top:3px;}
@@ -39,21 +39,23 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
 .ghost{background:none;border:none;font-size:0.7rem;color:var(--lav);cursor:pointer;display:block;margin:3px auto 0;font-family:inherit;}
 .hbtns{display:flex;gap:12px;margin-top:36px;}.hbtns .btn{flex:1;padding:17px 0;font-size:0.92rem;letter-spacing:7px;}
 
-/* 참석 체크 */
-.chkrow{display:flex;gap:8px;margin-bottom:6px;}
+/* 참석 */
+.chkrow{display:flex;gap:8px;margin-bottom:4px;}
 .chkwrap{flex:1;text-align:center;}
-.chkbox{width:100%;border:1px solid var(--line);padding:9px;text-align:center;cursor:pointer;font-size:0.8rem;font-weight:700;color:#bbb;}
+.chkbox{width:100%;border:1px solid var(--line);padding:9px;text-align:center;cursor:pointer;font-size:0.8rem;font-weight:700;color:#bbb;transition:all .15s;}
 .chkbox.done{border-color:var(--mint);color:var(--mint);background:#E6F0EA;}
-.chkbox.loading{opacity:.5;pointer-events:none;}
-.chkdate{font-size:0.69rem;color:var(--lav);margin-top:3px;}
+.chkbox:hover:not(.done){background:var(--soft);}
+.chkdate{font-size:0.68rem;color:var(--lav);margin-top:3px;}
 
-/* 소감/서평 섹션 */
-.entry-section{background:var(--soft);border:1px solid var(--line);padding:12px;margin-top:8px;}
-.entry-section.active{border-color:var(--mint);background:#F0F7F3;}
+/* 소감/서평 - 인라인 입력 */
+.entry-box{background:var(--soft);border-left:3px solid var(--mint);padding:11px 12px;margin-top:8px;}
+.entry-box .il{color:var(--mint);font-weight:700;}
+.entry-done{background:#F0F7F3;border-left:3px solid var(--mint);padding:10px 12px;margin-top:6px;}
+.entry-done-txt{font-size:0.84rem;line-height:1.6;color:#333;}
 
 /* 별점 */
 .rrow{display:flex;align-items:center;margin-bottom:8px;gap:6px;}
-.rrow label{flex:0 0 62px;font-size:0.75rem;color:var(--lav);font-weight:500;}
+.rrow label{flex:0 0 60px;font-size:0.74rem;color:var(--lav);font-weight:500;}
 .rrow input[type=range]{flex:1;border:none;padding:0;accent-color:var(--mint);height:4px;}
 .rrow .rv{flex:0 0 19px;text-align:right;font-weight:900;font-size:0.79rem;}
 
@@ -61,48 +63,42 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
 .vbw{background:var(--line);border-radius:2px;height:5px;margin:3px 0;overflow:hidden;}
 .vb{background:var(--mint);height:100%;border-radius:2px;transition:width .5s;}
 
-/* 필터 탭 */
-.ftabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;}
-.ftab{padding:3px 9px;border:1px solid var(--line);font-size:0.71rem;cursor:pointer;color:#888;background:none;font-family:inherit;}
+/* 필터 */
+.ftabs{display:flex;gap:4px;margin-bottom:9px;flex-wrap:wrap;}
+.ftab{padding:3px 9px;border:1px solid var(--line);font-size:0.7rem;cursor:pointer;color:#888;background:none;font-family:inherit;}
 .ftab.on{border-color:var(--mint);color:var(--mint);font-weight:700;background:#E6F0EA;}
 
-/* 참여자 */
+/* 참여자 블록 */
 .mblock{border:1px solid var(--line);margin-bottom:6px;}
-.mhdr{padding:8px 11px;background:var(--soft);display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.mhdr{padding:7px 11px;background:var(--soft);display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
 .mname{font-size:0.8rem;font-weight:700;color:var(--mint);}
-.mbody{padding:10px 11px;display:none;}.mbody.open{display:block;}
+.mbody{padding:9px 11px;display:none;}.mbody.open{display:block;}
 .erow{margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--line);}
 .erow:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.elbl{font-size:0.63rem;color:var(--lav);font-weight:700;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase;}
+.elbl{font-size:0.62rem;color:var(--lav);font-weight:700;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase;}
 .etxt{font-size:0.83rem;line-height:1.6;color:#444;}
 .epanel{background:#F0F7F3;border:1px solid var(--mint);padding:11px;margin-top:6px;}
 
-/* 아카이브 탭 */
+/* 아카이브 */
 .atabs{display:flex;border-bottom:2px solid var(--line);margin-bottom:10px;}
 .atab{padding:5px 12px;cursor:pointer;font-size:0.79rem;font-weight:500;color:#bbb;border-bottom:3px solid transparent;margin-bottom:-2px;}
 .atab.on{color:var(--mint);font-weight:700;border-bottom-color:var(--mint);}
-
-/* 아카이브 카드 */
-.arc-card{background:var(--card);border:1px solid var(--line);padding:11px 13px;margin-bottom:7px;cursor:pointer;}
+.arc-card{background:var(--card);border:1px solid var(--line);padding:10px 12px;margin-bottom:6px;cursor:pointer;}
 .arc-card:hover{background:var(--soft);}
-
-/* 연도별 */
 .yrgrp{margin-bottom:14px;}.yrttl{font-size:0.7rem;color:var(--gold);font-weight:900;letter-spacing:3px;border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:6px;}
-.morow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--line);font-size:0.84rem;}
-.morow:last-child{border-bottom:none;}.molbl{color:var(--lav);font-size:0.69rem;font-weight:700;flex:0 0 28px;}
+.morow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--line);font-size:0.83rem;}
+.morow:last-child{border-bottom:none;}.molbl{color:var(--lav);font-size:0.68rem;font-weight:700;flex:0 0 28px;}
 
 /* 관리자 */
-.adm-wrap{background:#FFF9F0;border:1px dashed #E0B870;padding:12px;margin-bottom:9px;}
-.adm-lbl{font-size:0.63rem;color:#C07820;font-weight:900;letter-spacing:2px;margin-bottom:7px;}
+.adm-wrap{background:#FFF9F0;border:1px dashed #E0B870;padding:12px;margin-bottom:8px;}
+.adm-lbl{font-size:0.62rem;color:#C07820;font-weight:900;letter-spacing:2px;margin-bottom:7px;}
 
-/* 추천도서 카드 - 2줄 */
-.rec-card{background:var(--card);border:1px solid var(--line);padding:10px 12px;margin-bottom:7px;}
-.rec-title{font-size:0.95rem;font-weight:700;}
-.rec-sub{font-size:0.75rem;color:var(--lav);margin-top:1px;}
+/* 추천 카드 */
+.rec-card{background:var(--card);border:1px solid var(--line);padding:10px 12px;margin-bottom:6px;}
 
 .spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--mint);border-radius:50%;animation:sp .6s linear infinite;vertical-align:middle;margin-right:4px;}
 @keyframes sp{to{transform:rotate(360deg);}}
-#msg{font-size:0.74rem;color:var(--lav);text-align:center;margin:6px 0;min-height:13px;}
+#msg{font-size:0.73rem;color:var(--lav);text-align:center;margin:6px 0;min-height:13px;}
 .hidden{display:none!important;}
 .fade{animation:fd .18s ease;}
 @keyframes fd{from{opacity:0;transform:translateY(2px);}to{opacity:1;transform:translateY(0);}}
@@ -111,29 +107,20 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
 <body>
 <div class="app">
   <div class="top-bar">
-    <div style="width:52px;"></div>
+    <div style="width:50px;"></div>
     <div class="logo" onclick="clickLogo()">이음북클럽</div>
     <button class="logout-btn hidden" id="logout-btn" onclick="doLogout()">나가기</button>
   </div>
   <div class="utag hidden" id="utag"></div>
 
-  <!-- 홈 -->
-  <div id="s-home">
-    <div class="hbtns">
-      <button class="btn l" onclick="show('s-reg')">처음</button>
-      <button class="btn m" onclick="show('s-login')">이음</button>
-    </div>
-  </div>
+  <div id="s-home"><div class="hbtns"><button class="btn l" onclick="show('s-reg')">처음</button><button class="btn m" onclick="show('s-login')">이음</button></div></div>
 
-  <!-- 등록 -->
   <div id="s-reg" class="hidden">
     <div class="st">신규 클러버 등록</div>
     <div class="ig"><span class="il">별칭 *</span><input type="text" id="r-alias" placeholder="이음책방에서 불릴 이름"></div>
     <div class="ig"><span class="il">성함 *</span><input type="text" id="r-name" placeholder="실명"></div>
     <div class="ig"><span class="il">출생년도 *</span><input type="number" id="r-birth" placeholder="1985"></div>
-    <div class="ig"><span class="il">직업분류</span>
-      <select id="r-job"><option>관리자/전문가</option><option>사무직</option><option>서비스/판매</option><option>농림어업</option><option>기능원</option><option>단순노무</option><option>군인</option><option>무직/기타</option></select>
-    </div>
+    <div class="ig"><span class="il">직업분류</span><select id="r-job"><option>관리자/전문가</option><option>사무직</option><option>서비스/판매</option><option>농림어업</option><option>기능원</option><option>단순노무</option><option>군인</option><option>무직/기타</option></select></div>
     <div class="ig"><span class="il">감정노동 여부</span><select id="r-emo"><option>예</option><option>아니오</option></select></div>
     <div class="ig"><span class="il">거주지</span><input type="text" id="r-loc" placeholder="부천시 원미구"></div>
     <div class="ig"><span class="il">성별</span><select id="r-gender"><option>여성</option><option>남성</option><option>비공개</option></select></div>
@@ -141,7 +128,6 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
     <button class="ghost" onclick="show('s-home')">← 이전으로</button>
   </div>
 
-  <!-- 로그인 -->
   <div id="s-login" class="hidden">
     <div class="st">이음</div>
     <div class="ig"><span class="il">별칭</span><input type="text" id="l-alias" placeholder="별칭 입력" oninput="onAliasInput()" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -150,7 +136,6 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
     <button class="ghost" onclick="show('s-home')">← 이전으로</button>
   </div>
 
-  <!-- 대시보드 -->
   <div id="s-dash" class="hidden">
     <div id="t-main" class="fade">
       <div id="main-content"><div class="card"><span class="spin"></span> 불러오는 중...</div></div>
@@ -188,14 +173,12 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
           <div class="ig"><span class="il">책 제목</span><input type="text" id="adm-book-title"></div>
           <div class="ig"><span class="il">저자</span><input type="text" id="adm-book-author"></div>
           <div class="ig"><span class="il">월 (숫자)</span><input type="number" id="adm-book-month" placeholder="5"></div>
-          <div class="btn-row">
-            <button class="mini" onclick="admSetBook('current')">이달의 책</button>
-            <button class="mini l" onclick="admSetBook('next')">다음달 책</button>
-          </div>
+          <div class="btn-row"><button class="mini" onclick="admSetBook('current')">이달의 책</button><button class="mini l" onclick="admSetBook('next')">다음달 책</button></div>
+          <div style="font-size:0.67rem;color:#aaa;margin-top:5px;">※ 모임 날짜는 북토크 세션에서 입력</div>
         </div>
         <div class="st">북토크 세션 생성 / 수정</div>
         <div class="card" style="margin-bottom:8px;">
-          <div class="ig"><span class="il">추천도서에서 선택 (선택사항)</span><select id="adm-sess-pick"><option value="">— 이달의 책 자동연동 —</option></select></div>
+          <div class="ig"><span class="il">추천도서에서 책 선택</span><select id="adm-sess-pick"><option value="">— 이달의 책 자동연동 —</option></select></div>
           <div class="ig"><span class="il">회차 ID *</span><input type="text" id="adm-sid" placeholder="2604_1"></div>
           <div class="ig"><span class="il">책 제목</span><input type="text" id="adm-stitle"></div>
           <div class="ig"><span class="il">저자</span><input type="text" id="adm-sauthor"></div>
@@ -208,7 +191,7 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
           <div class="ig"><span class="il">투표 제목</span><input type="text" id="adm-vtitle" placeholder="5월 이음책 선정 투표"></div>
           <div class="ig"><span class="il">투표 방식</span><select id="adm-vtype"><option value="single">단수선택</option><option value="multi">복수선택</option></select></div>
           <div class="ig"><span class="il">마감일</span><input type="date" id="adm-vdeadline"></div>
-          <div style="font-size:0.68rem;color:#aaa;margin-bottom:6px;">추천 목록에서 후보 도서 선택</div>
+          <div style="font-size:0.67rem;color:#aaa;margin-bottom:6px;">추천 목록에서 후보 선택</div>
           <div id="adm-vbooks">
             <div class="ig"><span class="il">후보 1</span><select class="vbi-sel"><option value="">— 선택 —</option></select></div>
             <div class="ig"><span class="il">후보 2</span><select class="vbi-sel"><option value="">— 선택 —</option></select></div>
@@ -239,7 +222,10 @@ const SCRIPT_URL  = "https://script.google.com/macros/s/AKfycbzDdIMiPZAVrblpXuZe
 const ADMIN_ALIAS = "이음1";
 const ADMIN_PW    = "1111";
 const RLABELS     = ["전환","생각변화","감동","울림","문장","배움"];
-let U=null, _ci=0, _dash=null; // _dash: 캐시된 대시보드 데이터
+let U=null, _ci=0, _dash=null;
+
+// ── 로컬 상태: 참석 여부를 서버 응답 없이 즉시 반영 ──
+let _localAttend = {1: false, 2: false}; // 현재 세션 참석 상태
 
 const d = id => document.getElementById(id);
 const setMsg = (t,ld=false) => d("msg").innerHTML=ld?`<span class="spin"></span>${t}`:t;
@@ -248,9 +234,9 @@ const fmtDate = ds => {
   try{
     if(!ds||String(ds).trim()==="") return "";
     const dt=new Date(ds);
-    if(isNaN(dt.getTime())) return String(ds);
+    if(isNaN(dt.getTime())) return "";
     return `${dt.getMonth()+1}/${dt.getDate()}`;
-  }catch(e){ return String(ds||""); }
+  }catch(e){ return ""; }
 };
 
 function show(id){
@@ -259,14 +245,13 @@ function show(id){
 }
 function clickLogo(){ if(!U) show("s-home"); }
 function doLogout(){
-  U=null; _dash=null;
+  U=null; _dash=null; _localAttend={1:false,2:false};
   ["logout-btn","utag","bnav"].forEach(id=>d(id).classList.add("hidden"));
   d("nt-admin").classList.add("hidden");
   d("l-alias").value=""; d("l-pw").value="";
   show("s-home");
 }
 
-// JSONP
 function jsonp(p){
   return new Promise((res,rej)=>{
     const cb="__cb"+(++_ci);
@@ -284,7 +269,6 @@ async function post(p){
   await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
 }
 
-// 탭 전환
 function switchTab(t){
   ["main","rec","vote","lib","admin"].forEach(x=>{
     d("t-"+x).classList.add("hidden");
@@ -308,7 +292,7 @@ function onAliasInput(){
   d("pw-group").classList[d("l-alias").value.trim()===ADMIN_ALIAS?"remove":"add"]("hidden");
 }
 
-// 등록
+// ══ 등록 ══
 async function doRegister(){
   const alias=d("r-alias").value.trim(),name=d("r-name").value.trim(),birth=d("r-birth").value.trim();
   if(!alias||!name||!birth) return alert("별칭, 성함, 출생년도는 필수입니다.");
@@ -316,11 +300,11 @@ async function doRegister(){
   try{
     await post({action:"register",alias,name,birth,job:d("r-job").value,
       emotionalLabor:d("r-emo").value,location:d("r-loc").value,gender:d("r-gender").value});
-    setMsg(""); alert("등록되었습니다! 이음 메뉴에서 로그인해 주세요."); show("s-login");
+    setMsg(""); alert("등록되었습니다!"); show("s-login");
   }catch(e){setMsg(""); alert("오류 발생");}
 }
 
-// 로그인
+// ══ 로그인 ══
 async function doLogin(){
   const alias=d("l-alias").value.trim();
   if(!alias) return alert("별칭을 입력하세요.");
@@ -333,7 +317,7 @@ async function doLogin(){
     const r=await jsonp({action:"login",alias}); setMsg("");
     if(r.status==="success"){ U=r.data; enterDash(); }
     else alert(r.message||"등록된 별칭이 없습니다.");
-  }catch(e){setMsg(""); alert("연결 오류. 잠시 후 다시 시도해 주세요.");}
+  }catch(e){setMsg(""); alert("연결 오류.");}
 }
 function enterDash(){
   d("utag").innerText=`${U.alias} 이음`;
@@ -346,24 +330,33 @@ function enterDash(){
 }
 
 // ══════════════════════════════════════════
-// 메인 - 한 번 로드 후 부분 업데이트
+// 메인 로드 (최초 1회 + 명시적 갱신 시)
 // ══════════════════════════════════════════
-async function loadMain(forceRefresh=false){
-  if(!forceRefresh && _dash){
-    renderMain(_dash); return;
-  }
+async function loadMain(){
   d("main-content").innerHTML=`<div class="card"><span class="spin"></span> 불러오는 중...</div>`;
   try{
     const r=await jsonp({action:"getDashboard",alias:U.alias});
     if(r.status!=="success") throw new Error(r.message||"오류");
     _dash=r.data;
-    renderMain(_dash);
+    // 로컬 참석 상태 동기화
+    if(_dash.session){
+      const a1=(_dash.session.attend1||"").split(",").filter(Boolean);
+      const a2=(_dash.session.attend2||"").split(",").filter(Boolean);
+      _localAttend[1]=a1.includes(U.alias);
+      _localAttend[2]=a2.includes(U.alias);
+    }
+    renderMain();
   }catch(e){
-    d("main-content").innerHTML=`<div class="card dim">데이터를 불러올 수 없습니다.<br><span style="font-size:0.73rem;color:#aaa;">Apps Script 배포를 확인해 주세요.</span></div>`;
+    d("main-content").innerHTML=`<div class="card dim">데이터를 불러올 수 없습니다.<br><span style="font-size:0.71rem;color:#aaa;">Apps Script 배포를 확인해 주세요.</span></div>`;
   }
 }
 
-function renderMain(dt){
+// ══════════════════════════════════════════
+// 메인 렌더링 (로컬 상태 기반 - API 호출 없음)
+// ══════════════════════════════════════════
+function renderMain(){
+  if(!_dash){ loadMain(); return; }
+  const dt=_dash;
   let html="";
 
   // 이달의 책
@@ -371,21 +364,20 @@ function renderMain(dt){
   if(dt.current&&dt.current.bookTitle){
     const c=dt.current;
     html+=`<div class="card ml">
-      <div style="font-size:1.18rem;font-weight:900;line-height:1.4;">${c.bookTitle}</div>
+      <div style="font-size:1.15rem;font-weight:900;line-height:1.4;">${c.bookTitle}</div>
       <div style="font-size:0.82rem;color:var(--lav);margin-top:2px;">${c.bookAuthor||""}</div>
-      <div style="margin-top:4px;"><span class="badge ${c.status==="완료"?"bg":"bm"}">${c.status||"진행중"}</span>${c.month?`<span style="font-size:0.68rem;color:#bbb;margin-left:4px;">${c.month}월</span>`:""}</div>
+      <div style="margin-top:4px;"><span class="badge ${c.status==="완료"?"bg":"bm"}">${c.status||"진행중"}</span>${c.month?`<span style="font-size:0.67rem;color:#bbb;margin-left:4px;">${c.month}월</span>`:""}</div>
     </div>`;
   } else {
-    html+=`<div class="card dim">이달의 책이 아직 선정되지 않았습니다.${U.isAdmin?` <button class="mini sm" onclick="switchTab('admin')" style="display:inline;width:auto;padding:3px 8px;">관리자 탭</button>`:""}</div>`;
+    html+=`<div class="card dim">이달의 책이 아직 선정되지 않았습니다.${U.isAdmin?` <button class="mini sm" onclick="switchTab('admin')" style="display:inline;width:auto;padding:2px 7px;margin:0 0 0 6px;">관리자탭</button>`:""}</div>`;
   }
 
   // 다음달
   html+=`<div class="st">다음 달 예고</div>`;
   if(dt.next&&dt.next.title){
-    html+=`<div class="card ll">
-      <div style="font-size:0.96rem;font-weight:700;">${dt.next.title}</div>
-      <div style="font-size:0.8rem;color:var(--lav);margin-top:2px;">${dt.next.author||""}</div>
-      <div style="margin-top:4px;"><span class="badge bl">확정</span>${dt.next.month?`<span style="font-size:0.68rem;color:#bbb;margin-left:4px;">${dt.next.month}월</span>`:""}</div>
+    html+=`<div class="card ll"><div style="font-size:0.95rem;font-weight:700;">${dt.next.title}</div>
+      <div style="font-size:0.79rem;color:var(--lav);margin-top:2px;">${dt.next.author||""}</div>
+      <div style="margin-top:4px;"><span class="badge bl">확정</span>${dt.next.month?`<span style="font-size:0.67rem;color:#bbb;margin-left:4px;">${dt.next.month}월</span>`:""}</div>
     </div>`;
   } else {
     html+=`<div class="card dim">아직 선정되지 않았습니다.</div>`;
@@ -395,36 +387,41 @@ function renderMain(dt){
   html+=`<div class="st">이달의 북토크</div>`;
   if(dt.session&&dt.session.sessionId){
     const s=dt.session;
-    const a1=(s.attend1||"").split(",").filter(Boolean).includes(U.alias);
-    const a2=(s.attend2||"").split(",").filter(Boolean).includes(U.alias);
     const isDone=s.status==="완료";
+    const a1=_localAttend[1]; // 로컬 상태 사용
+    const a2=_localAttend[2];
     const myS1=dt.mySensing1, myS2=dt.mySensing2, myR=dt.myRating;
 
-    html+=`<div class="card ml" id="session-card">
+    html+=`<div class="card ml">
       <div style="font-size:1rem;font-weight:900;">${s.bookTitle}</div>
       <div style="font-size:0.8rem;color:var(--lav);margin-top:1px;">${s.bookAuthor||""}</div>
-      <div style="margin-top:4px;"><span class="badge ${isDone?"bg":"bm"}">${s.status||"예정"}</span><span style="font-size:0.68rem;color:#bbb;margin-left:4px;">${s.sessionId}</span></div>
+      <div style="margin-top:4px;"><span class="badge ${isDone?"bg":"bm"}">${s.status||"예정"}</span><span style="font-size:0.67rem;color:#bbb;margin-left:4px;">${s.sessionId}</span></div>
 
       ${!isDone?`
       <div class="st" style="margin-top:11px;">참여 체크</div>
       <div class="chkrow">
         <div class="chkwrap">
-          <div class="chkbox${a1?" done":""}" id="chk1" onclick="doAttend('${s.sessionId}',1,${a1})">
+          <div class="chkbox${a1?" done":""}" id="chk1" onclick="toggleAttend('${s.sessionId}',1)">
             ${a1?"✓ 1회 참석":"1회 참석"}
           </div>
           ${s.date1?`<div class="chkdate">${fmtDate(s.date1)}</div>`:""}
         </div>
         <div class="chkwrap">
-          <div class="chkbox${a2?" done":""}" id="chk2" onclick="doAttend('${s.sessionId}',2,${a2})">
+          <div class="chkbox${a2?" done":""}" id="chk2" onclick="toggleAttend('${s.sessionId}',2)">
             ${a2?"✓ 2회 참석":"2회 참석"}
           </div>
           ${s.date2?`<div class="chkdate">${fmtDate(s.date2)}</div>`:""}
         </div>
       </div>`:""}
 
-      ${a1||isDone?renderSensingSection(s.sessionId,1,myS1):""}
-      ${a2||isDone?renderSensingSection(s.sessionId,2,myS2):""}
-      ${a1||a2||isDone?renderReviewSection(s.sessionId,myR):""}
+      <!-- 1회 소감 (1회 참석했을 때만) -->
+      <div id="section-s1">${a1||isDone ? renderSensing(s.sessionId,1,myS1) : ""}</div>
+
+      <!-- 2회 소감 (2회 참석했을 때만) -->
+      <div id="section-s2">${a2||isDone ? renderSensing(s.sessionId,2,myS2) : ""}</div>
+
+      <!-- 서평+별점 (1회 또는 2회 참석 후) -->
+      <div id="section-review">${a1||a2||isDone ? renderReview(s.sessionId,myR) : ""}</div>
     </div>`;
 
     // 전체 참여자
@@ -432,51 +429,71 @@ function renderMain(dt){
       html+=renderAllSection(dt.allEntries);
     }
   } else {
-    html+=`<div class="card dim">북토크가 아직 설정되지 않았습니다.${U.isAdmin?`<br><button class="mini sm" onclick="switchTab('admin')" style="display:inline-block;width:auto;margin-top:6px;padding:4px 10px;">→ 세션 생성하기</button>`:""}</div>`;
+    html+=`<div class="card dim">북토크가 아직 설정되지 않았습니다.${U.isAdmin?`<br><button class="mini sm" onclick="switchTab('admin')" style="display:inline-block;width:auto;margin-top:6px;">→ 세션 생성하기</button>`:""}</div>`;
   }
 
   d("main-content").innerHTML=html;
 }
 
-// ── 참석 (페이지 새로고침 없이) ──
-async function doAttend(sid,num,isOn){
+// ── 참석 토글: 즉시 UI 반영 + 백그라운드 저장 ──
+function toggleAttend(sid, num){
+  const isOn=_localAttend[num];
+  // 즉시 로컬 상태 변경
+  _localAttend[num]=!isOn;
+
+  // UI 즉시 업데이트 (버튼만)
   const btn=d(`chk${num}`);
-  if(btn){ btn.classList.add("loading"); btn.innerText="처리중..."; }
-  try{
-    await post({action:isOn?"cancelAttend":"attend",sessionId:sid,alias:U.alias,num});
-    _dash=null; // 캐시 초기화
-    await loadMain(true); // 새로 로드
-  }catch(e){
-    if(btn){ btn.classList.remove("loading"); btn.innerText=isOn?"✓ "+num+"회 참석":num+"회 참석"; }
-    alert("오류 발생");
+  if(btn){
+    if(_localAttend[num]){ btn.classList.add("done"); btn.innerText=`✓ ${num}회 참석`; }
+    else { btn.classList.remove("done"); btn.innerText=`${num}회 참석`; }
   }
+
+  // 소감/서평 섹션 즉시 열기/닫기
+  updateEntrySections(sid);
+
+  // 백그라운드로 서버 저장
+  post({action:isOn?"cancelAttend":"attend",sessionId:sid,alias:U.alias,num})
+    .catch(()=>{ alert("저장 오류 - 다시 시도해 주세요."); _localAttend[num]=isOn; renderMain(); });
 }
 
-// ── 소감 섹션 ──
-function renderSensingSection(sid,num,my){
+// 소감/서평 섹션 즉시 업데이트
+function updateEntrySections(sid){
+  const myS1=_dash?_dash.mySensing1:null;
+  const myS2=_dash?_dash.mySensing2:null;
+  const myR=_dash?_dash.myRating:null;
+
+  const s1=d("section-s1"), s2=d("section-s2"), sr=d("section-review");
+  if(s1) s1.innerHTML=_localAttend[1] ? renderSensing(sid,1,myS1) : "";
+  if(s2) s2.innerHTML=_localAttend[2] ? renderSensing(sid,2,myS2) : "";
+  if(sr) sr.innerHTML=(_localAttend[1]||_localAttend[2]) ? renderReview(sid,myR) : "";
+}
+
+// ── 소감 렌더 ──
+function renderSensing(sid,num,my){
   const has=my&&my.comment;
   return `<div class="st">${num}회 소감</div>
-    <div id="sensing-area-${num}">
+    <div id="sensing-wrap-${num}">
     ${has?`
-      <div class="entry-section active">
-        <div style="font-size:0.84rem;line-height:1.6;color:#333;">${my.comment}</div>
+      <div class="entry-done">
+        <div class="entry-done-txt">${my.comment}</div>
         <div class="btn-row">
-          <button class="mini sm l" onclick="showEditSensing(${num},'${sid}','${esc(my.comment)}')">수정</button>
+          <button class="mini sm" onclick="openEditSensing(${num},'${sid}','${esc(my.comment)}')">수정</button>
           <button class="mini sm r" onclick="delSensing('${sid}',${num})">삭제</button>
         </div>
         <div id="edit-sensing-${num}" class="hidden"></div>
       </div>`
-    :`<div class="entry-section">
-        <textarea id="st-${num}" placeholder="${num}회 북토크 참여 소감을 남겨주세요" style="min-height:48px;background:transparent;"></textarea>
+    :`<div class="entry-box">
+        <span class="il">${num}회 북토크 참여 소감</span>
+        <textarea id="st-${num}" placeholder="오늘 북토크에서 느낀 것을 자유롭게 남겨주세요" style="background:transparent;min-height:56px;"></textarea>
         <button class="mini sm" onclick="submitSensing('${sid}',${num})">소감 남기기</button>
       </div>`}
     </div>`;
 }
-function showEditSensing(num,sid,cur){
+function openEditSensing(num,sid,cur){
   const el=d(`edit-sensing-${num}`);
   if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; }
-  el.innerHTML=`<div style="margin-top:8px;">
-    <textarea id="edit-st-${num}" style="min-height:48px;background:transparent;">${cur}</textarea>
+  el.innerHTML=`<div style="margin-top:7px;">
+    <textarea id="edit-st-${num}" style="min-height:50px;background:transparent;">${cur}</textarea>
     <div class="btn-row">
       <button class="mini sm" onclick="saveSensing('${sid}',${num})">저장</button>
       <button class="ghost" onclick="d('edit-sensing-${num}').classList.add('hidden')">취소</button>
@@ -485,42 +502,49 @@ function showEditSensing(num,sid,cur){
   el.classList.remove("hidden");
 }
 async function submitSensing(sid,num,isEdit=false){
-  const txt=(d(isEdit?`edit-st-${num}`:`st-${num}`)?.value||"").trim();
+  const el=d(isEdit?`edit-st-${num}`:`st-${num}`);
+  const txt=(el?.value||"").trim();
   if(!txt) return alert("소감을 입력해주세요.");
   setMsg("저장 중...",true);
   try{
     await post({action:"submitSensing",sessionId:sid,alias:U.alias,num,comment:txt});
-    setMsg(""); _dash=null; loadMain(true);
+    setMsg("");
+    // 로컬 캐시 업데이트
+    if(_dash){ if(num==1) _dash.mySensing1={comment:txt}; else _dash.mySensing2={comment:txt}; }
+    updateEntrySections(sid);
   }catch(e){setMsg(""); alert("오류 발생");}
 }
 const saveSensing=(sid,num)=>submitSensing(sid,num,true);
 async function delSensing(sid,num){
   if(!confirm("소감을 삭제하시겠습니까?")) return;
   setMsg("삭제 중...",true);
-  try{ await post({action:"deleteSensing",sessionId:sid,alias:U.alias,num}); setMsg(""); _dash=null; loadMain(true); }
-  catch(e){setMsg(""); alert("오류 발생");}
+  try{
+    await post({action:"deleteSensing",sessionId:sid,alias:U.alias,num});
+    setMsg("");
+    if(_dash){ if(num==1) _dash.mySensing1=null; else _dash.mySensing2=null; }
+    updateEntrySections(sid);
+  }catch(e){setMsg(""); alert("오류 발생");}
 }
 
-// ── 서평+별점 섹션 ──
-function renderReviewSection(sid,myR){
+// ── 서평+별점 렌더 ──
+function renderReview(sid,myR){
   if(myR&&myR.hasReview){
     return `<div class="st">서평 & 별점</div>
-      <div class="entry-section active">
-        <div style="font-size:0.84rem;line-height:1.6;color:#333;">${myR.comment||""}</div>
-        <div style="font-size:0.75rem;color:var(--mint);font-weight:700;margin-top:4px;">평균 ★ ${parseFloat(myR.avgRating||0).toFixed(1)}</div>
-        <div style="margin-top:2px;">${RLABELS.map((l,i)=>`<span style="font-size:0.67rem;color:#888;margin-right:4px;">${l} ${parseFloat(myR["r"+i]||0).toFixed(0)}</span>`).join("")}</div>
+      <div class="entry-done">
+        <div class="entry-done-txt">${myR.comment||""}</div>
+        <div style="font-size:0.74rem;color:var(--mint);font-weight:700;margin-top:4px;">평균 ★ ${parseFloat(myR.avgRating||0).toFixed(1)}</div>
+        <div style="margin-top:2px;">${RLABELS.map((l,i)=>`<span style="font-size:0.66rem;color:#888;margin-right:4px;">${l} ${parseFloat(myR["r"+i]||0).toFixed(0)}</span>`).join("")}</div>
         <div class="btn-row">
-          <button class="mini sm l" onclick="showEditReview('${sid}')">수정</button>
+          <button class="mini sm" onclick="openEditReview('${sid}')">수정</button>
           <button class="mini sm r" onclick="delReview('${sid}')">삭제</button>
         </div>
         <div id="edit-review" class="hidden"></div>
       </div>`;
   }
   return `<div class="st">서평 & 별점 (책에 대한 100자 평)</div>
-    <div class="entry-section">
-      <div class="ig"><span class="il">서평 (100자)</span>
-        <textarea id="rp-c" maxlength="100" placeholder="이 책에 대한 나의 100자 서평" style="background:transparent;"></textarea>
-      </div>
+    <div class="entry-box">
+      <span class="il">서평 (100자)</span>
+      <textarea id="rp-c" maxlength="100" placeholder="이 책에 대한 나의 100자 서평" style="background:transparent;min-height:50px;"></textarea>
       ${RLABELS.map((l,i)=>`<div class="rrow">
         <label>${l}</label>
         <input type="range" min="1" max="10" value="5" id="rp-r${i}" oninput="d('rp-rv${i}').innerText=this.value">
@@ -529,13 +553,12 @@ function renderReviewSection(sid,myR){
       <button class="mini sm" onclick="submitReview('${sid}')">서평 & 별점 제출</button>
     </div>`;
 }
-function showEditReview(sid){
+function openEditReview(sid){
   const el=d("edit-review");
   if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; }
-  el.innerHTML=`<div style="margin-top:8px;">
-    <div class="ig"><span class="il">서평 수정 (100자)</span>
-      <textarea id="edit-rc" maxlength="100" style="background:transparent;"></textarea>
-    </div>
+  el.innerHTML=`<div style="margin-top:7px;">
+    <span class="il" style="color:var(--mint);font-size:0.68rem;font-weight:700;">서평 수정 (100자)</span>
+    <textarea id="edit-rc" maxlength="100" style="background:transparent;min-height:50px;"></textarea>
     ${RLABELS.map((l,i)=>`<div class="rrow">
       <label>${l}</label>
       <input type="range" min="1" max="10" value="5" id="edit-r${i}" oninput="d('edit-rv${i}').innerText=this.value">
@@ -552,24 +575,29 @@ async function submitReview(sid,isEdit=false){
   const pfx=isEdit?"edit-r":"rp-r", cpfx=isEdit?"edit-rc":"rp-c";
   const comment=(d(cpfx)?.value||"").trim();
   const scores=RLABELS.map((_,i)=>d(`${pfx}${i}`)?.value||5);
+  const avg=(scores.reduce((a,b)=>a+ +b,0)/scores.length).toFixed(1);
   setMsg("제출 중...",true);
   try{
     await post({action:"submitReview",sessionId:sid,alias:U.alias,
       r0:scores[0],r1:scores[1],r2:scores[2],r3:scores[3],r4:scores[4],r5:scores[5],comment});
-    setMsg(""); alert("서평과 별점이 등록되었습니다!"); _dash=null; loadMain(true);
+    setMsg(""); alert("서평과 별점이 등록되었습니다!");
+    if(_dash) _dash.myRating={hasReview:true,comment,avgRating:avg,r0:scores[0],r1:scores[1],r2:scores[2],r3:scores[3],r4:scores[4],r5:scores[5]};
+    updateEntrySections(sid);
   }catch(e){setMsg(""); alert("오류 발생");}
 }
 async function delReview(sid){
   if(!confirm("서평과 별점을 삭제하시겠습니까?")) return;
   setMsg("삭제 중...",true);
-  try{ await post({action:"deleteReview",sessionId:sid,alias:U.alias}); setMsg(""); _dash=null; loadMain(true); }
-  catch(e){setMsg(""); alert("오류 발생");}
+  try{
+    await post({action:"deleteReview",sessionId:sid,alias:U.alias});
+    setMsg(""); if(_dash) _dash.myRating=null; updateEntrySections(sid);
+  }catch(e){setMsg(""); alert("오류 발생");}
 }
 
 // ── 전체 참여자 ──
 function renderAllSection(entries){
   window._entries=entries;
-  return `<div class="st" style="margin-top:14px;">참여자 소감 & 서평</div>
+  return `<div class="st" style="margin-top:13px;">참여자 소감 & 서평</div>
     <div class="ftabs">
       <button class="ftab on" onclick="filterEnt('all',this)">전체</button>
       <button class="ftab"    onclick="filterEnt('s1',this)">1회소감</button>
@@ -589,7 +617,9 @@ function buildEntries(entries,type){
   let list=[...entries];
   if(type==="rating") list.sort((a,b)=>(parseFloat(b.avgRating)||0)-(parseFloat(a.avgRating)||0));
   const items=list.map(e=>{
-    const h1=e.sensing1&&e.sensing1.trim(), h2=e.sensing2&&e.sensing2.trim(), hr=e.hasReview;
+    const h1=e.sensing1&&String(e.sensing1).trim();
+    const h2=e.sensing2&&String(e.sensing2).trim();
+    const hr=e.hasReview;
     const a1=e.attend1, a2=e.attend2;
     if(type==="s1"&&!h1) return "";
     if(type==="s2"&&!h2) return "";
@@ -599,8 +629,8 @@ function buildEntries(entries,type){
     return `<div class="mblock">
       <div class="mhdr" onclick="this.nextElementSibling.classList.toggle('open')">
         <span class="mname">${e.alias}</span>
-        <span style="font-size:0.66rem;color:#aaa;">
-          ${ab?`<span style="color:var(--mint);font-weight:700;">${ab}</span> `:""}${h1?"소감1 ":""}${h2?"소감2 ":""}${hr?"서평":""}${e.avgRating?" ★"+parseFloat(e.avgRating).toFixed(1):""}
+        <span style="font-size:0.65rem;color:#aaa;">
+          ${ab?`<span style="color:var(--mint);font-weight:700;">${ab} </span>`:""}${h1?"소감1 ":""}${h2?"소감2 ":""}${hr?"서평":""}${e.avgRating?" ★"+parseFloat(e.avgRating).toFixed(1):""}
         </span>
       </div>
       <div class="mbody">
@@ -609,8 +639,8 @@ function buildEntries(entries,type){
         ${h2&&(type==="all"||type==="s2"||type==="rating")?`<div class="erow"><div class="elbl">2회 소감</div><div class="etxt">${e.sensing2}</div></div>`:""}
         ${hr&&(type==="all"||type==="review"||type==="rating")?`<div class="erow">
           <div class="elbl">서평</div><div class="etxt">${e.comment||""}</div>
-          ${e.avgRating?`<div style="font-size:0.72rem;color:var(--mint);font-weight:700;margin-top:3px;">★ ${parseFloat(e.avgRating).toFixed(1)}</div>
-          <div>${RLABELS.map((l,i)=>`<span style="font-size:0.65rem;color:#888;margin-right:3px;">${l} ${parseFloat(e["r"+i]||0).toFixed(0)}</span>`).join("")}</div>`:""}
+          ${e.avgRating?`<div style="font-size:0.71rem;color:var(--mint);font-weight:700;margin-top:3px;">★ ${parseFloat(e.avgRating).toFixed(1)}</div>
+          <div>${RLABELS.map((l,i)=>`<span style="font-size:0.64rem;color:#888;margin-right:3px;">${l} ${parseFloat(e["r"+i]||0).toFixed(0)}</span>`).join("")}</div>`:""}
         </div>`:""}
       </div>
     </div>`;
@@ -624,28 +654,20 @@ async function loadRecs(){
   try{
     const r=await jsonp({action:"getRecommendations"});
     if(!r.data||!r.data.length){ d("rec-list").innerHTML=`<div class="card dim">아직 추천된 책이 없습니다.</div>`; return; }
-
-    // 2줄 카드로 표시 (수정 먼저, 삭제 나중)
     d("rec-list").innerHTML=r.data.map(b=>`
       <div class="rec-card">
-        <div class="rec-title">${b.title}</div>
-        <div class="rec-sub">${b.author||""}${b.pub?" · "+b.pub:""} · 추천인: ${b.alias}</div>
-        ${b.reason?`<div style="font-size:0.77rem;color:#666;margin-top:5px;line-height:1.5;">💬 ${b.reason}</div>`:""}
-        <div class="btn-row" style="margin-top:6px;">
+        <div style="font-weight:700;font-size:0.94rem;">${b.title}</div>
+        <div style="font-size:0.74rem;color:var(--lav);margin-top:1px;">${b.author||""}${b.pub?" · "+b.pub:""} <span style="color:var(--mint);">· ${b.alias}</span></div>
+        ${b.reason?`<div style="font-size:0.76rem;color:#666;margin-top:4px;line-height:1.5;">💬 ${b.reason}</div>`:""}
+        <div class="btn-row" style="margin-top:5px;">
           ${U.isAdmin?`<button class="mini sm g" onclick="openEditRec(${b.row},'${esc(b.title)}','${esc(b.author)}','${esc(b.pub)}','${esc(b.reason)}')">수정</button>`:""}
           ${U.isAdmin||b.alias===U.alias?`<button class="mini sm r" onclick="admDelRec(${b.row})">삭제</button>`:""}
         </div>
         ${U.isAdmin?`<div id="edit-rec-${b.row}" class="hidden"></div>`:""}
       </div>`).join("");
-
-    // 관리자 드롭다운 채우기
     if(U.isAdmin){
       window._recData=r.data;
-      const fillSel=selId=>{
-        const sel=d(selId); if(!sel) return;
-        sel.innerHTML=`<option value="">— 선택 —</option>`;
-        r.data.forEach(b=>{ const o=document.createElement("option"); o.value=b.row; o.text=b.title; o.dataset.author=b.author||""; sel.appendChild(o); });
-      };
+      const fillSel=selId=>{ const sel=d(selId); if(!sel) return; sel.innerHTML=`<option value="">— 선택 —</option>`; r.data.forEach(b=>{ const o=document.createElement("option"); o.value=b.row; o.text=b.title; o.dataset.author=b.author||""; sel.appendChild(o); }); };
       fillSel("adm-pick-rec"); fillSel("adm-sess-pick");
       d("adm-pick-rec").onchange=function(){ const o=this.options[this.selectedIndex]; if(o.value){ d("adm-book-title").value=o.text; d("adm-book-author").value=o.dataset.author||""; }};
       d("adm-sess-pick").onchange=function(){ const o=this.options[this.selectedIndex]; if(o.value){ d("adm-stitle").value=o.text; d("adm-sauthor").value=o.dataset.author||""; }};
@@ -661,17 +683,14 @@ function fillVoteSelects(){
   });
 }
 function openEditRec(row,title,author,pub,reason){
-  const el=d(`edit-rec-${row}`);
+  const el=d(`edit-rec-${row}`); if(!el) return;
   if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; }
   el.innerHTML=`<div class="epanel" style="margin-top:6px;">
     <div class="ig"><span class="il">도서명</span><input type="text" id="er-t-${row}" value="${title}"></div>
     <div class="ig"><span class="il">저자</span><input type="text" id="er-a-${row}" value="${author}"></div>
     <div class="ig"><span class="il">출판사</span><input type="text" id="er-p-${row}" value="${pub}"></div>
     <div class="ig"><span class="il">추천 이유</span><textarea id="er-r-${row}">${reason}</textarea></div>
-    <div class="btn-row">
-      <button class="mini sm" onclick="saveEditRec(${row})">저장</button>
-      <button class="ghost" onclick="d('edit-rec-${row}').classList.add('hidden')">취소</button>
-    </div>
+    <div class="btn-row"><button class="mini sm" onclick="saveEditRec(${row})">저장</button><button class="ghost" onclick="d('edit-rec-${row}').classList.add('hidden')">취소</button></div>
   </div>`;
   el.classList.remove("hidden");
 }
@@ -681,116 +700,82 @@ async function saveEditRec(row){
   catch(e){setMsg(""); alert("오류 발생");}
 }
 async function submitRec(){
-  const title=d("rec-title").value.trim();
-  if(!title) return alert("도서명은 필수입니다.");
+  const title=d("rec-title").value.trim(); if(!title) return alert("도서명은 필수입니다.");
   setMsg("기록 중...",true);
-  try{
-    await post({action:"addRecommendation",title,alias:U.alias,author:d("rec-author").value,pub:d("rec-pub").value,reason:d("rec-reason").value});
-    setMsg(""); alert("추천이 등록되었습니다!");
-    ["rec-title","rec-author","rec-pub","rec-reason"].forEach(id=>d(id).value="");
-    loadRecs();
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
-async function admDelRec(row){
-  if(!confirm("이 추천 도서를 삭제하시겠습니까?")) return;
-  setMsg("삭제 중...",true);
-  try{ await post({action:"deleteRecommendation",row}); setMsg(""); loadRecs(); }
+  try{ await post({action:"addRecommendation",title,alias:U.alias,author:d("rec-author").value,pub:d("rec-pub").value,reason:d("rec-reason").value}); setMsg(""); alert("추천이 등록되었습니다!"); ["rec-title","rec-author","rec-pub","rec-reason"].forEach(id=>d(id).value=""); loadRecs(); }
   catch(e){setMsg(""); alert("오류 발생");}
 }
+async function admDelRec(row){ if(!confirm("삭제하시겠습니까?")) return; setMsg("삭제 중...",true); try{ await post({action:"deleteRecommendation",row}); setMsg(""); loadRecs(); } catch(e){setMsg(""); alert("오류 발생");} }
 
 // ══ 투표 ══
 async function loadVote(){
   d("vote-area").innerHTML=`<div class="card dim"><span class="spin"></span></div>`;
   try{
     const r=await jsonp({action:"getActiveVotes",alias:U.alias});
-    if(!r.data||!r.data.length){
-      d("vote-area").innerHTML=`<div class="card dim">진행 중인 투표가 없습니다.${U.isAdmin?`<br><button class="mini sm" onclick="switchTab('admin')" style="display:inline-block;width:auto;margin-top:6px;">→ 투표 생성하기</button>`:""}</div>`; return;
-    }
+    if(!r.data||!r.data.length){ d("vote-area").innerHTML=`<div class="card dim">진행 중인 투표가 없습니다.${U.isAdmin?`<br><button class="mini sm" onclick="switchTab('admin')" style="display:inline-block;width:auto;margin-top:5px;">→ 투표 생성하기</button>`:""}</div>`; return; }
     d("vote-area").innerHTML=r.data.map(v=>{
-      const total=v.options.reduce((s,o)=>s+(o.count||0),0);
-      const myVotes=v.myVotes||[];
+      const total=v.options.reduce((s,o)=>s+(o.count||0),0), myVotes=v.myVotes||[];
       return`<div class="card gl" style="margin-bottom:8px;">
-        <div style="font-weight:900;font-size:0.96rem;">${v.title}<span class="badge bm">${v.voteType==="multi"?"복수":"단수"}</span></div>
-        <div style="font-size:0.7rem;color:#bbb;margin-top:2px;">마감: ${v.deadline||"미정"}</div>
-        <div style="margin-top:10px;">
-          ${v.options.map(opt=>{
-            const pct=total?Math.round((opt.count||0)/total*100):0;
-            const voted=myVotes.includes(opt.title);
-            return`<div style="margin-bottom:9px;">
-              <div style="display:flex;justify-content:space-between;">
-                <span style="font-size:0.86rem;font-weight:${voted?"900":"400"};">${opt.title}${voted?" ✓":""}</span>
-                <span style="font-size:0.7rem;color:#888;">${opt.count||0}표 (${pct}%)</span>
-              </div>
-              <div class="vbw"><div class="vb" style="width:${pct}%"></div></div>
-              <button class="mini sm${voted?" r":""}" style="margin-top:3px;" onclick="castVote('${v.id}','${esc(opt.title)}',${voted},'${v.voteType}')">
-                ${voted?"선택 취소":"투표"}
-              </button>
-            </div>`;
-          }).join("")}
+        <div style="font-weight:900;font-size:0.95rem;">${v.title}<span class="badge bm">${v.voteType==="multi"?"복수":"단수"}</span></div>
+        <div style="font-size:0.69rem;color:#bbb;margin-top:2px;">마감: ${v.deadline||"미정"}</div>
+        <div style="margin-top:9px;">${v.options.map(opt=>{
+          const pct=total?Math.round((opt.count||0)/total*100):0, voted=myVotes.includes(opt.title);
+          return`<div style="margin-bottom:9px;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:0.85rem;font-weight:${voted?"900":"400"};">${opt.title}${voted?" ✓":""}</span>
+              <span style="font-size:0.69rem;color:#888;">${opt.count||0}표 (${pct}%)</span>
+            </div>
+            <div class="vbw"><div class="vb" style="width:${pct}%"></div></div>
+            <button class="mini sm${voted?" r":""}" style="margin-top:3px;" onclick="castVote('${v.id}','${esc(opt.title)}',${voted},'${v.voteType}')">
+              ${voted?"선택 취소":"투표"}
+            </button>
+          </div>`;}).join("")}
         </div>
-        ${myVotes.length?`<div style="font-size:0.72rem;color:var(--mint);font-weight:700;">내 선택: ${myVotes.join(", ")}</div>`:""}
+        ${myVotes.length?`<div style="font-size:0.71rem;color:var(--mint);font-weight:700;">내 선택: ${myVotes.join(", ")}</div>`:""}
       </div>`;
     }).join("");
   }catch(e){d("vote-area").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
-async function castVote(vid,bookTitle,isVoted,voteType){
-  setMsg("처리 중...",true);
-  try{ await post({action:"castVote",voteId:vid,bookTitle,alias:U.alias,cancel:isVoted?"true":"false",voteType}); setMsg(""); loadVote(); }
-  catch(e){setMsg(""); alert("오류 발생");}
-}
+async function castVote(vid,bookTitle,isVoted,voteType){ setMsg("처리 중...",true); try{ await post({action:"castVote",voteId:vid,bookTitle,alias:U.alias,cancel:isVoted?"true":"false",voteType}); setMsg(""); loadVote(); } catch(e){setMsg(""); alert("오류 발생");} }
 
 // ══ 라이브러리 ══
 async function loadLibNew(){
   if(d("lib-new").dataset.loaded) return;
   d("lib-new").innerHTML=`<div class="card dim"><span class="spin"></span></div>`;
   try{
-    const r=await jsonp({action:"getArchive"});
-    d("lib-new").dataset.loaded="1";
+    const r=await jsonp({action:"getArchive"}); d("lib-new").dataset.loaded="1";
     if(!r.data||!r.data.length){ d("lib-new").innerHTML=`<div class="card dim">완료된 북토크가 없습니다.</div>`; return; }
     d("lib-new").innerHTML=r.data.map(b=>{
       const lo=b.listOnly===true||b.listOnly==="true";
       return`<div class="arc-card" ${lo?"":"onclick=\"toggleLibDetail(this,'"+b.sessionId+"')\""}>
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <span style="font-size:0.68rem;color:var(--lav);font-weight:700;">${b.sessionId||""}</span>
-            <span style="font-size:0.93rem;font-weight:700;margin-left:6px;">${b.bookTitle}</span>
-          </div>
-          <div style="text-align:right;font-size:0.7rem;color:#aaa;">
-            ${!lo&&b.avgRating?`<span style="color:var(--mint);font-weight:700;">★${parseFloat(b.avgRating).toFixed(1)}</span>`:""}
-            ${lo?`<span class="badge bg">목록</span>`:""}
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <div><span style="font-size:0.67rem;color:var(--lav);font-weight:700;">${b.sessionId||""} </span><span style="font-size:0.92rem;font-weight:700;">${b.bookTitle}</span></div>
+          <div style="font-size:0.69rem;color:#aaa;">${!lo&&b.avgRating?`<span style="color:var(--mint);font-weight:700;">★${parseFloat(b.avgRating).toFixed(1)}</span>`:lo?`<span class="badge bg">목록</span>`:""}</div>
         </div>
-        ${!lo?`<div style="font-size:0.69rem;color:var(--mint);margin-top:3px;">소감 & 평점 더보기 ▶</div><div class="detail-area"></div>`:""}
+        ${!lo?`<div style="font-size:0.68rem;color:var(--mint);margin-top:3px;">소감 & 평점 더보기 ▶</div><div class="detail-area"></div>`:""}
       </div>`;
     }).join("");
   }catch(e){d("lib-new").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 async function toggleLibDetail(el,sid){
   const da=el.querySelector(".detail-area");
-  if(da.dataset.loaded==="1"){
-    da.classList.toggle("hidden");
-    el.querySelector("[style*='color:var(--mint)']").textContent=da.classList.contains("hidden")?"소감 & 평점 더보기 ▶":"▲ 닫기";
-    return;
-  }
+  if(da.dataset.loaded==="1"){ da.classList.toggle("hidden"); el.querySelector("[style*='color:var(--mint)']").textContent=da.classList.contains("hidden")?"소감 & 평점 더보기 ▶":"▲ 닫기"; return; }
   setMsg("불러오는 중...",true);
   try{
-    const r=await jsonp({action:"getSessionDetail",sessionId:sid}); setMsg("");
-    const dt=r.data; da.dataset.loaded="1";
-    da.innerHTML=`<div style="margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;">
-      ${dt.ratingAvg&&dt.ratingAvg.some(v=>v>0)?`
-        <div style="font-size:0.67rem;color:var(--lav);font-weight:700;letter-spacing:1px;margin-bottom:5px;">항목별 평균</div>
-        ${RLABELS.map((l,i)=>{const av=parseFloat(dt.ratingAvg[i]||0).toFixed(1);const pct=Math.round((dt.ratingAvg[i]||0)/10*100);
-          return`<div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;font-size:0.74rem;">
-            <span style="color:var(--lav);flex:0 0 58px;">${l}</span>
-            <div class="vbw" style="flex:1;margin:0 6px 0;"><div class="vb" style="width:${pct}%"></div></div>
-            <span style="font-weight:900;flex:0 0 22px;text-align:right;">${av}</span>
+    const r=await jsonp({action:"getSessionDetail",sessionId:sid}); setMsg(""); const dt=r.data; da.dataset.loaded="1";
+    const validEntries=(dt.entries||[]).filter(e=>e.alias&&String(e.alias).trim()&&!/^\d{4}-\d{2}-\d{2}/.test(String(e.alias)));
+    da.innerHTML=`<div style="margin-top:7px;border-top:1px dashed var(--line);padding-top:7px;">
+      ${dt.ratingAvg&&dt.ratingAvg.some(v=>v>0)?`<div style="font-size:0.66rem;color:var(--lav);font-weight:700;letter-spacing:1px;margin-bottom:5px;">항목별 평균</div>
+        ${RLABELS.map((l,i)=>{const av=parseFloat(dt.ratingAvg[i]||0).toFixed(1),pct=Math.round((dt.ratingAvg[i]||0)/10*100);
+          return`<div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;font-size:0.72rem;">
+            <span style="color:var(--lav);flex:0 0 56px;">${l}</span>
+            <div class="vbw" style="flex:1;margin:0;"><div class="vb" style="width:${pct}%"></div></div>
+            <span style="font-weight:900;flex:0 0 20px;text-align:right;">${av}</span>
           </div>`;}).join("")}`:""}
-      ${dt.entries&&dt.entries.filter(e=>e.alias&&String(e.alias).trim()!=="").length?
-        dt.entries.filter(e=>e.alias&&String(e.alias).trim()!=="").map(e=>`
-        <div class="mblock" style="margin-top:6px;">
+      ${validEntries.length?validEntries.map(e=>`
+        <div class="mblock" style="margin-top:5px;">
           <div class="mhdr" onclick="this.nextElementSibling.classList.toggle('open')">
-            <span class="mname">${e.alias}</span>
-            <span style="font-size:0.66rem;color:#aaa;">${e.avgRating?"★"+parseFloat(e.avgRating).toFixed(1):""}</span>
+            <span class="mname">${e.alias}</span><span style="font-size:0.65rem;color:#aaa;">${e.avgRating?"★"+parseFloat(e.avgRating).toFixed(1):""}</span>
           </div>
           <div class="mbody">
             ${e.sensing1?`<div class="erow"><div class="elbl">1회 소감</div><div class="etxt">${e.sensing1}</div></div>`:""}
@@ -798,7 +783,7 @@ async function toggleLibDetail(el,sid){
             ${e.comment?`<div class="erow"><div class="elbl">서평</div><div class="etxt">${e.comment}</div></div>`:""}
           </div>
         </div>`).join("")
-      :"<div style='font-size:0.76rem;color:#aaa;margin-top:6px;'>등록된 내용이 없습니다.</div>"}
+      :"<div style='font-size:0.75rem;color:#aaa;margin-top:5px;'>등록된 내용이 없습니다.</div>"}
     </div>`;
     el.querySelector("[style*='color:var(--mint)']").textContent="▲ 닫기";
   }catch(e){setMsg(""); alert("불러오기 실패");}
@@ -810,170 +795,50 @@ async function loadLibOld(){
     if(!r.data||!Object.keys(r.data).length){ d("lib-old").innerHTML=`<div class="card dim">2022–2025 기록이 없습니다.</div>`; return; }
     d("lib-old").innerHTML=Object.entries(r.data).sort((a,b)=>b[0]-a[0]).map(([yr,books])=>`
       <div class="yrgrp"><div class="yrttl">${yr}</div>
-        ${books.map(b=>`<div class="morow">
-          <span class="molbl">${b.month||""}월</span>
-          <span style="flex:1;font-weight:500;">${b.bookTitle}</span>
-          <span style="font-size:0.7rem;color:#aaa;">${b.bookAuthor||""}</span>
-        </div>`).join("")}
+        ${books.map(b=>`<div class="morow"><span class="molbl">${b.month||""}월</span><span style="flex:1;font-weight:500;">${b.bookTitle}</span><span style="font-size:0.69rem;color:#aaa;">${b.bookAuthor||""}</span></div>`).join("")}
       </div>`).join("");
   }catch(e){d("lib-old").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
 
 // ══ 관리자 ══
 async function loadAdminData(){
-  // loadRecs를 먼저 완료해서 드롭다운 채우기
   await loadRecs();
-  try{
-    if(_dash&&_dash.current&&_dash.current.bookTitle){
-      if(!d("adm-stitle").value) d("adm-stitle").value=_dash.current.bookTitle;
-      if(!d("adm-sauthor").value) d("adm-sauthor").value=_dash.current.bookAuthor||"";
-    }
-  }catch(e){}
-  // 투표 목록
+  try{ if(_dash&&_dash.current&&_dash.current.bookTitle){ if(!d("adm-stitle").value) d("adm-stitle").value=_dash.current.bookTitle; if(!d("adm-sauthor").value) d("adm-sauthor").value=_dash.current.bookAuthor||""; } }catch(e){}
   try{
     const r=await jsonp({action:"getActiveVotes",alias:U.alias});
     d("adm-vote-list").innerHTML=r.data&&r.data.length?r.data.map(v=>`
       <div class="card" style="margin-bottom:7px;">
-        <div style="font-size:0.84rem;font-weight:700;">${v.title}<span class="badge bm">${v.voteType==="multi"?"복수":"단수"}</span></div>
-        <div style="font-size:0.69rem;color:#aaa;">마감: ${v.deadline||"미정"}</div>
-        <div class="btn-row">
-          <button class="mini sm l" onclick="openEditVote('${v.id}','${esc(v.title)}','${v.deadline||""}','${v.voteType||"single"}')">수정</button>
-          <button class="mini sm r" onclick="admDelVote('${v.id}')">삭제</button>
-        </div>
+        <div style="font-size:0.83rem;font-weight:700;">${v.title}<span class="badge bm">${v.voteType==="multi"?"복수":"단수"}</span></div>
+        <div style="font-size:0.68rem;color:#aaa;">마감: ${v.deadline||"미정"}</div>
+        <div class="btn-row"><button class="mini sm l" onclick="openEditVote('${v.id}','${esc(v.title)}','${v.deadline||""}','${v.voteType||"single"}')">수정</button><button class="mini sm r" onclick="admDelVote('${v.id}')">삭제</button></div>
         <div id="edit-vote-${v.id}" class="hidden"></div>
       </div>`).join("")
     :`<div class="card dim">진행중 투표 없음</div>`;
   }catch(e){}
-  // 세션 목록
   try{
     const r=await jsonp({action:"getSessions"});
     const active=r.data?r.data.filter(s=>s.status!=="완료"&&s.status!=="삭제"):[];
     d("adm-sess-list").innerHTML=active.length?active.map(s=>`
       <div class="card" style="margin-bottom:7px;">
         <div style="font-size:0.82rem;font-weight:700;">${s.sessionId} · ${s.bookTitle}</div>
-        <div style="font-size:0.7rem;color:#aaa;">${s.date1?fmtDate(s.date1):"1회 미정"} / ${s.date2?fmtDate(s.date2):"2회 미정"}</div>
-        <div class="btn-row">
-          <button class="mini sm l" onclick="openEditSession('${s.sessionId}','${esc(s.bookTitle)}','${esc(s.bookAuthor||"")}','${s.date1||""}','${s.date2||""}')">수정</button>
-          <button class="mini sm" onclick="admCompleteSession('${s.sessionId}')">완료</button>
-          <button class="mini sm r" onclick="admDeleteSession('${s.sessionId}')">삭제</button>
-        </div>
+        <div style="font-size:0.69rem;color:#aaa;">${s.date1?fmtDate(s.date1):"1회 미정"} / ${s.date2?fmtDate(s.date2):"2회 미정"}</div>
+        <div class="btn-row"><button class="mini sm l" onclick="openEditSession('${s.sessionId}','${esc(s.bookTitle)}','${esc(s.bookAuthor||"")}','${s.date1||""}','${s.date2||""}')">수정</button><button class="mini sm" onclick="admCompleteSession('${s.sessionId}')">완료</button><button class="mini sm r" onclick="admDeleteSession('${s.sessionId}')">삭제</button></div>
         <div id="edit-sess-${s.sessionId}" class="hidden"></div>
       </div>`).join("")
     :`<div class="card dim">예정 세션 없음</div>`;
   }catch(e){}
 }
-function openEditSession(sid,title,author,d1,d2){
-  const el=d(`edit-sess-${sid}`);
-  if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; }
-  el.innerHTML=`<div class="epanel" style="margin-top:6px;">
-    <div class="ig"><span class="il">책 제목</span><input type="text" id="es-t-${sid}" value="${title}"></div>
-    <div class="ig"><span class="il">저자</span><input type="text" id="es-a-${sid}" value="${author}"></div>
-    <div class="ig"><span class="il">1회 모임일</span><input type="date" id="es-d1-${sid}" value="${d1}"></div>
-    <div class="ig"><span class="il">2회 모임일</span><input type="date" id="es-d2-${sid}" value="${d2}"></div>
-    <div class="btn-row">
-      <button class="mini sm" onclick="saveEditSession('${sid}')">저장</button>
-      <button class="ghost" onclick="d('edit-sess-${sid}').classList.add('hidden')">취소</button>
-    </div>
-  </div>`;
-  el.classList.remove("hidden");
-}
-async function saveEditSession(sid){
-  setMsg("저장 중...",true);
-  try{
-    await post({action:"editSession",sessionId:sid,title:d(`es-t-${sid}`).value,author:d(`es-a-${sid}`).value,date1:d(`es-d1-${sid}`).value,date2:d(`es-d2-${sid}`).value});
-    setMsg(""); alert("저장되었습니다!"); _dash=null; loadMain(true); loadAdminData();
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
-async function admCompleteSession(sid){
-  if(!confirm(`세션 ${sid}을 완료 처리하시겠습니까?\n다음달 책이 있으면 이달의 책으로 자동 승격됩니다.`)) return;
-  setMsg("처리 중...",true);
-  try{
-    await post({action:"completeSession",sessionId:sid});
-    setMsg(""); alert("완료 처리되었습니다!");
-    d("lib-new").dataset.loaded=""; _dash=null; loadMain(true); loadAdminData();
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
-async function admDeleteSession(sid){
-  if(!confirm(`세션 ${sid}을 삭제하시겠습니까?`)) return;
-  setMsg("삭제 중...",true);
-  try{ await post({action:"deleteSession",sessionId:sid}); setMsg(""); _dash=null; loadMain(true); loadAdminData(); }
-  catch(e){setMsg(""); alert("오류 발생");}
-}
-function openEditVote(vid,title,deadline,voteType){
-  const el=d(`edit-vote-${vid}`);
-  if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; }
-  el.innerHTML=`<div class="epanel" style="margin-top:6px;">
-    <div class="ig"><span class="il">투표 제목</span><input type="text" id="ev-t-${vid}" value="${title}"></div>
-    <div class="ig"><span class="il">마감일</span><input type="date" id="ev-d-${vid}" value="${deadline}"></div>
-    <div class="ig"><span class="il">투표 방식</span>
-      <select id="ev-tp-${vid}"><option value="single"${voteType==="single"?" selected":""}>단수선택</option><option value="multi"${voteType==="multi"?" selected":""}>복수선택</option></select>
-    </div>
-    <div class="btn-row">
-      <button class="mini sm" onclick="saveEditVote('${vid}')">저장</button>
-      <button class="ghost" onclick="d('edit-vote-${vid}').classList.add('hidden')">취소</button>
-    </div>
-  </div>`;
-  el.classList.remove("hidden");
-}
-async function saveEditVote(vid){
-  setMsg("저장 중...",true);
-  try{
-    await post({action:"editVote",voteId:vid,title:d(`ev-t-${vid}`).value,deadline:d(`ev-d-${vid}`).value,voteType:d(`ev-tp-${vid}`).value});
-    setMsg(""); alert("저장되었습니다!"); loadAdminData(); loadVote();
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
-async function admSetBook(which){
-  const title=d("adm-book-title").value.trim();
-  if(!title) return alert("책 제목을 선택하거나 입력하세요.");
-  setMsg("선정 중...",true);
-  try{
-    await post({action:"setBook",which,title,author:d("adm-book-author").value,month:d("adm-book-month").value});
-    setMsg(""); alert(`${which==="current"?"이달의":"다음달"} 책으로 선정되었습니다!`);
-    if(which==="current"){ d("adm-stitle").value=title; d("adm-sauthor").value=d("adm-book-author").value; }
-    _dash=null; loadMain(true);
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
-function addVoteBook(){
-  const wrap=d("adm-vbooks"), n=wrap.querySelectorAll(".vbi-sel").length+1;
-  const div=document.createElement("div"); div.className="ig";
-  div.innerHTML=`<span class="il">후보 ${n}</span><select class="vbi-sel"><option value="">— 선택 —</option></select>`;
-  wrap.appendChild(div);
-  fillVoteSelects();
-}
-async function admCreateVote(){
-  const title=d("adm-vtitle").value.trim();
-  // select에서 선택된 텍스트(책 제목) 수집
-  const books=[...d("adm-vbooks").querySelectorAll(".vbi-sel")]
-    .map(s=>s.value).filter(Boolean); // value에 제목 저장
-  if(!title) return alert("투표 제목을 입력하세요.");
-  if(books.length<2) return alert("후보 도서를 2개 이상 선택해주세요.");
-  // 중복 체크
-  if(new Set(books).size!==books.length) return alert("같은 책을 중복 선택했습니다.");
-  setMsg("생성 중...",true);
-  try{
-    await post({action:"createVote",title,books:books.join("||"),deadline:d("adm-vdeadline").value||"",voteType:d("adm-vtype").value});
-    setMsg(""); alert("투표가 생성되었습니다!");
-    d("adm-vtitle").value=""; d("adm-vdeadline").value="";
-    d("adm-vbooks").querySelectorAll(".vbi-sel").forEach(s=>s.selectedIndex=0);
-    loadAdminData();
-    loadVote();
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
-async function admDelVote(id){
-  if(!confirm("이 투표를 삭제하시겠습니까?")) return;
-  setMsg("삭제 중...",true);
-  try{ await post({action:"deleteVote",voteId:id}); setMsg(""); loadAdminData(); loadVote(); }
-  catch(e){setMsg(""); alert("오류 발생");}
-}
-async function admCreateSession(){
-  const sid=d("adm-sid").value.trim(), title=d("adm-stitle").value.trim();
-  if(!sid||!title) return alert("회차 ID와 책 제목은 필수입니다.");
-  setMsg("저장 중...",true);
-  try{
-    await post({action:"createSession",sessionId:sid,title,author:d("adm-sauthor").value,date1:d("adm-sd1").value,date2:d("adm-sd2").value});
-    setMsg(""); alert("세션이 저장되었습니다!"); _dash=null; loadMain(true); loadAdminData();
-  }catch(e){setMsg(""); alert("오류 발생");}
-}
+function openEditSession(sid,title,author,d1,d2){ const el=d(`edit-sess-${sid}`); if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; } el.innerHTML=`<div class="epanel" style="margin-top:6px;"><div class="ig"><span class="il">책 제목</span><input type="text" id="es-t-${sid}" value="${title}"></div><div class="ig"><span class="il">저자</span><input type="text" id="es-a-${sid}" value="${author}"></div><div class="ig"><span class="il">1회 모임일</span><input type="date" id="es-d1-${sid}" value="${d1}"></div><div class="ig"><span class="il">2회 모임일</span><input type="date" id="es-d2-${sid}" value="${d2}"></div><div class="btn-row"><button class="mini sm" onclick="saveEditSession('${sid}')">저장</button><button class="ghost" onclick="d('edit-sess-${sid}').classList.add('hidden')">취소</button></div></div>`; el.classList.remove("hidden"); }
+async function saveEditSession(sid){ setMsg("저장 중...",true); try{ await post({action:"editSession",sessionId:sid,title:d(`es-t-${sid}`).value,author:d(`es-a-${sid}`).value,date1:d(`es-d1-${sid}`).value,date2:d(`es-d2-${sid}`).value}); setMsg(""); alert("저장되었습니다!"); _dash=null; loadMain(); loadAdminData(); }catch(e){setMsg(""); alert("오류 발생");} }
+async function admCompleteSession(sid){ if(!confirm(`세션 ${sid}을 완료 처리하시겠습니까?`)) return; setMsg("처리 중...",true); try{ await post({action:"completeSession",sessionId:sid}); setMsg(""); alert("완료 처리되었습니다!"); d("lib-new").dataset.loaded=""; _dash=null; loadMain(); loadAdminData(); }catch(e){setMsg(""); alert("오류 발생");} }
+async function admDeleteSession(sid){ if(!confirm(`세션 ${sid}을 삭제하시겠습니까?`)) return; setMsg("삭제 중...",true); try{ await post({action:"deleteSession",sessionId:sid}); setMsg(""); _dash=null; loadMain(); loadAdminData(); }catch(e){setMsg(""); alert("오류 발생");} }
+function openEditVote(vid,title,deadline,voteType){ const el=d(`edit-vote-${vid}`); if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; } el.innerHTML=`<div class="epanel" style="margin-top:6px;"><div class="ig"><span class="il">투표 제목</span><input type="text" id="ev-t-${vid}" value="${title}"></div><div class="ig"><span class="il">마감일</span><input type="date" id="ev-d-${vid}" value="${deadline}"></div><div class="ig"><span class="il">투표 방식</span><select id="ev-tp-${vid}"><option value="single"${voteType==="single"?" selected":""}>단수선택</option><option value="multi"${voteType==="multi"?" selected":""}>복수선택</option></select></div><div class="btn-row"><button class="mini sm" onclick="saveEditVote('${vid}')">저장</button><button class="ghost" onclick="d('edit-vote-${vid}').classList.add('hidden')">취소</button></div></div>`; el.classList.remove("hidden"); }
+async function saveEditVote(vid){ setMsg("저장 중...",true); try{ await post({action:"editVote",voteId:vid,title:d(`ev-t-${vid}`).value,deadline:d(`ev-d-${vid}`).value,voteType:d(`ev-tp-${vid}`).value}); setMsg(""); alert("저장되었습니다!"); loadAdminData(); loadVote(); }catch(e){setMsg(""); alert("오류 발생");} }
+async function admSetBook(which){ const title=d("adm-book-title").value.trim(); if(!title) return alert("책 제목을 선택하거나 입력하세요."); setMsg("선정 중...",true); try{ await post({action:"setBook",which,title,author:d("adm-book-author").value,month:d("adm-book-month").value}); setMsg(""); alert(`${which==="current"?"이달의":"다음달"} 책으로 선정되었습니다!`); if(which==="current"){ d("adm-stitle").value=title; d("adm-sauthor").value=d("adm-book-author").value; } _dash=null; loadMain(); }catch(e){setMsg(""); alert("오류 발생");} }
+function addVoteBook(){ const wrap=d("adm-vbooks"),n=wrap.querySelectorAll(".vbi-sel").length+1; const div=document.createElement("div"); div.className="ig"; div.innerHTML=`<span class="il">후보 ${n}</span><select class="vbi-sel"><option value="">— 선택 —</option></select>`; wrap.appendChild(div); fillVoteSelects(); }
+async function admCreateVote(){ const title=d("adm-vtitle").value.trim(); const books=[...d("adm-vbooks").querySelectorAll(".vbi-sel")].map(s=>s.value).filter(Boolean); if(!title) return alert("투표 제목을 입력하세요."); if(books.length<2) return alert("후보 도서를 2개 이상 선택해주세요."); if(new Set(books).size!==books.length) return alert("같은 책을 중복 선택했습니다."); setMsg("생성 중...",true); try{ await post({action:"createVote",title,books:books.join("||"),deadline:d("adm-vdeadline").value||"",voteType:d("adm-vtype").value}); setMsg(""); alert("투표가 생성되었습니다!"); d("adm-vtitle").value=""; d("adm-vdeadline").value=""; d("adm-vbooks").querySelectorAll(".vbi-sel").forEach(s=>s.selectedIndex=0); loadAdminData(); loadVote(); }catch(e){setMsg(""); alert("오류 발생");} }
+async function admDelVote(id){ if(!confirm("이 투표를 삭제하시겠습니까?")) return; setMsg("삭제 중...",true); try{ await post({action:"deleteVote",voteId:id}); setMsg(""); loadAdminData(); loadVote(); }catch(e){setMsg(""); alert("오류 발생");} }
+async function admCreateSession(){ const sid=d("adm-sid").value.trim(),title=d("adm-stitle").value.trim(); if(!sid||!title) return alert("회차 ID와 책 제목은 필수입니다."); setMsg("저장 중...",true); try{ await post({action:"createSession",sessionId:sid,title,author:d("adm-sauthor").value,date1:d("adm-sd1").value,date2:d("adm-sd2").value}); setMsg(""); alert("세션이 저장되었습니다!"); _dash=null; loadMain(); loadAdminData(); }catch(e){setMsg(""); alert("오류 발생");} }
 
 window.onload=()=>show("s-home");
 </script>
