@@ -340,10 +340,12 @@ async function loadMain(){
     _dash=r.data;
     // 로컬 참석 상태 동기화
     if(_dash.session){
-      const a1=(_dash.session.attend1||"").split(",").filter(Boolean);
-      const a2=(_dash.session.attend2||"").split(",").filter(Boolean);
-      _localAttend[1]=a1.includes(U.alias);
-      _localAttend[2]=a2.includes(U.alias);
+      const a1=String(_dash.session.attend1||"").split(",").map(s=>s.trim()).filter(Boolean);
+      const a2=String(_dash.session.attend2||"").split(",").map(s=>s.trim()).filter(Boolean);
+      _localAttend[1]=a1.includes(U.alias.trim());
+      _localAttend[2]=a2.includes(U.alias.trim());
+    } else {
+      _localAttend={1:false,2:false};
     }
     renderMain();
   }catch(e){
@@ -461,11 +463,13 @@ function updateEntrySections(sid){
   const myS1=_dash?_dash.mySensing1:null;
   const myS2=_dash?_dash.mySensing2:null;
   const myR=_dash?_dash.myRating:null;
+  // 완료된 세션도 항상 표시
+  const isDone=_dash&&_dash.session&&_dash.session.status==="완료";
 
   const s1=d("section-s1"), s2=d("section-s2"), sr=d("section-review");
-  if(s1) s1.innerHTML=_localAttend[1] ? renderSensing(sid,1,myS1) : "";
-  if(s2) s2.innerHTML=_localAttend[2] ? renderSensing(sid,2,myS2) : "";
-  if(sr) sr.innerHTML=(_localAttend[1]||_localAttend[2]) ? renderReview(sid,myR) : "";
+  if(s1) s1.innerHTML=(_localAttend[1]||isDone) ? renderSensing(sid,1,myS1) : "";
+  if(s2) s2.innerHTML=(_localAttend[2]||isDone) ? renderSensing(sid,2,myS2) : "";
+  if(sr) sr.innerHTML=(_localAttend[1]||_localAttend[2]||isDone) ? renderReview(sid,myR) : "";
 }
 
 // ── 소감 렌더 ──
@@ -512,9 +516,26 @@ async function submitSensing(sid,num,isEdit=false){
     // 로컬 캐시 업데이트
     if(_dash){ if(num==1) _dash.mySensing1={comment:txt}; else _dash.mySensing2={comment:txt}; }
     updateEntrySections(sid);
+    // 전체 참여자 목록 갱신 (백그라운드)
+    refreshAllEntries(sid);
   }catch(e){setMsg(""); alert("오류 발생");}
 }
 const saveSensing=(sid,num)=>submitSensing(sid,num,true);
+
+// 전체 참여자 목록만 비동기 갱신
+async function refreshAllEntries(sid){
+  try{
+    const r=await jsonp({action:"getDashboard",alias:U.alias});
+    if(r.status==="success"&&r.data.allEntries){
+      if(_dash) _dash.allEntries=r.data.allEntries;
+      window._entries=r.data.allEntries;
+      const el=d("ent-area");
+      if(el) el.innerHTML=buildEntries(r.data.allEntries,"all");
+      // 필터 초기화
+      document.querySelectorAll(".ftab").forEach((e,i)=>{e.classList[i===0?"add":"remove"]("on");});
+    }
+  }catch(e){}
+}
 async function delSensing(sid,num){
   if(!confirm("소감을 삭제하시겠습니까?")) return;
   setMsg("삭제 중...",true);
@@ -583,6 +604,8 @@ async function submitReview(sid,isEdit=false){
     setMsg(""); alert("서평과 별점이 등록되었습니다!");
     if(_dash) _dash.myRating={hasReview:true,comment,avgRating:avg,r0:scores[0],r1:scores[1],r2:scores[2],r3:scores[3],r4:scores[4],r5:scores[5]};
     updateEntrySections(sid);
+    // 전체 참여자 목록 갱신
+    refreshAllEntries(sid);
   }catch(e){setMsg(""); alert("오류 발생");}
 }
 async function delReview(sid){
