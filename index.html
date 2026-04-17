@@ -188,16 +188,15 @@ select{cursor:pointer;}textarea{resize:vertical;min-height:52px;line-height:1.6;
         </div>
         <div class="st">투표 생성</div>
         <div class="card" style="margin-bottom:8px;">
-          <div class="ig"><span class="il">투표 제목</span><input type="text" id="adm-vtitle" placeholder="5월 이음책 선정 투표"></div>
-          <div class="ig"><span class="il">투표 방식</span><select id="adm-vtype"><option value="single">단수선택</option><option value="multi">복수선택</option></select></div>
-          <div class="ig"><span class="il">마감일</span><input type="date" id="adm-vdeadline"></div>
-          <div style="font-size:0.67rem;color:#aaa;margin-bottom:6px;">추천 목록에서 후보 선택</div>
-          <div id="adm-vbooks">
-            <div class="ig"><span class="il">후보 1</span><select class="vbi-sel"><option value="">— 선택 —</option></select></div>
-            <div class="ig"><span class="il">후보 2</span><select class="vbi-sel"><option value="">— 선택 —</option></select></div>
+          <div class="ig"><span class="il">투표 제목</span><input type="text" id="adm-vtitle" placeholder="5월 이음책 선정"></div>
+          <div class="ig"><span class="il">복수선택 허용</span>
+            <select id="adm-vtype"><option value="single">단수 (1개만)</option><option value="multi">복수 (여러개)</option></select>
           </div>
-          <button class="mini l" onclick="addVoteBook()">+ 후보 추가</button>
-          <button class="mini" style="margin-top:6px;" onclick="admCreateVote()">투표 생성</button>
+          <div class="ig"><span class="il">마감일 (선택)</span><input type="date" id="adm-vdeadline"></div>
+          <div class="ig"><span class="il">후보 책 제목들 (한 줄에 하나씩)</span>
+            <textarea id="adm-vbooks-text" placeholder="편안함의 습격&#10;작은 일기&#10;세월" style="min-height:80px;"></textarea>
+          </div>
+          <button class="mini" onclick="admCreateVote()">투표 생성</button>
         </div>
         <div class="st">진행중 투표 수정 / 삭제</div>
         <div id="adm-vote-list"><div class="card dim"><span class="spin"></span></div></div>
@@ -694,17 +693,10 @@ async function loadRecs(){
       fillSel("adm-pick-rec"); fillSel("adm-sess-pick");
       d("adm-pick-rec").onchange=function(){ const o=this.options[this.selectedIndex]; if(o.value){ d("adm-book-title").value=o.text; d("adm-book-author").value=o.dataset.author||""; }};
       d("adm-sess-pick").onchange=function(){ const o=this.options[this.selectedIndex]; if(o.value){ d("adm-stitle").value=o.text; d("adm-sauthor").value=o.dataset.author||""; }};
-      fillVoteSelects();
     }
   }catch(e){d("rec-list").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
 }
-function fillVoteSelects(){
-  if(!window._recData) return;
-  d("adm-vbooks").querySelectorAll(".vbi-sel").forEach(sel=>{
-    sel.innerHTML=`<option value="">— 선택 —</option>`;
-    window._recData.forEach(b=>{ const o=document.createElement("option"); o.value=b.title; o.text=b.title; sel.appendChild(o); });
-  });
-}
+// fillVoteSelects 제거됨
 function openEditRec(row,title,author,pub,reason){
   const el=d(`edit-rec-${row}`); if(!el) return;
   if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; }
@@ -738,23 +730,27 @@ async function loadVote(){
     if(!r.data||!r.data.length){ d("vote-area").innerHTML=`<div class="card dim">진행 중인 투표가 없습니다.${U.isAdmin?`<br><button class="mini sm" onclick="switchTab('admin')" style="display:inline-block;width:auto;margin-top:5px;">→ 투표 생성하기</button>`:""}</div>`; return; }
     d("vote-area").innerHTML=r.data.map(v=>{
       const total=v.options.reduce((s,o)=>s+(o.count||0),0), myVotes=v.myVotes||[];
+      const isMulti=v.voteType==="multi";
       return`<div class="card gl" style="margin-bottom:8px;">
-        <div style="font-weight:900;font-size:0.95rem;">${v.title}<span class="badge bm">${v.voteType==="multi"?"복수":"단수"}</span></div>
-        <div style="font-size:0.69rem;color:#bbb;margin-top:2px;">마감: ${v.deadline||"미정"}</div>
-        <div style="margin-top:9px;">${v.options.map(opt=>{
-          const pct=total?Math.round((opt.count||0)/total*100):0, voted=myVotes.includes(opt.title);
-          return`<div style="margin-bottom:9px;">
-            <div style="display:flex;justify-content:space-between;">
-              <span style="font-size:0.85rem;font-weight:${voted?"900":"400"};">${opt.title}${voted?" ✓":""}</span>
-              <span style="font-size:0.69rem;color:#888;">${opt.count||0}표 (${pct}%)</span>
+        <div style="font-weight:900;font-size:1rem;">${v.title}</div>
+        <div style="font-size:0.68rem;color:#aaa;margin-top:2px;">${isMulti?"복수선택 가능":"1개만 선택"} · 마감: ${v.deadline||"미정"} · 총 ${total}표</div>
+        <div style="margin-top:11px;">${v.options.map(opt=>{
+          const cnt=opt.count||0;
+          const pct=total?Math.round(cnt/total*100):0;
+          const voted=myVotes.includes(opt.title);
+          return`<div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:0.9rem;font-weight:${voted?"900":"500"};">${voted?"✓ ":""}${opt.title}</span>
+              <span style="font-size:0.8rem;font-weight:700;color:var(--mint);">${cnt}표</span>
             </div>
-            <div class="vbw"><div class="vb" style="width:${pct}%"></div></div>
-            <button class="mini sm${voted?" r":""}" style="margin-top:3px;" onclick="castVote('${v.id}','${esc(opt.title)}',${voted},'${v.voteType}')">
-              ${voted?"선택 취소":"투표"}
+            <div class="vbw" style="margin:4px 0;"><div class="vb" style="width:${pct}%"></div></div>
+            <button class="mini sm${voted?" r":""}" style="margin-top:3px;"
+              onclick="castVote('${v.id}','${esc(opt.title)}',${voted},'${v.voteType}')">
+              ${voted?"취소":"선택"}
             </button>
           </div>`;}).join("")}
         </div>
-        ${myVotes.length?`<div style="font-size:0.71rem;color:var(--mint);font-weight:700;">내 선택: ${myVotes.join(", ")}</div>`:""}
+        ${myVotes.length?`<div style="font-size:0.75rem;color:var(--mint);font-weight:700;margin-top:4px;border-top:1px solid var(--line);padding-top:6px;">내 선택: ${myVotes.join(", ")}</div>`:""}
       </div>`;
     }).join("");
   }catch(e){d("vote-area").innerHTML=`<div class="card dim">불러오기 실패</div>`;}
@@ -858,7 +854,7 @@ async function admDeleteSession(sid){ if(!confirm(`세션 ${sid}을 삭제하시
 function openEditVote(vid,title,deadline,voteType){ const el=d(`edit-vote-${vid}`); if(!el.classList.contains("hidden")){ el.classList.add("hidden"); return; } el.innerHTML=`<div class="epanel" style="margin-top:6px;"><div class="ig"><span class="il">투표 제목</span><input type="text" id="ev-t-${vid}" value="${title}"></div><div class="ig"><span class="il">마감일</span><input type="date" id="ev-d-${vid}" value="${deadline}"></div><div class="ig"><span class="il">투표 방식</span><select id="ev-tp-${vid}"><option value="single"${voteType==="single"?" selected":""}>단수선택</option><option value="multi"${voteType==="multi"?" selected":""}>복수선택</option></select></div><div class="btn-row"><button class="mini sm" onclick="saveEditVote('${vid}')">저장</button><button class="ghost" onclick="d('edit-vote-${vid}').classList.add('hidden')">취소</button></div></div>`; el.classList.remove("hidden"); }
 async function saveEditVote(vid){ setMsg("저장 중...",true); try{ await post({action:"editVote",voteId:vid,title:d(`ev-t-${vid}`).value,deadline:d(`ev-d-${vid}`).value,voteType:d(`ev-tp-${vid}`).value}); setMsg(""); alert("저장되었습니다!"); loadAdminData(); loadVote(); }catch(e){setMsg(""); alert("오류 발생");} }
 async function admSetBook(which){ const title=d("adm-book-title").value.trim(); if(!title) return alert("책 제목을 선택하거나 입력하세요."); setMsg("선정 중...",true); try{ await post({action:"setBook",which,title,author:d("adm-book-author").value,month:d("adm-book-month").value}); setMsg(""); alert(`${which==="current"?"이달의":"다음달"} 책으로 선정되었습니다!`); if(which==="current"){ d("adm-stitle").value=title; d("adm-sauthor").value=d("adm-book-author").value; } _dash=null; loadMain(); }catch(e){setMsg(""); alert("오류 발생");} }
-function addVoteBook(){ const wrap=d("adm-vbooks"),n=wrap.querySelectorAll(".vbi-sel").length+1; const div=document.createElement("div"); div.className="ig"; div.innerHTML=`<span class="il">후보 ${n}</span><select class="vbi-sel"><option value="">— 선택 —</option></select>`; wrap.appendChild(div); fillVoteSelects(); }
+// addVoteBook 제거됨 (텍스트 입력 방식으로 변경)
 async function admCreateVote(){ const title=d("adm-vtitle").value.trim(); const books=[...d("adm-vbooks").querySelectorAll(".vbi-sel")].map(s=>s.value).filter(Boolean); if(!title) return alert("투표 제목을 입력하세요."); if(books.length<2) return alert("후보 도서를 2개 이상 선택해주세요."); if(new Set(books).size!==books.length) return alert("같은 책을 중복 선택했습니다."); setMsg("생성 중...",true); try{ await post({action:"createVote",title,books:books.join("||"),deadline:d("adm-vdeadline").value||"",voteType:d("adm-vtype").value}); setMsg(""); alert("투표가 생성되었습니다!"); d("adm-vtitle").value=""; d("adm-vdeadline").value=""; d("adm-vbooks").querySelectorAll(".vbi-sel").forEach(s=>s.selectedIndex=0); loadAdminData(); loadVote(); }catch(e){setMsg(""); alert("오류 발생");} }
 async function admDelVote(id){ if(!confirm("이 투표를 삭제하시겠습니까?")) return; setMsg("삭제 중...",true); try{ await post({action:"deleteVote",voteId:id}); setMsg(""); loadAdminData(); loadVote(); }catch(e){setMsg(""); alert("오류 발생");} }
 async function admCreateSession(){ const sid=d("adm-sid").value.trim(),title=d("adm-stitle").value.trim(); if(!sid||!title) return alert("회차 ID와 책 제목은 필수입니다."); setMsg("저장 중...",true); try{ await post({action:"createSession",sessionId:sid,title,author:d("adm-sauthor").value,date1:d("adm-sd1").value,date2:d("adm-sd2").value}); setMsg(""); alert("세션이 저장되었습니다!"); _dash=null; loadMain(); loadAdminData(); }catch(e){setMsg(""); alert("오류 발생");} }
