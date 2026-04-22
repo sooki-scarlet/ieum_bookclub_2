@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>이음북클럽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F9F8F6;--lv:#6A5D6B;--mn:#4A6352;--gd:#C8952A;
+  --tx:#2C2C2C;--sub:#6B6B6B;--bd:#DDD8D0;--card:#fff;
+  --sh:0 2px 12px rgba(0,0,0,.06);--r:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);
+     min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:72px}
+button{cursor:pointer;font-family:inherit}
+input,textarea,select{font-family:inherit;font-size:.875rem;outline:none}
+
+/* ── 헤더 */
+.hdr{position:sticky;top:0;z-index:200;background:var(--bg);
+     border-bottom:1px solid var(--bd);padding:12px 16px 9px;
+     display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:1.2rem;
+      letter-spacing:.04em;color:var(--lv)}
+.logo span{color:var(--mn)}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.badge{font-size:.7rem;background:var(--lv);color:#fff;padding:3px 10px;
+       border-radius:20px;font-weight:500}
+.bxs{font-size:.7rem;padding:3px 11px;border-radius:20px;
+     border:1px solid var(--bd);background:transparent;color:var(--sub);transition:all .2s}
+.bxs:hover{border-color:var(--lv);color:var(--lv)}
+.bxs.out:hover{border-color:#c00;color:#c00}
+
+/* ── 탭 */
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;background:var(--bg);
+      border-bottom:1px solid var(--bd);padding:0 6px;
+      position:sticky;top:50px;z-index:199}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:10px 13px;font-size:.78rem;font-weight:500;
+     color:var(--sub);background:transparent;border:none;
+     border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab.on{color:var(--lv);border-bottom-color:var(--lv);font-weight:600}
+
+/* ── 패널 */
+.panel{display:none;padding:16px}.panel.on{display:block}
+
+/* ── 카드 */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+      padding:15px;margin-bottom:12px}
+.card.lv{border-left:2px solid var(--lv)}
+.card.mn{border-left:2px solid var(--mn)}
+.card.gd{border-left:2px solid var(--gd)}
+.sttl{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--sub);margin-bottom:8px}
+.bttl{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:1.05rem;
+      color:var(--tx);line-height:1.4}
+.bau{font-size:.76rem;color:var(--sub);margin-top:2px}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.66rem;font-weight:600}
+.tag.lv{background:#EDE8EE;color:var(--lv)}
+.tag.mn{background:#E6EDEA;color:var(--mn)}
+.tag.gd{background:#FBF3E3;color:var(--gd)}
+
+/* ── 폼 */
+.fg{margin-bottom:11px}
+.fl{display:block;font-size:.72rem;font-weight:600;color:var(--sub);margin-bottom:4px}
+.fi,.fs,.ft{width:100%;padding:8px 11px;border:1px solid var(--bd);border-radius:7px;
+            background:#fff;color:var(--tx);font-size:.86rem;transition:border-color .2s}
+.fi:focus,.fs:focus,.ft:focus{border-color:var(--lv)}
+.ft{resize:vertical;min-height:68px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ── 버튼 */
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-size:.8rem;
+     font-weight:600;border:none;transition:all .2s;text-align:center}
+.btn.prim{background:var(--lv);color:#fff}.btn.prim:hover{background:#5a4e5b}
+.btn.mn{background:var(--mn);color:#fff}.btn.mn:hover{background:#3c5344}
+.btn.gd{background:var(--gd);color:#fff}.btn.gd:hover{background:#a97d22}
+.btn.gh{background:transparent;border:1px solid var(--bd);color:var(--sub)}
+.btn.gh:hover{border-color:var(--lv);color:var(--lv)}
+.btn.dng{background:#c0392b;color:#fff}.btn.dng:hover{background:#a93226}
+.btn.sm{padding:5px 11px;font-size:.72rem}
+.btn.blk{display:block;width:100%}
+
+/* ── 스피너 */
+.sw{text-align:center;padding:30px;color:var(--sub)}
+.sp{display:inline-block;width:20px;height:20px;border:2px solid var(--bd);
+    border-top-color:var(--lv);border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ── 토스트 */
+#toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(14px);
+       background:#2C2C2C;color:#fff;padding:9px 20px;border-radius:22px;font-size:.78rem;
+       opacity:0;transition:all .28s;z-index:9999;white-space:nowrap;pointer-events:none;
+       max-width:calc(100vw - 36px)}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── 모달 */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1000;
+    align-items:flex-end;justify-content:center}
+.mo.on{display:flex}
+.mbox{background:var(--card);width:100%;max-width:480px;border-radius:16px 16px 0 0;
+      padding:18px 16px 30px;max-height:88vh;overflow-y:auto;
+      animation:sup .22s ease}
+@keyframes sup{from{transform:translateY(26px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mttl{font-size:.95rem;font-weight:700}
+.mcls{width:26px;height:26px;border-radius:50%;border:none;background:var(--bg);color:var(--sub);font-size:.9rem}
+
+/* ── 로그인 */
+.lo{display:none;position:fixed;inset:0;background:rgba(249,248,246,.97);z-index:2000;
+    flex-direction:column;align-items:center;justify-content:center;padding:28px}
+.lo.on{display:flex}
+.lo-logo{font-family:'Nanum Myeongjo',serif;font-size:1.7rem;font-weight:800;
+         color:var(--lv);margin-bottom:5px;text-align:center}
+.lo-sub{font-size:.76rem;color:var(--sub);margin-bottom:26px;text-align:center}
+.lo-box{width:100%;max-width:300px}
+.lo-err{color:#c0392b;font-size:.74rem;margin-bottom:8px;display:none}
+
+/* ── 구분선 */
+.dv{height:1px;background:var(--bd);margin:12px 0}
+
+/* ── 빈 상태 */
+.empty{text-align:center;padding:22px 10px;color:var(--sub);font-size:.78rem}
+.empty .ico{font-size:1.8rem;display:block;margin-bottom:7px}
+
+/* ════ 이음책 탭 */
+.book-block{
+  background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+  margin-bottom:12px;overflow:hidden;
+}
+.book-block-head{
+  padding:14px 15px 12px;border-left:2px solid var(--lv);
+  background:linear-gradient(135deg,#EDE8EE 0%,#F9F8F6 100%);
+  position:relative;
+}
+.book-block-head.gd{border-left-color:var(--gd);
+  background:linear-gradient(135deg,#FBF3E3 0%,#F9F8F6 100%)}
+.book-block-head .bttl{font-size:1.1rem}
+.book-block-body{padding:12px 15px}
+/* 날짜 행 */
+.date-row{display:flex;align-items:center;gap:8px;padding:7px 0;
+          border-bottom:1px solid var(--bd)}
+.date-row:last-child{border-bottom:none}
+.date-num{width:20px;height:20px;border-radius:50%;background:var(--lv);color:#fff;
+          font-size:.66rem;font-weight:700;display:flex;align-items:center;justify-content:center;
+          flex-shrink:0}
+.date-num.gd{background:var(--gd)}
+.date-txt{font-size:.82rem;font-weight:500;color:var(--tx)}
+/* 공지 메모 */
+.memo-area{
+  background:var(--bg);border-radius:7px;padding:10px 12px;
+  font-size:.8rem;color:var(--tx);line-height:1.65;min-height:44px;
+  border:1px solid var(--bd);white-space:pre-wrap;word-break:break-all;
+}
+.memo-area.empty-memo{color:var(--sub);font-style:italic}
+
+/* ════ 서평 탭 */
+.rev-item{padding:11px 0;border-bottom:1px solid var(--bd)}
+.rev-item:last-child{border-bottom:none}
+.rev-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.rev-alias{font-size:.82rem;font-weight:600;color:var(--lv)}
+.rev-score{font-size:.72rem;color:var(--sub)}
+.rev-txt{font-size:.8rem;color:var(--tx);line-height:1.65;margin-top:4px}
+/* 별점 한줄 */
+.rscore{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:.72rem;color:var(--sub)}
+.rscore strong{color:var(--tx)}
+
+/* ════ 투표 탭 */
+.vote-opt{padding:10px 12px;border:1px solid var(--bd);border-radius:8px;margin-bottom:8px}
+.vote-opt-ttl{font-size:.84rem;font-weight:600;margin-bottom:6px}
+.score-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:5px}
+.sc-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);
+        background:transparent;font-size:.72rem;font-weight:600;color:var(--sub);transition:all .15s}
+.sc-btn.on{border-color:var(--lv);background:var(--lv);color:#fff}
+.bar-wrap{height:5px;background:#EDE8EE;border-radius:3px;overflow:hidden;margin-top:5px}
+.bar-fill{height:100%;background:linear-gradient(to right,var(--lv),var(--mn));
+          transition:width .5s;border-radius:3px}
+.vote-stat{font-size:.7rem;color:var(--sub);margin-top:3px}
+.vote-ppls{font-size:.72rem;color:var(--sub);margin-top:10px;
+           padding-top:8px;border-top:1px dashed var(--bd)}
+
+/* ════ 추천 탭 */
+.rec-item{display:flex;justify-content:space-between;align-items:flex-start;
+          padding:11px 0;border-bottom:1px solid var(--bd)}
+.rec-item:last-child{border-bottom:none}
+
+/* ════ 라이브러리 탭 */
+.lib-row{display:flex;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.lib-row:last-child{border-bottom:none}
+.lib-code{font-size:.68rem;color:var(--lv);font-weight:700;width:34px;flex-shrink:0}
+.lib-info{flex:1;min-width:0}
+.lib-ttl{font-size:.84rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lib-au{font-size:.7rem;color:var(--sub)}
+.lib-avg{font-size:.7rem;font-weight:700;color:var(--lv);flex-shrink:0;margin-left:8px}
+.lib-chv{font-size:.65rem;color:var(--sub);flex-shrink:0;margin-left:3px;transition:transform .2s}
+.lib-row.open .lib-chv{transform:rotate(90deg)}
+.lib-revs{display:none;padding:6px 0 4px 34px}
+.lib-revs.open{display:block}
+.arch-tog{display:flex;align-items:center;justify-content:space-between;
+          padding:9px 12px;border-radius:8px;background:var(--card);border:1px solid var(--bd);
+          cursor:pointer;margin-bottom:8px;font-size:.8rem;font-weight:600;color:var(--sub)}
+.arch-tog .arr{transition:transform .2s;font-size:.75rem}
+.arch-tog.open .arr{transform:rotate(90deg)}
+.arch-list{display:none}.arch-list.open{display:block}
+.arch-row{display:flex;align-items:center;padding:7px 0;border-bottom:1px dashed var(--bd)}
+.arch-row:last-child{border-bottom:none}
+.arch-code{font-size:.68rem;color:var(--sub);width:34px;flex-shrink:0}
+
+/* ════ 관리자 탭 */
+.adm-sec{margin-bottom:20px}
+.adm-ttl{font-size:.68rem;font-weight:700;letter-spacing:.1em;color:var(--sub);
+         text-transform:uppercase;margin-bottom:9px;padding-bottom:5px;
+         border-bottom:1px solid var(--bd)}
+/* 이음책 세션 카드 */
+.sess-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+           margin-bottom:10px;overflow:hidden}
+.sess-card-head{padding:11px 13px;border-left:3px solid var(--lv);
+                background:linear-gradient(90deg,#EDE8EE,var(--card))}
+.sess-card-head.gd{border-left-color:var(--gd);background:linear-gradient(90deg,#FBF3E3,var(--card))}
+.sess-card-body{padding:10px 13px}
+.sess-acts{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+/* 체크박스 */
+.chk-item{display:flex;align-items:center;gap:9px;padding:8px 0;
+          border-bottom:1px dashed var(--bd);cursor:pointer}
+.chk-item:last-child{border-bottom:none}
+.chkbox{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--bd);
+        display:flex;align-items:center;justify-content:center;
+        flex-shrink:0;transition:all .14s}
+.chkbox.on{background:var(--lv);border-color:var(--lv)}
+.chkbox.on::after{content:'✓';color:#fff;font-size:.6rem;font-weight:700}
+
+/* ── 별점 입력 점 */
+.dots{display:flex;gap:5px;align-items:center}
+.dot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--lv);
+     background:transparent;cursor:pointer;transition:background .12s,transform .1s;flex-shrink:0}
+.dot:hover{transform:scale(1.2)}
+.dot.on{background:var(--lv)}
+.dots.mn .dot{border-color:var(--mn)}.dots.mn .dot.on{background:var(--mn)}
+.dots.gd .dot{border-color:var(--gd)}.dots.gd .dot.on{background:var(--gd)}
+.r-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.r-lbl{font-size:.78rem;color:var(--sub);font-weight:500;width:52px}
+</style>
+</head>
+<body>
+
+<!-- ══ 헤더 ══ -->
+<header class="hdr">
+  <div class="logo">이음<span>북클럽</span></div>
+  <div class="hdr-r" id="hdrR">
+    <button class="bxs" id="btnLoIn">로그인</button>
+  </div>
+</header>
+
+<!-- ══ 탭 ══ -->
+<nav class="tabs">
+  <button class="tab on" data-tab="t-book">이음책</button>
+  <button class="tab" data-tab="t-rev">서평</button>
+  <button class="tab" data-tab="t-rec">추천</button>
+  <button class="tab" data-tab="t-vote">투표</button>
+  <button class="tab" data-tab="t-lib">라이브러리</button>
+  <button class="tab" data-tab="t-adm" id="tabAdm" style="display:none">관리자</button>
+</nav>
+
+<main>
+<div class="panel on" id="t-book"><div id="c-book"><div class="sw"><div class="sp"></div></div></div></div>
+<div class="panel" id="t-rev"><div id="c-rev"><div class="sw"><div class="sp"></div></div></div></div>
+<div class="panel" id="t-rec"><div id="c-rec"><div class="sw"><div class="sp"></div></div></div></div>
+<div class="panel" id="t-vote"><div id="c-vote"><div class="sw"><div class="sp"></div></div></div></div>
+<div class="panel" id="t-lib"><div id="c-lib"><div class="sw"><div class="sp"></div></div></div></div>
+<div class="panel" id="t-adm"><div id="c-adm"><div class="sw"><div class="sp"></div></div></div></div>
+</main>
+
+<!-- ══ 로그인 ══ -->
+<div class="lo" id="loPanel">
+  <div class="lo-logo">이음북클럽</div>
+  <div class="lo-sub">별칭을 입력하면 바로 입장됩니다</div>
+  <div class="lo-box">
+    <div class="fg"><label class="fl">별칭</label>
+      <input class="fi" id="loAlias" placeholder="북클럽 별칭" autocomplete="off" oninput="onAliasInput()">
+    </div>
+    <div class="fg" id="pwField" style="display:none">
+      <label class="fl">관리자 비밀번호</label>
+      <input class="fi" type="password" id="loPw" placeholder="비밀번호">
+    </div>
+    <div class="lo-err" id="loErr"></div>
+    <button class="btn prim blk" id="btnLoConfirm">입장하기</button>
+    <div class="dv"></div>
+    <p style="font-size:.72rem;color:var(--sub);text-align:center;margin-bottom:8px">아직 회원이 아니신가요?</p>
+    <button class="btn gh blk" id="btnRegOpen">회원 등록</button>
+    <button class="btn gh blk" style="margin-top:7px" id="btnLoCancel">닫기</button>
+  </div>
+</div>
+
+<!-- ══ 회원 등록 모달 ══ -->
+<div class="mo" id="moReg">
+  <div class="mbox">
+    <div class="mhdr"><span class="mttl">회원 등록</span><button class="mcls" id="btnRegClose">✕</button></div>
+    <div class="fg"><label class="fl">별칭 *</label><input class="fi" id="rAlias" placeholder="북클럽 별칭"></div>
+    <div class="fg"><label class="fl">이름 *</label><input class="fi" id="rName" placeholder="실명"></div>
+    <div class="row2">
+      <div class="fg"><label class="fl">생년월일</label><input class="fi" id="rBirth" placeholder="1990-01-01"></div>
+      <div class="fg"><label class="fl">성별</label>
+        <select class="fs" id="rGender">
+          <option value="">선택</option><option>여</option><option>남</option><option>기타</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">감정노동 직군</label><input class="fi" id="rEmot" placeholder="예) 사회복지사, 교사"></div>
+    <button class="btn prim blk" id="btnRegConfirm">등록하기</button>
+  </div>
+</div>
+
+<!-- ══ 추천 등록 모달 ══ -->
+<div class="mo" id="moRec">
+  <div class="mbox">
+    <div class="mhdr"><span class="mttl">책 추천 등록</span><button class="mcls" id="btnRecClose">✕</button></div>
+    <div class="fg"><label class="fl">책 제목 *</label><input class="fi" id="rcTitle" placeholder="책 제목"></div>
+    <div class="row2">
+      <div class="fg"><label class="fl">저자</label><input class="fi" id="rcAuthor"></div>
+      <div class="fg"><label class="fl">출판사</label><input class="fi" id="rcPub"></div>
+    </div>
+    <div class="fg"><label class="fl">추천 이유</label><textarea class="ft" id="rcReason" placeholder="이 책을 추천하는 이유"></textarea></div>
+    <button class="btn prim blk" id="btnRecConfirm">추천 등록</button>
+  </div>
+</div>
+
+<!-- ══ 서평 작성/수정 모달 ══ -->
+<div class="mo" id="moRev">
+  <div class="mbox">
+    <div class="mhdr"><span class="mttl" id="revMoTtl">서평 작성</span><button class="mcls" id="btnRevClose">✕</button></div>
+    <input type="hidden" id="revSessId">
+    <input type="hidden" id="revMode">
+    <input type="hidden" id="revEditAlias">
+    <div class="r-row"><span class="r-lbl">💜 감동</span><div class="dots" id="d-gam"></div></div>
+    <div class="r-row"><span class="r-lbl">💚 전환</span><div class="dots mn" id="d-jeo"></div></div>
+    <div class="r-row"><span class="r-lbl">💛 새로움</span><div class="dots gd" id="d-sae"></div></div>
+    <div class="dv"></div>
+    <div class="fg">
+      <label class="fl">한줄 서평 (최대 100자)</label>
+      <textarea class="ft" id="revComment" maxlength="100" rows="3" placeholder="솔직한 한줄 서평을 남겨주세요"></textarea>
+      <div style="text-align:right;font-size:.66rem;color:var(--sub);margin-top:2px"><span id="revCnt">0</span>/100</div>
+    </div>
+    <button class="btn prim blk" id="btnRevConfirm">서평 등록</button>
+  </div>
+</div>
+
+<!-- ══ 투표 생성 모달 ══ -->
+<div class="mo" id="moVote">
+  <div class="mbox">
+    <div class="mhdr"><span class="mttl">투표 생성</span><button class="mcls" id="btnVoteClose">✕</button></div>
+    <div class="fg"><label class="fl">투표 제목 *</label><input class="fi" id="vTitle" placeholder="예) 5월 이음책 선정"></div>
+    <div class="fg"><label class="fl">마감일</label><input class="fi" type="date" id="vDeadline"></div>
+    <div class="fg"><label class="fl">후보 선택 (추천 목록)</label><div id="vOptList"></div></div>
+    <button class="btn prim blk" id="btnVoteConfirm">투표 생성</button>
+  </div>
+</div>
+
+<!-- ══ 이음책 세션 편집 모달 (관리자) ══ -->
+<!-- type: current | next -->
+<div class="mo" id="moBook">
+  <div class="mbox">
+    <div class="mhdr"><span class="mttl" id="bookMoTtl">이달의 책 설정</span><button class="mcls" id="btnBookClose">✕</button></div>
+    <input type="hidden" id="bookMoType">
+    <input type="hidden" id="bookMoSessId">
+    <div class="fg"><label class="fl">책 제목 *</label><input class="fi" id="bmTitle"></div>
+    <div class="fg"><label class="fl">저자</label><input class="fi" id="bmAuthor"></div>
+    <div class="fg"><label class="fl">월 (예: 2026-05)</label><input class="fi" id="bmMonth" placeholder="2026-05"></div>
+    <div class="row2">
+      <div class="fg"><label class="fl">1회 날짜</label><input class="fi" type="date" id="bmD1"></div>
+      <div class="fg"><label class="fl">2회 날짜</label><input class="fi" type="date" id="bmD2"></div>
+    </div>
+    <div class="fg"><label class="fl">공지 메모</label>
+      <textarea class="ft" id="bmMemo" rows="3" placeholder="클러버에게 공지할 내용 (선택)"></textarea>
+    </div>
+    <button class="btn prim blk" id="btnBookConfirm">저장</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════
+// 설정
+// ════════════════════════════════════════════════════
+const API = 'https://script.google.com/macros/s/AKfycbzDdIMiPZAVrblpXuZeUJh2zFP_gUQ9q707rKRrmh32x_-2iCDeWEQf7caGwSoeSsVO0Q/exec';
+const ADMIN_ALIAS = '이음1';
+const ADMIN_PW    = '1111';
+
+let S = {
+  alias:   localStorage.getItem('ieum_alias') || '',
+  isAdmin: localStorage.getItem('ieum_alias') === ADMIN_ALIAS,
+  tab:     't-book',
+  dash:null,dashTs:0, lib:null,libTs:0, votes:null,votesTs:0,
+  ratings:{gam:0,jeo:0,sae:0},
+};
+const TTL = 60000;
+
+// ════════════════════════════════════════════════════
+// 유틸
+// ════════════════════════════════════════════════════
+const $=id=>document.getElementById(id);
+function toast(msg,ms=2400){const e=$('toast');e.textContent=msg;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),ms)}
+function spin(id){$(id).innerHTML='<div class="sw"><div class="sp"></div></div>'}
+function mo(id,open){$(id).classList.toggle('on',open)}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function fmt(s){return String(s||'').substring(0,10)}
+function fmtD(s){if(!s)return'';const p=String(s).substring(0,10).split('-');return p.length===3?`${p[1]}/${p[2]}`:s}
+function monthCode(m){if(!m)return'';const p=m.split('-');return p.length<2?m:p[0].slice(2)+p[1]}
+// 숫자 안전 파싱 (NaN 방지)
+function safeNum(v){const n=parseFloat(String(v).trim());return isNaN(n)?0:n}
+
+// ════════════════════════════════════════════════════
+// API
+// ════════════════════════════════════════════════════
+function apiGet(params){
+  return new Promise((res,rej)=>{
+    const cb='_cb'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const qs=Object.entries({...params,callback:cb}).map(([k,v])=>`${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
+    const sc=document.createElement('script');
+    const tm=setTimeout(()=>{delete window[cb];sc.remove();rej(new Error('timeout'))},15000);
+    window[cb]=d=>{clearTimeout(tm);delete window[cb];sc.remove();res(d)};
+    sc.src=`${API}?${qs}`;document.head.appendChild(sc);
+  });
+}
+function apiPost(body){
+  return fetch(API,{method:'POST',mode:'no-cors',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+}
+async function getDash(force=false){
+  if(!force&&S.dash&&Date.now()-S.dashTs<TTL)return S.dash;
+  const d=await apiGet({action:'getDashboard'});
+  if(d.ok){S.dash=d;S.dashTs=Date.now()}return d;
+}
+async function getLib(force=false){
+  if(!force&&S.lib&&Date.now()-S.libTs<TTL)return S.lib;
+  const d=await apiGet({action:'getLibrary'});
+  if(d.ok){S.lib=d;S.libTs=Date.now()}return d;
+}
+async function getVotes(){
+  S.votes=null; // 항상 최신
+  const d=await apiGet({action:'getVotes'});
+  if(d.ok){S.votes=d;S.votesTs=Date.now()}return d;
+}
+
+// ════════════════════════════════════════════════════
+// 탭 전환
+// ════════════════════════════════════════════════════
+function switchTab(id){
+  S.tab=id;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===id));
+  renderTab(id);
+}
+function renderTab(id){
+  ({'t-book':renderBook,'t-rev':renderRev,'t-rec':renderRec,
+    't-vote':renderVote,'t-lib':renderLib,'t-adm':renderAdm}[id]||(_=>_))();
+}
+
+// ════════════════════════════════════════════════════
+// 1. 이음책 탭 — 이달의 책 / 다음달 책 두 블록
+// ════════════════════════════════════════════════════
+async function renderBook(){
+  spin('c-book');
+  try{
+    const d=await getDash();
+    const cb=d.currentBook||null;   // {bookTitle,bookAuthor,month,date1,date2,memo}
+    const nb=d.nextBook||null;      // {title,author,month,date1,date2,memo}
+    let h='';
+
+    /* ─ 이달의 책 ─ */
+    h+=`<div class="book-block">
+      <div class="book-block-head">
+        <div class="sttl">📖 이달의 책</div>`;
+    if(cb&&cb.bookTitle){
+      h+=`<div class="bttl">${esc(cb.bookTitle)}</div>
+          <div class="bau">${esc(cb.bookAuthor||'')}</div>
+          ${cb.month?`<div style="margin-top:5px"><span class="tag lv">${esc(cb.month)}</span></div>`:''}`;
+    } else {
+      h+=`<div style="font-size:.82rem;color:var(--sub)">이달의 책이 아직 선정되지 않았습니다.</div>`;
+    }
+    h+=`</div><div class="book-block-body">`;
+    // 날짜
+    const dates=[(cb&&cb.date1)||'',(cb&&cb.date2)||''].filter(Boolean);
+    if(dates.length){
+      dates.forEach((dt,i)=>{
+        h+=`<div class="date-row">
+          <div class="date-num">${i+1}</div>
+          <div class="date-txt">${fmtD(dt)}</div>
+        </div>`;
+      });
+    } else {
+      h+=`<div style="font-size:.76rem;color:var(--sub);padding:6px 0">북토크 일정 미정</div>`;
+    }
+    // 메모
+    const memo=(cb&&cb.memo)||'';
+    h+=`<div style="margin-top:10px">
+      <div style="font-size:.68rem;color:var(--sub);font-weight:600;margin-bottom:4px">📌 공지</div>
+      <div class="memo-area${memo?'':' empty-memo'}">${memo?esc(memo):'등록된 공지가 없습니다.'}</div>
+    </div>`;
+    h+=`</div></div>`;
+
+    /* ─ 다음달 책 ─ */
+    h+=`<div class="book-block">
+      <div class="book-block-head gd">
+        <div class="sttl">🔜 다음달 책</div>`;
+    if(nb&&nb.title){
+      h+=`<div class="bttl">${esc(nb.title)}</div>
+          <div class="bau">${esc(nb.author||'')}</div>
+          ${nb.month?`<div style="margin-top:5px"><span class="tag gd">${esc(nb.month)}</span></div>`:''}`;
+    } else {
+      h+=`<div style="font-size:.82rem;color:var(--sub)">다음달 책이 아직 선정되지 않았습니다.</div>`;
+    }
+    h+=`</div><div class="book-block-body">`;
+    const ndates=[(nb&&nb.date1)||'',(nb&&nb.date2)||''].filter(Boolean);
+    if(ndates.length){
+      ndates.forEach((dt,i)=>{
+        h+=`<div class="date-row">
+          <div class="date-num gd">${i+1}</div>
+          <div class="date-txt">${fmtD(dt)}</div>
+        </div>`;
+      });
+    } else {
+      h+=`<div style="font-size:.76rem;color:var(--sub);padding:6px 0">북토크 일정 미정</div>`;
+    }
+    const nmemo=(nb&&nb.memo)||'';
+    h+=`<div style="margin-top:10px">
+      <div style="font-size:.68rem;color:var(--sub);font-weight:600;margin-bottom:4px">📌 공지</div>
+      <div class="memo-area${nmemo?'':' empty-memo'}">${nmemo?esc(nmemo):'등록된 공지가 없습니다.'}</div>
+    </div>`;
+    h+=`</div></div>`;
+
+    $('c-book').innerHTML=h;
+  }catch(e){
+    $('c-book').innerHTML=`<div class="empty"><span class="ico">⚠️</span>데이터를 불러오지 못했습니다.</div>`;
+  }
+}
+
+// ════════════════════════════════════════════════════
+// 2. 서평 탭
+// ════════════════════════════════════════════════════
+// 별점 한줄 표시 (NaN 완전 방지)
+function rScore(r){
+  const g=safeNum(r.r_gamdon);
+  const j=safeNum(r.r_jeonhwan);
+  const s=safeNum(r.r_saeroun);
+  const total=g+j+s;
+  const avg=total>0?(total/3).toFixed(1):'0.0';
+  return `<div class="rscore">
+    <span><span style="color:var(--lv)">감동</span> <strong>${g}</strong></span>
+    <span style="color:var(--bd)">·</span>
+    <span><span style="color:var(--mn)">전환</span> <strong>${j}</strong></span>
+    <span style="color:var(--bd)">·</span>
+    <span><span style="color:var(--gd)">새로움</span> <strong>${s}</strong></span>
+    <span style="color:var(--bd)">·</span>
+    <span>평균 <strong>${avg}</strong></span>
+  </div>`;
+}
+
+async function renderRev(){
+  spin('c-rev');
+  try{
+    const dash=await getDash();
+    // 현재 세션: sessions에서 status!='done' 인 것 우선, 없으면 currentBook 기준
+    const sessions=(dash.sessions||[]).filter(s=>String(s.status).trim()!=='done');
+    if(sessions.length===0){
+      $('c-rev').innerHTML=`<div class="card"><div class="empty"><span class="ico">📝</span>현재 진행 중인 북토크 세션이 없습니다.</div></div>`;
+      return;
+    }
+    const sess=sessions[0];
+    const rd=await apiGet({action:'getReviews',sessionId:sess.sessionId});
+    const reviews=rd.reviews||[];
+    const myRev=S.alias?reviews.find(r=>String(r.alias).trim()===S.alias.trim()):null;
+
+    let h=`<div class="card lv" style="margin-bottom:12px">
+      <div class="sttl">현재 북토크</div>
+      <div class="bttl">${esc(sess.bookTitle)}</div>
+      <div class="bau">${esc(sess.bookAuthor||'')}</div>
+    </div>`;
+
+    // 내 서평
+    if(S.alias){
+      if(myRev){
+        h+=`<div class="card mn" style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="sttl" style="margin-bottom:0">내 서평</div>
+            <button class="btn gh sm" onclick="openEditRev('${esc(sess.sessionId)}','${esc(myRev.alias)}')">수정</button>
+          </div>
+          ${rScore(myRev)}
+          ${myRev.comment?`<div class="rev-txt">${esc(myRev.comment)}</div>`:''}
+        </div>`;
+      } else {
+        h+=`<button class="btn prim blk" style="margin-bottom:12px" onclick="openNewRev('${esc(sess.sessionId)}')">서평 작성하기</button>`;
+      }
+    } else {
+      h+=`<div style="font-size:.76rem;color:var(--sub);text-align:center;margin-bottom:12px">로그인 후 서평을 작성할 수 있습니다.</div>`;
+    }
+
+    // 클러버 서평 목록
+    h+=`<div class="card"><div class="sttl">클러버 서평 (${reviews.length})</div>`;
+    if(reviews.length===0){
+      h+=`<div class="empty" style="padding:10px 0">아직 서평이 없습니다.</div>`;
+    } else {
+      reviews.forEach(r=>{
+        const isMe=S.alias&&S.alias.trim()===String(r.alias).trim();
+        const canEdit=S.alias&&(isMe||S.isAdmin);
+        h+=`<div class="rev-item" style="${isMe?'background:#f4f1f5;margin:0 -15px;padding:10px 15px;':''}">
+          <div class="rev-hdr">
+            <span class="rev-alias">${esc(r.alias)}${isMe?' <small style="font-size:.64rem;color:var(--sub)">(나)</small>':''}</span>
+            ${canEdit?`<button class="btn gh sm" onclick="openEditRev('${esc(sess.sessionId)}','${esc(r.alias)}')">수정</button>`:''}
+          </div>
+          ${rScore(r)}
+          ${r.comment?`<div class="rev-txt">${esc(r.comment)}</div>`:''}
+        </div>`;
+      });
+    }
+    h+=`</div>`;
+    $('c-rev').innerHTML=h;
+  }catch(e){
+    $('c-rev').innerHTML=`<div class="empty"><span class="ico">⚠️</span>데이터를 불러오지 못했습니다.</div>`;
+  }
+}
+
+// 별점 입력 점 렌더
+function renderDots(){
+  [{id:'d-gam',key:'gam'},{id:'d-jeo',key:'jeo'},{id:'d-sae',key:'sae'}].forEach(c=>{
+    const el=$(c.id);if(!el)return;
+    el.innerHTML='';
+    for(let i=1;i<=5;i++){
+      const d=document.createElement('span');
+      d.className='dot'+(i<=S.ratings[c.key]?' on':'');
+      d.addEventListener('click',(score=i,key=c.key,()=>{S.ratings[key]=score;renderDots()}).bind(null));
+      // 올바른 클로저
+      (function(score,key){d.onclick=()=>{S.ratings[key]=score;renderDots()}})(i,c.key);
+      el.appendChild(d);
+    }
+  });
+}
+function openNewRev(sid){
+  if(!S.alias){toast('로그인이 필요합니다.');return}
+  S.ratings={gam:0,jeo:0,sae:0};
+  $('revSessId').value=sid;$('revMode').value='new';$('revEditAlias').value='';
+  $('revMoTtl').textContent='서평 작성';$('revComment').value='';$('revCnt').textContent='0';
+  $('btnRevConfirm').textContent='서평 등록';
+  renderDots();mo('moRev',true);
+}
+async function openEditRev(sid,alias){
+  const rd=await apiGet({action:'getReviews',sessionId:sid});
+  const r=(rd.reviews||[]).find(rv=>String(rv.alias).trim()===String(alias).trim());
+  if(!r){toast('서평을 찾을 수 없습니다.');return}
+  S.ratings={gam:safeNum(r.r_gamdon),jeo:safeNum(r.r_jeonhwan),sae:safeNum(r.r_saeroun)};
+  $('revSessId').value=sid;$('revMode').value='edit';$('revEditAlias').value=alias;
+  $('revMoTtl').textContent='서평 수정';$('revComment').value=r.comment||'';
+  $('revCnt').textContent=(r.comment||'').length;$('btnRevConfirm').textContent='수정 저장';
+  renderDots();mo('moRev',true);
+}
+
+// ════════════════════════════════════════════════════
+// 3. 추천 탭
+// ════════════════════════════════════════════════════
+async function renderRec(){
+  spin('c-rec');
+  try{
+    const d=await getDash();const recs=d.recommendations||[];
+    let h='';
+    if(S.alias){
+      h+=`<button class="btn prim blk" style="margin-bottom:12px" id="btnRecOpen">+ 책 추천 등록</button>`;
+    } else {
+      h+=`<div style="font-size:.76rem;color:var(--sub);text-align:center;margin-bottom:12px">로그인 후 추천을 등록할 수 있습니다.</div>`;
+    }
+    h+=`<div class="card"><div class="sttl">클러버 추천 목록</div>`;
+    if(recs.length===0){
+      h+=`<div class="empty" style="padding:10px 0">아직 추천된 책이 없습니다.</div>`;
+    } else {
+      recs.forEach(r=>{
+        const canDel=S.alias&&(S.alias===r.alias||S.isAdmin);
+        h+=`<div class="rec-item">
+          <div style="flex:1;min-width:0;padding-right:8px">
+            <div style="font-size:.86rem;font-weight:600">${esc(r.title)}</div>
+            <div style="font-size:.72rem;color:var(--sub)">${esc(r.author||'')}${r.pub?' · '+esc(r.pub):''}</div>
+            <div style="margin-top:3px"><span class="tag lv">${esc(r.alias)}</span></div>
+            ${r.reason?`<div style="font-size:.74rem;color:var(--sub);margin-top:4px;line-height:1.5">${esc(r.reason)}</div>`:''}
+          </div>
+          ${canDel?`<button class="btn gh sm" onclick="delRec('${esc(r.alias)}','${esc(r.title)}')">삭제</button>`:''}
+        </div>`;
+      });
+    }
+    h+=`</div>`;
+    $('c-rec').innerHTML=h;
+    const ob=$('btnRecOpen');
+    if(ob)ob.addEventListener('click',()=>{
+      $('rcTitle').value='';$('rcAuthor').value='';$('rcPub').value='';$('rcReason').value='';
+      mo('moRec',true);
+    });
+  }catch(e){$('c-rec').innerHTML=`<div class="empty"><span class="ico">⚠️</span>오류</div>`}
+}
+async function delRec(alias,title){
+  if(!confirm(`"${title}" 추천을 삭제하시겠습니까?`))return;
+  await apiPost({action:'deleteRecommendation',alias,title,isAdmin:S.isAdmin});
+  toast('삭제되었습니다.');S.dash=null;renderRec();
+}
+
+// ════════════════════════════════════════════════════
+// 4. 투표 탭
+// ════════════════════════════════════════════════════
+async function renderVote(){
+  spin('c-vote');
+  try{
+    const d=await getVotes();
+    const all=(d.votes||[]).filter(v=>String(v.status).trim()!=='deleted');
+    if(all.length===0){
+      $('c-vote').innerHTML=`<div class="card"><div class="empty"><span class="ico">🗳</span>진행 중인 투표가 없습니다.</div></div>`;
+      return;
+    }
+    // 최신 1개
+    const v=all.sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)))[0];
+    const opts=(v.options||'').split('||').map(o=>o.trim()).filter(Boolean);
+    const responses=Array.isArray(v.responses)?v.responses:[];
+
+    // 참여자 (alias 기준 unique)
+    const ppls=[...new Set(responses.map(r=>String(r.alias).trim()).filter(Boolean))];
+
+    // 옵션별 집계 — safeNum 사용으로 NaN 완전 방지
+    const optData=opts.map(opt=>{
+      const rs=responses.filter(r=>String(r.bookTitle).trim()===opt);
+      const scores=rs.map(r=>safeNum(r.score)).filter(n=>n>0);
+      const sum=scores.reduce((a,b)=>a+b,0);
+      const avg=scores.length>0?(sum/scores.length).toFixed(1):null;
+      const myR=rs.find(r=>String(r.alias).trim()===String(S.alias).trim());
+      const myScore=myR?safeNum(myR.score):0;
+      return{opt,avg,count:scores.length,myScore};
+    });
+    const maxAvg=Math.max(...optData.map(o=>o.avg?parseFloat(o.avg):0),0.01);
+
+    let h=`<div class="card lv">
+      <div class="sttl">🗳 투표</div>
+      <div style="font-size:.95rem;font-weight:700;margin-bottom:3px">${esc(v.title)}</div>
+      ${v.deadline?`<div style="font-size:.69rem;color:var(--sub);margin-bottom:8px">마감: ${fmt(v.deadline)}</div>`:'<div style="margin-bottom:8px"></div>'}`;
+
+    optData.forEach(o=>{
+      const barPct=o.avg?Math.round((parseFloat(o.avg)/maxAvg)*100):0;
+      const avgTxt=o.avg?`<strong>${o.avg}</strong>점`:'(집계중)';
+      h+=`<div class="vote-opt">
+        <div class="vote-opt-ttl">${esc(o.opt)}</div>`;
+      if(S.alias){
+        h+=`<div class="score-row"><span style="font-size:.68rem;color:var(--sub);margin-right:3px;flex-shrink:0">내 점수</span>`;
+        for(let i=1;i<=5;i++){
+          h+=`<button class="sc-btn${o.myScore===i?' on':''}" onclick="doVote('${esc(v.voteId)}','${esc(o.opt)}',${i})">${i}</button>`;
+        }
+        if(o.myScore>0)h+=`<span style="font-size:.68rem;color:var(--lv);margin-left:5px;font-weight:600">${o.myScore}점 ✓</span>`;
+        h+=`</div>`;
+      }
+      h+=`<div class="vote-stat">평균 ${avgTxt} · ${o.count}명 참여</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${barPct}%"></div></div>
+      </div>`;
+    });
+
+    h+=`<div class="vote-ppls">👥 참여 클러버 <strong>${ppls.length}</strong>명${ppls.length>0?' · '+ppls.map(p=>esc(p)).join(' · '):''}</div>`;
+    if(S.isAdmin)h+=`<div style="margin-top:10px;text-align:right"><button class="btn dng sm" onclick="doDelVote('${esc(v.voteId)}')">투표 삭제</button></div>`;
+    h+=`</div>`;
+    $('c-vote').innerHTML=h;
+  }catch(e){
+    console.error(e);
+    $('c-vote').innerHTML=`<div class="empty"><span class="ico">⚠️</span>데이터를 불러오지 못했습니다.</div>`;
+  }
+}
+async function doVote(voteId,bookTitle,score){
+  if(!S.alias){toast('로그인 후 투표할 수 있습니다.');return}
+  // 즉시 버튼 반영
+  document.querySelectorAll('.vote-opt').forEach(el=>{
+    const ttl=el.querySelector('.vote-opt-ttl');
+    if(ttl&&ttl.textContent.trim()===bookTitle.trim()){
+      el.querySelectorAll('.sc-btn').forEach((b,i)=>b.classList.toggle('on',i+1===score));
+    }
+  });
+  await apiPost({action:'submitVoteResponse',voteId,alias:S.alias,bookTitle,score});
+  toast('투표가 반영되었습니다.');
+  setTimeout(()=>renderVote(),1800);
+}
+async function doDelVote(voteId){
+  if(!confirm('이 투표를 삭제하시겠습니까?'))return;
+  await apiPost({action:'deleteVote',voteId});
+  toast('투표가 삭제되었습니다.');renderVote();
+}
+
+// ════════════════════════════════════════════════════
+// 5. 라이브러리 탭
+// ════════════════════════════════════════════════════
+async function renderLib(){
+  spin('c-lib');
+  try{
+    const d=await getLib(true);
+    const active=(d.active||[]).slice().reverse();
+    const archive=d.archive||[];
+    let h='';
+
+    h+=`<div style="font-size:.76rem;font-weight:700;color:var(--lv);margin-bottom:7px">2026.4 ~</div>`;
+    h+=`<div class="card" style="padding:10px 14px">`;
+    if(active.length===0){
+      h+=`<div class="empty" style="padding:10px 0">완료된 북토크가 없습니다.</div>`;
+    } else {
+      active.forEach(item=>{
+        const code=monthCode(item.month);
+        const rid='lr_'+String(item.sessionId).replace(/\W/g,'');
+        h+=`<div class="lib-row" id="li_${rid}" onclick="toggleLib('${rid}')">
+          <div class="lib-code">${code}.</div>
+          <div class="lib-info">
+            <div class="lib-ttl">${esc(item.bookTitle)}</div>
+            <div class="lib-au">${esc(item.bookAuthor||'')}</div>
+          </div>
+          <div class="lib-avg">★${safeNum(item.avgRating).toFixed(1)}</div>
+          <div class="lib-chv">▶</div>
+        </div>
+        <div class="lib-revs" id="${rid}">`;
+        const revs=item.reviews||[];
+        if(revs.length===0){h+=`<div style="font-size:.74rem;color:var(--sub);padding:5px 0">서평이 없습니다.</div>`}
+        else revs.forEach(r=>{
+          h+=`<div class="rev-item" style="padding:8px 0">
+            <div class="rev-hdr"><span class="rev-alias">${esc(r.alias)}</span></div>
+            ${rScore(r)}
+            ${r.comment?`<div class="rev-txt">${esc(r.comment)}</div>`:''}
+          </div>`;
+        });
+        h+=`</div>`;
+      });
+    }
+    h+=`</div>`;
+
+    if(archive.length>0){
+      const grp={};
+      archive.forEach(a=>{const ym=a.month||'미상';if(!grp[ym])grp[ym]=[];grp[ym].push(a)});
+      const yms=Object.keys(grp).sort((a,b)=>b.localeCompare(a));
+      h+=`<div id="archTog" class="arch-tog" onclick="toggleArch()">
+        <span>~ 2026.3 이전</span><span class="arr">▶</span>
+      </div>
+      <div class="arch-list" id="archList"><div class="card" style="padding:10px 14px">`;
+      yms.forEach(ym=>{
+        const code=monthCode(ym);
+        grp[ym].forEach(a=>{
+          h+=`<div class="arch-row">
+            <div class="arch-code">${code}.</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:.82rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(a.bookTitle)}</div>
+              <div style="font-size:.7rem;color:var(--sub)">${esc(a.bookAuthor||'')}</div>
+            </div>
+          </div>`;
+        });
+      });
+      h+=`</div></div>`;
+    }
+    $('c-lib').innerHTML=h;
+  }catch(e){$('c-lib').innerHTML=`<div class="empty"><span class="ico">⚠️</span>오류</div>`}
+}
+function toggleLib(rid){
+  $('li_'+rid).classList.toggle('open');
+  $(rid).classList.toggle('open');
+}
+function toggleArch(){
+  const l=$('archList'),t=$('archTog');
+  const o=l.classList.toggle('open');
+  t.classList.toggle('open',o);
+}
+
+// ════════════════════════════════════════════════════
+// 6. 관리자 탭 — 이음책 세션 카드 2개로 단순화
+// ════════════════════════════════════════════════════
+async function renderAdm(){
+  if(!S.isAdmin){$('c-adm').innerHTML=`<div class="empty"><span class="ico">🔒</span>관리자만 접근할 수 있습니다.</div>`;return}
+  spin('c-adm');
+  try{
+    const dash=await getDash();
+    const cb=dash.currentBook||null;
+    const nb=dash.nextBook||null;
+    // sessions: 이달/다음달 세션 각각 매핑
+    // currentBook에 sessionId 없는 경우 sessions에서 찾기
+    const sessions=dash.sessions||[];
+    let h='';
+
+    /* ─ 이음책 세션 관리 ─ */
+    h+=`<div class="adm-sec"><div class="adm-ttl">이음책 세션 관리</div>`;
+
+    // 이달의 책 카드
+    h+=`<div class="sess-card">
+      <div class="sess-card-head">
+        <div style="font-size:.66rem;font-weight:700;color:var(--lv);margin-bottom:4px">📖 이달의 책</div>`;
+    if(cb&&cb.bookTitle){
+      h+=`<div style="font-size:.88rem;font-weight:700">${esc(cb.bookTitle)}</div>
+          <div style="font-size:.72rem;color:var(--sub)">${esc(cb.bookAuthor||'')}${cb.month?' · '+esc(cb.month):''}</div>
+          <div style="font-size:.7rem;color:var(--sub);margin-top:3px">
+            ${cb.date1?fmtD(cb.date1):'일정 미정'}${cb.date2?' / '+fmtD(cb.date2):''}
+          </div>`;
+    } else {
+      h+=`<div style="font-size:.8rem;color:var(--sub)">미설정</div>`;
+    }
+    h+=`</div><div class="sess-card-body">`;
+    // 현재 세션 찾기 (bookTitle 매칭)
+    const curSess=cb&&cb.bookTitle?sessions.find(s=>String(s.bookTitle).trim()===String(cb.bookTitle).trim()):null;
+    if(curSess){
+      h+=`<div style="font-size:.7rem;color:var(--sub);margin-bottom:8px">세션 ID: ${esc(curSess.sessionId)} · 상태: <span class="tag lv">${esc(curSess.status)}</span></div>`;
+    }
+    h+=`<div class="sess-acts">
+      <button class="btn prim sm" onclick="openBookModal('current')">이달의 책 설정 / 수정</button>
+      ${curSess?`<button class="btn mn sm" onclick="doComplete('${esc(curSess.sessionId)}')">완료 처리</button>`:'<button class="btn mn sm" onclick="doCreateCurSess()">세션 생성</button>'}
+      ${curSess?`<button class="btn dng sm" onclick="doDelSess('${esc(curSess.sessionId)}')">삭제</button>`:''}
+    </div>`;
+    h+=`</div></div>`;
+
+    // 다음달 책 카드
+    h+=`<div class="sess-card">
+      <div class="sess-card-head gd">
+        <div style="font-size:.66rem;font-weight:700;color:var(--gd);margin-bottom:4px">🔜 다음달 책</div>`;
+    if(nb&&nb.title){
+      h+=`<div style="font-size:.88rem;font-weight:700">${esc(nb.title)}</div>
+          <div style="font-size:.72rem;color:var(--sub)">${esc(nb.author||'')}${nb.month?' · '+esc(nb.month):''}</div>
+          <div style="font-size:.7rem;color:var(--sub);margin-top:3px">
+            ${nb.date1?fmtD(nb.date1):'일정 미정'}${nb.date2?' / '+fmtD(nb.date2):''}
+          </div>`;
+    } else {
+      h+=`<div style="font-size:.8rem;color:var(--sub)">미설정</div>`;
+    }
+    h+=`</div><div class="sess-card-body">`;
+    const nxtSess=nb&&nb.title?sessions.find(s=>String(s.bookTitle).trim()===String(nb.title).trim()):null;
+    if(nxtSess){
+      h+=`<div style="font-size:.7rem;color:var(--sub);margin-bottom:8px">세션 ID: ${esc(nxtSess.sessionId)} · 상태: <span class="tag gd">${esc(nxtSess.status)}</span></div>`;
+    }
+    h+=`<div class="sess-acts">
+      <button class="btn gd sm" onclick="openBookModal('next')">다음달 책 설정 / 수정</button>
+      ${nxtSess?`<button class="btn dng sm" onclick="doDelSess('${esc(nxtSess.sessionId)}')">삭제</button>`:'<button class="btn gh sm" onclick="doCreateNxtSess()">세션 생성</button>'}
+    </div>`;
+    h+=`</div></div>`;
+    h+=`</div>`; // adm-sec
+
+    /* ─ 투표 생성 ─ */
+    h+=`<div class="adm-sec">
+      <div class="adm-ttl">투표 (최신 1개 유지)</div>
+      <button class="btn gd sm" onclick="openVoteModal()">+ 투표 생성</button>
+      <div style="font-size:.7rem;color:var(--sub);margin-top:5px">새 투표 생성 전 기존 투표를 먼저 삭제해주세요.</div>
+    </div>`;
+
+    /* ─ 서평 초기화 안내 ─ */
+    h+=`<div class="adm-sec">
+      <div class="adm-ttl">서평 초기화</div>
+      <div style="font-size:.76rem;color:var(--sub);line-height:1.6;margin-bottom:10px;
+                  background:#FBF3E3;border-radius:7px;padding:10px 12px;border-left:2px solid var(--gd)">
+        ⚠️ <strong>서평 초기화</strong>는 해당 세션의 모든 서평(별점+한줄평)을 시트에서 <strong>영구 삭제</strong>합니다.<br>
+        북토크 완료 후 다음 세션을 위한 초기화, 또는 테스트 데이터 삭제 시 사용하세요.
+      </div>`;
+    if(sessions.length===0){
+      h+=`<div style="font-size:.78rem;color:var(--sub)">세션이 없습니다.</div>`;
+    } else {
+      sessions.filter(s=>String(s.status).trim()!=='done').forEach(s=>{
+        h+=`<div style="display:flex;justify-content:space-between;align-items:center;
+              padding:8px 0;border-bottom:1px solid var(--bd)">
+          <div>
+            <div style="font-size:.8rem;font-weight:500">${esc(s.bookTitle)}</div>
+            <div style="font-size:.68rem;color:var(--sub)">${esc(s.sessionId)}</div>
+          </div>
+          <button class="btn dng sm" onclick="doResetRev('${esc(s.sessionId)}','${esc(s.bookTitle)}')">초기화</button>
+        </div>`;
+      });
+    }
+    h+=`</div>`;
+
+    $('c-adm').innerHTML=h;
+  }catch(e){$('c-adm').innerHTML=`<div class="empty"><span class="ico">⚠️</span>오류</div>`}
+}
+
+// 이음책 세션 모달 열기
+function openBookModal(type){
+  const dash=S.dash;
+  $('bookMoType').value=type;
+  $('bookMoSessId').value='';
+  $('bookMoTtl').textContent=type==='current'?'이달의 책 설정':'다음달 책 설정';
+  const src=type==='current'?dash?.currentBook:dash?.nextBook;
+  $('bmTitle').value=src?(src.bookTitle||src.title||''):'';
+  $('bmAuthor').value=src?(src.bookAuthor||src.author||''):'';
+  $('bmMonth').value=src?src.month||'':'';
+  $('bmD1').value=src?src.date1||'':'';
+  $('bmD2').value=src?src.date2||'':'';
+  $('bmMemo').value=src?src.memo||'':'';
+  mo('moBook',true);
+}
+
+async function doCreateCurSess(){
+  if(!S.dash?.currentBook?.bookTitle){toast('먼저 이달의 책을 설정해주세요.');return}
+  const cb=S.dash.currentBook;
+  await apiPost({action:'createSession',bookTitle:cb.bookTitle,bookAuthor:cb.bookAuthor||'',
+    date1:cb.date1||'',date2:cb.date2||''});
+  toast('세션이 생성되었습니다.');S.dash=null;setTimeout(()=>renderAdm(),1500);
+}
+async function doCreateNxtSess(){
+  if(!S.dash?.nextBook?.title){toast('먼저 다음달 책을 설정해주세요.');return}
+  const nb=S.dash.nextBook;
+  await apiPost({action:'createSession',bookTitle:nb.title,bookAuthor:nb.author||'',
+    date1:nb.date1||'',date2:nb.date2||''});
+  toast('세션이 생성되었습니다.');S.dash=null;setTimeout(()=>renderAdm(),1500);
+}
+async function doComplete(sessionId){
+  if(!confirm('이 세션을 완료 처리하시겠습니까?\n라이브러리에 아카이브되고, 다음달 책이 이달의 책으로 승격됩니다.'))return;
+  await apiPost({action:'completeSession',sessionId});
+  toast('완료 처리되었습니다.');S.dash=null;S.lib=null;setTimeout(()=>renderAdm(),1500);
+}
+async function doDelSess(sessionId){
+  if(!confirm('이 세션을 삭제하시겠습니까?'))return;
+  await apiPost({action:'deleteSession',sessionId});
+  toast('삭제되었습니다.');S.dash=null;setTimeout(()=>renderAdm(),1500);
+}
+async function doResetRev(sessionId,title){
+  if(!confirm(`"${title}" 세션의 모든 서평을 영구 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`))return;
+  await apiPost({action:'resetReviews',sessionId});
+  toast('서평이 초기화되었습니다.');renderAdm();
+}
+function openVoteModal(){
+  $('vTitle').value='';$('vDeadline').value='';
+  const recs=S.dash?.recommendations||[];
+  let lh=recs.length===0?`<div style="font-size:.75rem;color:var(--sub)">추천된 책이 없습니다.</div>`:'';
+  recs.forEach((r,i)=>{
+    lh+=`<div class="chk-item" onclick="toggleVC(${i})">
+      <div class="chkbox" id="vc_${i}"></div>
+      <div><div style="font-size:.8rem;font-weight:500">${esc(r.title)}</div>
+      <div style="font-size:.68rem;color:var(--sub)">${esc(r.author||'')}</div></div>
+    </div>`;
+  });
+  $('vOptList').innerHTML=lh;
+  $('vOptList').dataset.recs=JSON.stringify(recs.map(r=>r.title));
+  mo('moVote',true);
+}
+function toggleVC(i){const e=$('vc_'+i);if(e)e.classList.toggle('on')}
+
+// ════════════════════════════════════════════════════
+// 헤더 / 로그인
+// ════════════════════════════════════════════════════
+function updateHeader(){
+  const hr=$('hdrR');
+  if(S.alias){
+    hr.innerHTML=`<span class="badge">${esc(S.alias)}</span>
+      <button class="bxs out" id="btnLoOut">로그아웃</button>`;
+    $('btnLoOut').addEventListener('click',logout);
+  } else {
+    hr.innerHTML=`<button class="bxs" id="btnLoIn">로그인</button>`;
+    $('btnLoIn').addEventListener('click',openLogin);
+  }
+  const at=$('tabAdm');if(at)at.style.display=S.isAdmin?'':'none';
+}
+function openLogin(){
+  $('loAlias').value='';$('loPw').value='';$('loErr').style.display='none';
+  $('pwField').style.display='none';mo('loPanel',true);
+}
+function logout(){
+  S.alias='';S.isAdmin=false;localStorage.removeItem('ieum_alias');
+  updateHeader();toast('로그아웃되었습니다.');
+  if(S.tab==='t-adm')switchTab('t-book');else renderTab(S.tab);
+}
+window.onAliasInput=function(){
+  const alias=$('loAlias').value.trim();
+  $('pwField').style.display=(alias===ADMIN_ALIAS)?'block':'none';
+  $('loErr').style.display='none';
+};
+
+// ════════════════════════════════════════════════════
+// Code.gs 에 date1/date2/memo 필드 추가가 필요하므로
+// setCurrentBook / setNextBook 에 이 필드를 함께 전송
+// ════════════════════════════════════════════════════
+
+// ════════════════════════════════════════════════════
+// DOMContentLoaded 이벤트 바인딩
+// ════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+
+  // 탭
+  document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+  // 로그인
+  $('btnLoIn').addEventListener('click',openLogin);
+  $('btnLoCancel').addEventListener('click',()=>mo('loPanel',false));
+  $('loAlias').addEventListener('keydown',e=>{if(e.key==='Enter')$('btnLoConfirm').click()});
+  $('loPw').addEventListener('keydown',e=>{if(e.key==='Enter')$('btnLoConfirm').click()});
+  $('btnLoConfirm').addEventListener('click',()=>{
+    const alias=$('loAlias').value.trim();
+    const err=$('loErr');
+    if(!alias){err.textContent='별칭을 입력해주세요.';err.style.display='block';return}
+    if(alias===ADMIN_ALIAS){
+      const pw=$('loPw').value.trim();
+      if(!pw){err.textContent='관리자 비밀번호를 입력해주세요.';err.style.display='block';return}
+      if(pw!==ADMIN_PW){err.textContent='비밀번호가 틀렸습니다.';err.style.display='block';return}
+      S.alias=alias;S.isAdmin=true;
+    } else {
+      S.alias=alias;S.isAdmin=false;
+    }
+    localStorage.setItem('ieum_alias',alias);
+    mo('loPanel',false);updateHeader();toast(`${alias}님, 환영합니다!`);renderTab(S.tab);
+  });
+
+  // 회원 등록
+  $('btnRegOpen').addEventListener('click',()=>{mo('loPanel',false);mo('moReg',true)});
+  $('btnRegClose').addEventListener('click',()=>mo('moReg',false));
+  $('btnRegConfirm').addEventListener('click',async()=>{
+    const alias=$('rAlias').value.trim(),name=$('rName').value.trim();
+    if(!alias||!name){toast('별칭과 이름은 필수입니다.');return}
+    $('btnRegConfirm').textContent='등록 중...';
+    await apiPost({action:'registerMember',alias,name,birth:$('rBirth').value.trim(),
+      gender:$('rGender').value,emotionalLabor:$('rEmot').value.trim()});
+    toast('등록 요청을 전송했습니다. 잠시 후 로그인해주세요.');
+    mo('moReg',false);$('btnRegConfirm').textContent='등록하기';
+    setTimeout(()=>mo('loPanel',true),400);
+  });
+
+  // 추천 등록
+  $('btnRecClose').addEventListener('click',()=>mo('moRec',false));
+  $('btnRecConfirm').addEventListener('click',async()=>{
+    if(!S.alias){toast('로그인이 필요합니다.');return}
+    const title=$('rcTitle').value.trim();
+    if(!title){toast('책 제목을 입력해주세요.');return}
+    $('btnRecConfirm').textContent='등록 중...';
+    await apiPost({action:'addRecommendation',alias:S.alias,title,
+      author:$('rcAuthor').value.trim(),pub:$('rcPub').value.trim(),reason:$('rcReason').value.trim()});
+    toast('추천이 등록되었습니다.');mo('moRec',false);
+    $('btnRecConfirm').textContent='추천 등록';S.dash=null;setTimeout(()=>renderRec(),1500);
+  });
+
+  // 서평
+  $('btnRevClose').addEventListener('click',()=>mo('moRev',false));
+  $('revComment').addEventListener('input',function(){$('revCnt').textContent=this.value.length});
+  $('btnRevConfirm').addEventListener('click',async()=>{
+    if(!S.alias){toast('로그인이 필요합니다.');return}
+    const sid=$('revSessId').value,mode=$('revMode').value;
+    if(!S.ratings.gam&&!S.ratings.jeo&&!S.ratings.sae){toast('별점을 하나 이상 선택해주세요.');return}
+    const body={
+      action:mode==='edit'?'updateReview':'submitReview',
+      sessionId:sid,
+      alias:mode==='edit'?$('revEditAlias').value:S.alias,
+      r_gamdon:S.ratings.gam,r_jeonhwan:S.ratings.jeo,r_saeroun:S.ratings.sae,
+      comment:$('revComment').value.trim(),isAdmin:S.isAdmin,
+    };
+    $('btnRevConfirm').textContent='저장 중...';
+    await apiPost(body);
+    mo('moRev',false);toast(mode==='edit'?'서평이 수정되었습니다.':'서평이 등록되었습니다.');
+    $('btnRevConfirm').textContent=mode==='edit'?'수정 저장':'서평 등록';
+    setTimeout(()=>renderRev(),1500);
+  });
+
+  // 투표 생성
+  $('btnVoteClose').addEventListener('click',()=>mo('moVote',false));
+  $('btnVoteConfirm').addEventListener('click',async()=>{
+    const title=$('vTitle').value.trim();
+    if(!title){toast('투표 제목을 입력해주세요.');return}
+    const recs=JSON.parse($('vOptList').dataset.recs||'[]');
+    const sel=recs.filter((_,i)=>{const e=$('vc_'+i);return e&&e.classList.contains('on')});
+    if(sel.length<2){toast('2개 이상 선택해주세요.');return}
+    $('btnVoteConfirm').textContent='생성 중...';
+    await apiPost({action:'createVote',title,options:sel,deadline:$('vDeadline').value});
+    toast('투표가 생성되었습니다.');mo('moVote',false);
+    $('btnVoteConfirm').textContent='투표 생성';
+    setTimeout(()=>{renderAdm();if(S.tab==='t-vote')renderVote()},1500);
+  });
+
+  // 이음책 세션 모달 저장
+  $('btnBookClose').addEventListener('click',()=>mo('moBook',false));
+  $('btnBookConfirm').addEventListener('click',async()=>{
+    const type=$('bookMoType').value;
+    const title=$('bmTitle').value.trim();
+    if(!title){toast('책 제목을 입력해주세요.');return}
+    const d1=$('bmD1').value,d2=$('bmD2').value;
+    const month=$('bmMonth').value.trim();
+    const memo=$('bmMemo').value.trim();
+    // 1. 책 정보 저장
+    let body;
+    if(type==='current'){
+      body={action:'setCurrentBook',bookTitle:title,bookAuthor:$('bmAuthor').value.trim(),
+            month,date1:d1,date2:d2,memo};
+    } else {
+      body={action:'setNextBook',title,author:$('bmAuthor').value.trim(),month,date1:d1,date2:d2,memo};
+    }
+    $('btnBookConfirm').textContent='저장 중...';
+    await apiPost(body);
+    // 2. 해당 세션도 있으면 날짜 업데이트
+    if(S.dash){
+      const sessions=S.dash.sessions||[];
+      const matchSess=sessions.find(s=>{
+        const bt=type==='current'?S.dash.currentBook?.bookTitle:S.dash.nextBook?.title;
+        return bt&&String(s.bookTitle).trim()===bt.trim();
+      });
+      if(matchSess){
+        await apiPost({action:'updateSession',sessionId:matchSess.sessionId,
+          bookTitle:title,bookAuthor:$('bmAuthor').value.trim(),date1:d1,date2:d2});
+      }
+    }
+    toast('저장되었습니다.');mo('moBook',false);
+    $('btnBookConfirm').textContent='저장';S.dash=null;
+    setTimeout(()=>{renderAdm();renderBook()},1500);
+  });
+
+  // 모달 바깥 클릭
+  document.querySelectorAll('.mo').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on')}));
+
+  // 초기화
+  updateHeader();renderBook();
+});
+</script>
+</body>
+</html>
