@@ -408,7 +408,16 @@ function spin(id){$(id).innerHTML='<div class="sw"><div class="sp"></div></div>'
 function mo(id,open){$(id).classList.toggle('on',open)}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function fmt(s){return String(s||'').substring(0,10)}
-function fmtD(s){if(!s)return'';const p=String(s).substring(0,10).split('-');return p.length===3?`${p[1]}/${p[2]}`:s}
+function fmtD(s){
+  if(!s)return'';
+  const str=String(s).trim();
+  // yyyy-MM-dd 형식
+  const m=str.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(m)return `${parseInt(m[2])}/${parseInt(m[3])}`;
+  // 이미 M/D 형식
+  if(/^\d+\/\d+$/.test(str))return str;
+  return str.substring(0,10);
+}
 function monthCode(m){if(!m)return'';const p=m.split('-');return p.length<2?m:p[0].slice(2)+p[1]}
 // 숫자 안전 파싱 (NaN 방지)
 function safeNum(v){const n=parseFloat(String(v).trim());return isNaN(n)?0:n}
@@ -426,9 +435,9 @@ function apiGet(params){
     sc.src=`${API}?${qs}`;document.head.appendChild(sc);
   });
 }
+// JSONP 쓰기 — no-cors 대신 JSONP GET으로 통일 (응답 확인 가능)
 function apiPost(body){
-  return fetch(API,{method:'POST',mode:'no-cors',
-    headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  return apiGet(body); // 모든 쓰기도 JSONP GET으로 처리
 }
 async function getDash(force=false){
   if(!force&&S.dash&&Date.now()-S.dashTs<TTL)return S.dash;
