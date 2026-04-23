@@ -435,9 +435,10 @@ function apiGet(params){
     sc.src=`${API}?${qs}`;document.head.appendChild(sc);
   });
 }
-// JSONP 쓰기 — no-cors 대신 JSONP GET으로 통일 (응답 확인 가능)
+// 쓰기: JSONP GET으로 완전 전환 (CORS 우회)
+// 한글 파라미터는 encodeURIComponent로 처리됨
 function apiPost(body){
-  return apiGet(body); // 모든 쓰기도 JSONP GET으로 처리
+  return apiGet(body);
 }
 async function getDash(force=false){
   if(!force&&S.dash&&Date.now()-S.dashTs<TTL)return S.dash;
@@ -726,7 +727,7 @@ async function renderVote(){
     }
     // 최신 1개
     const v=all.sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)))[0];
-    const opts=(v.options||'').split('||').map(o=>o.trim()).filter(Boolean);
+    const opts=[...new Set((v.options||'').split('||').map(o=>o.trim()).filter(Boolean))];
     const responses=Array.isArray(v.responses)?v.responses:[];
 
     // 참여자 (alias 기준 unique)
