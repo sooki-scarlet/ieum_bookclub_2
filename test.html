@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이음북클럽 연결 테스트</title>
+<style>
+body{font-family:'Noto Sans KR',sans-serif;max-width:480px;margin:0 auto;padding:20px;background:#f5f5f5}
+h2{font-size:1rem;margin-bottom:16px;color:#333}
+.card{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card h3{font-size:.85rem;color:#666;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:6px}
+button{
+  display:inline-block;padding:8px 16px;border-radius:7px;border:none;
+  background:#6A5D6B;color:#fff;font-size:.82rem;cursor:pointer;margin:4px 4px 4px 0;
+  font-family:inherit;
+}
+button:disabled{background:#ccc}
+.result{
+  margin-top:8px;padding:10px;border-radius:6px;font-size:.78rem;
+  font-family:monospace;white-space:pre-wrap;word-break:break-all;
+  min-height:40px;background:#f8f8f8;border:1px solid #e0e0e0;
+}
+.ok{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
+.err{background:#ffebee;border-color:#ef9a9a;color:#c62828}
+.info{font-size:.72rem;color:#888;margin-top:4px}
+input{
+  width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;
+  font-size:.82rem;margin-bottom:8px;font-family:inherit;
+}
+label{font-size:.74rem;color:#666;display:block;margin-bottom:3px}
+</style>
+</head>
+<body>
+
+<h2>🔧 이음북클럽 연결 테스트</h2>
+
+<!-- API URL 설정 -->
+<div class="card">
+  <h3>⚙️ API URL</h3>
+  <label>Apps Script 배포 URL</label>
+  <input id="apiUrl" value="https://script.google.com/macros/s/AKfycbzDdIMiPZAVrblpXuZeUJh2zFP_gUQ9q707rKRrmh32x_-2iCDeWEQf7caGwSoeSsVO0Q/exec"
+    placeholder="https://script.google.com/macros/s/...">
+  <div class="info">※ Code.gs 재배포 후 URL이 바뀌었다면 여기서 수정</div>
+</div>
+
+<!-- 테스트 1: GET 읽기 -->
+<div class="card">
+  <h3>📖 테스트 1 — GET 읽기 (getDashboard)</h3>
+  <button onclick="testGet()">GET 테스트</button>
+  <div class="result" id="r1">버튼을 눌러주세요</div>
+</div>
+
+<!-- 테스트 2: POST 쓰기 (실제 시트에 기록됨) -->
+<div class="card">
+  <h3>✏️ 테스트 2 — POST 쓰기 (테스트 투표 응답)</h3>
+  <div class="info" style="color:#e65100;margin-bottom:8px">
+    ⚠️ 이 테스트는 실제로 vote_responses 시트에 기록됩니다.<br>
+    테스트 후 시트에서 직접 삭제해주세요.
+  </div>
+  <label>테스트용 voteId (vote_responses 시트의 실제 voteId 입력)</label>
+  <input id="testVoteId" placeholder="vote_1234567890">
+  <label>테스트용 책 제목</label>
+  <input id="testBookTitle" placeholder="편안함의 습격">
+  <button onclick="testPost()">POST 테스트</button>
+  <div class="result" id="r2">버튼을 눌러주세요</div>
+</div>
+
+<!-- 테스트 3: 투표 결과 조회 -->
+<div class="card">
+  <h3>📊 테스트 3 — 투표 데이터 조회 (getVotes)</h3>
+  <button onclick="testGetVotes()">투표 데이터 조회</button>
+  <div class="result" id="r3">버튼을 눌러주세요</div>
+</div>
+
+<!-- 테스트 4: 서평 조회 -->
+<div class="card">
+  <h3>📝 테스트 4 — 서평 데이터 조회</h3>
+  <label>sessionId (sessions 시트에서 확인)</label>
+  <input id="testSessId" placeholder="sess_1234567890">
+  <button onclick="testGetReviews()">서평 조회</button>
+  <div class="result" id="r4">버튼을 눌러주세요</div>
+</div>
+
+<!-- 시트 현황 -->
+<div class="card">
+  <h3>🗂 시트 현황 확인</h3>
+  <button onclick="checkSheets()">전체 현황</button>
+  <div class="result" id="r5">버튼을 눌러주세요</div>
+</div>
+
+<script>
+const API = () => document.getElementById('apiUrl').value.trim();
+
+// GET 테스트 (JSONP)
+function apiGet(params){
+  return new Promise((res,rej)=>{
+    const cb='_t'+Date.now();
+    const qs=Object.entries({...params,callback:cb})
+      .map(([k,v])=>`${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
+    const sc=document.createElement('script');
+    const tm=setTimeout(()=>{delete window[cb];sc.remove();rej(new Error('타임아웃(15초) — API URL 확인 필요'))},15000);
+    window[cb]=d=>{clearTimeout(tm);delete window[cb];sc.remove();res(d)};
+    sc.src=`${API()}?${qs}`;
+    document.head.appendChild(sc);
+  });
+}
+
+// POST 테스트
+async function apiPost(body){
+  const res=await fetch(API(),{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body),
+    redirect:'follow',
+  });
+  return res.json();
+}
+
+function show(id, data, isOk){
+  const el=document.getElementById(id);
+  el.className='result '+(isOk?'ok':'err');
+  el.textContent=typeof data==='string'?data:JSON.stringify(data,null,2);
+}
+
+async function testGet(){
+  const btn=event.target; btn.disabled=true; btn.textContent='조회 중...';
+  try{
+    const d=await apiGet({action:'getDashboard'});
+    show('r1',{
+      '✅ 연결 성공': true,
+      '이달의 책': d.currentBook?.bookTitle || '없음',
+      '세션 수': (d.sessions||[]).length,
+      '추천 수': (d.recommendations||[]).length,
+    }, true);
+  }catch(e){
+    show('r1','❌ GET 실패: '+e.message+'\n\n→ Apps Script 배포 URL이 맞는지 확인하세요.', false);
+  }
+  btn.disabled=false; btn.textContent='GET 테스트';
+}
+
+async function testPost(){
+  const voteId=document.getElementById('testVoteId').value.trim();
+  const bookTitle=document.getElementById('testBookTitle').value.trim();
+  if(!voteId||!bookTitle){alert('voteId와 책 제목을 입력해주세요');return}
+  const btn=event.target; btn.disabled=true; btn.textContent='전송 중...';
+  try{
+    const d=await apiPost({
+      action:'submitVoteResponse',
+      voteId, alias:'테스트유저', bookTitle, score:3
+    });
+    if(d&&d.ok){
+      show('r2','✅ POST 성공!\n\n'+JSON.stringify(d,null,2)+'\n\n→ vote_responses 시트에서 "테스트유저" 행을 확인하고 삭제해주세요.', true);
+    } else {
+      show('r2','⚠️ POST 도달했지만 오류:\n'+JSON.stringify(d,null,2), false);
+    }
+  }catch(e){
+    show('r2','❌ POST 실패: '+e.message+'\n\n→ CORS 오류일 수 있습니다. Code.gs를 다시 배포해주세요.', false);
+  }
+  btn.disabled=false; btn.textContent='POST 테스트';
+}
+
+async function testGetVotes(){
+  const btn=event.target; btn.disabled=true; btn.textContent='조회 중...';
+  try{
+    const d=await apiGet({action:'getVotes'});
+    if(!d.ok){show('r3','❌ 오류: '+d.error, false); return;}
+    const votes=d.votes||[];
+    if(votes.length===0){show('r3','⚠️ votes 시트가 비어 있습니다.', false); return;}
+    const v=votes[0];
+    const info={
+      '투표 제목': v.title,
+      'voteId': v.voteId,
+      'options 원본': v.options,
+      '파싱된 옵션': (v.options||'').split('||'),
+      'responses 수': (v.responses||[]).length,
+      'responses 샘플': (v.responses||[]).slice(0,3),
+    };
+    show('r3', info, true);
+  }catch(e){
+    show('r3','❌ 실패: '+e.message, false);
+  }
+  btn.disabled=false; btn.textContent='투표 데이터 조회';
+}
+
+async function testGetReviews(){
+  const sid=document.getElementById('testSessId').value.trim();
+  const btn=event.target; btn.disabled=true; btn.textContent='조회 중...';
+  try{
+    const d=await apiGet({action:'getReviews', sessionId:sid});
+    if(!d.ok){show('r4','❌ 오류: '+d.error, false); return;}
+    const revs=d.reviews||[];
+    show('r4',{
+      '서평 수': revs.length,
+      '샘플': revs.slice(0,3).map(r=>({
+        alias: r.alias,
+        r_gamdon: r.r_gamdon,
+        r_jeonhwan: r.r_jeonhwan,
+        r_saeroun: r.r_saeroun,
+        avgRating: r.avgRating,
+        comment: r.comment,
+      })),
+    }, revs.length>0);
+  }catch(e){
+    show('r4','❌ 실패: '+e.message, false);
+  }
+  btn.disabled=false; btn.textContent='서평 조회';
+}
+
+async function checkSheets(){
+  const btn=event.target; btn.disabled=true; btn.textContent='확인 중...';
+  try{
+    const [dash, votes, lib] = await Promise.all([
+      apiGet({action:'getDashboard'}),
+      apiGet({action:'getVotes'}),
+      apiGet({action:'getLibrary'}),
+    ]);
+    show('r5',{
+      'GET 연결': dash.ok ? '✅ 정상' : '❌ 오류',
+      '이달의 책': dash.currentBook?.bookTitle||'없음',
+      '활성 세션': (dash.sessions||[]).map(s=>s.bookTitle+' ('+s.sessionId+')'),
+      '투표': (votes.votes||[]).map(v=>v.title+' / responses:'+((v.responses||[]).length)+'개'),
+      '라이브러리': (lib.active||[]).length+'권',
+      '아카이브': (lib.archive||[]).length+'권',
+    }, true);
+  }catch(e){
+    show('r5','❌ 실패: '+e.message, false);
+  }
+  btn.disabled=false; btn.textContent='전체 현황';
+}
+</script>
+</body>
+</html>
