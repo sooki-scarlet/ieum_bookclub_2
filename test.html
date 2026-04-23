@@ -144,17 +144,18 @@ async function testPost(){
   if(!voteId||!bookTitle){alert('voteId와 책 제목을 입력해주세요');return}
   const btn=event.target; btn.disabled=true; btn.textContent='전송 중...';
   try{
-    const d=await apiPost({
+    // JSONP GET으로 테스트 (CORS 우회)
+    const d=await apiGet({
       action:'submitVoteResponse',
       voteId, alias:'테스트유저', bookTitle, score:3
     });
     if(d&&d.ok){
-      show('r2','✅ POST 성공!\n\n'+JSON.stringify(d,null,2)+'\n\n→ vote_responses 시트에서 "테스트유저" 행을 확인하고 삭제해주세요.', true);
+      show('r2','✅ JSONP GET 성공!\n\n'+JSON.stringify(d,null,2)+'\n\n→ vote_responses 시트에서 "테스트유저" 행을 확인하고 삭제해주세요.', true);
     } else {
-      show('r2','⚠️ POST 도달했지만 오류:\n'+JSON.stringify(d,null,2), false);
+      show('r2','⚠️ 도달했지만 오류:\n'+JSON.stringify(d,null,2), false);
     }
   }catch(e){
-    show('r2','❌ POST 실패: '+e.message+'\n\n→ CORS 오류일 수 있습니다. Code.gs를 다시 배포해주세요.', false);
+    show('r2','❌ 실패: '+e.message, false);
   }
   btn.disabled=false; btn.textContent='POST 테스트';
 }
