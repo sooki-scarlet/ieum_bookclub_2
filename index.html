@@ -574,10 +574,25 @@ async function renderRev(){
   spin('c-rev');
   try{
     const dash=await getDash();
-    // 현재 세션: sessions에서 status!='done' 인 것 우선, 없으면 currentBook 기준
     const sessions=(dash.sessions||[]).filter(s=>String(s.status).trim()!=='done');
     if(sessions.length===0){
-      $('c-rev').innerHTML=`<div class="card"><div class="empty"><span class="ico">📝</span>현재 진행 중인 북토크 세션이 없습니다.</div></div>`;
+      const cb=dash.currentBook;
+      if(cb&&cb.bookTitle){
+        $('c-rev').innerHTML=`
+          <div class="card lv" style="margin-bottom:12px">
+            <div class="sttl">현재 북토크</div>
+            <div class="bttl">${esc(cb.bookTitle)}</div>
+            <div class="bau">${esc(cb.bookAuthor||'')}</div>
+          </div>
+          <div class="card">
+            <div class="empty" style="padding:10px 0">
+              세션이 아직 생성되지 않았습니다.<br>
+              관리자 탭 → 세션 생성 후 서평을 작성할 수 있습니다.
+            </div>
+          </div>`;
+      } else {
+        $('c-rev').innerHTML=`<div class="card"><div class="empty"><span class="ico">📝</span>현재 진행 중인 북토크 세션이 없습니다.</div></div>`;
+      }
       return;
     }
     const sess=sessions[0];
@@ -616,11 +631,10 @@ async function renderRev(){
     } else {
       reviews.forEach(r=>{
         const isMe=S.alias&&S.alias.trim()===String(r.alias).trim();
-        const canEdit=S.alias&&(isMe||S.isAdmin);
         h+=`<div class="rev-item" style="${isMe?'background:#f4f1f5;margin:0 -15px;padding:10px 15px;':''}">
           <div class="rev-hdr">
             <span class="rev-alias">${esc(r.alias)}${isMe?' <small style="font-size:.64rem;color:var(--sub)">(나)</small>':''}</span>
-            ${canEdit?`<button class="btn gh sm" onclick="openEditRev('${esc(sess.sessionId)}','${esc(r.alias)}')">수정</button>`:''}
+            ${isMe?`<button class="btn gh sm" onclick="openEditRev('${esc(sess.sessionId)}','${esc(r.alias)}')">수정</button>`:''}
           </div>
           ${rScore(r)}
           ${r.comment?`<div class="rev-txt">${esc(r.comment)}</div>`:''}
@@ -725,9 +739,11 @@ async function renderVote(){
       $('c-vote').innerHTML=`<div class="card"><div class="empty"><span class="ico">🗳</span>진행 중인 투표가 없습니다.</div></div>`;
       return;
     }
-    // 최신 1개
+    // 최신 1개 (active 상태 우선)
     const v=all.sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)))[0];
-    const opts=[...new Set((v.options||'').split('||').map(o=>o.trim()).filter(Boolean))];
+    // Set 중복제거 제거 — 저장된 그대로 표시
+    const optsRaw=(v.options||'').split('||').map(o=>o.trim()).filter(Boolean);
+    const opts=optsRaw;
     const responses=Array.isArray(v.responses)?v.responses:[];
 
     // 참여자 (alias 기준 unique)
