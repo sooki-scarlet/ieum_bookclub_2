@@ -1161,7 +1161,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     const sel=recs.filter((_,i)=>{const e=$('vc_'+i);return e&&e.classList.contains('on')});
     if(sel.length<2){toast('2개 이상 선택해주세요.');return}
     $('btnVoteConfirm').textContent='생성 중...';
-    await apiPost({action:'createVote',title,options:sel,deadline:$('vDeadline').value});
+    // options를 ||로 join해서 JSONP GET 파라미터로 전송
+    await apiPost({action:'createVote',title,options:sel.join('||'),deadline:$('vDeadline').value});
     toast('투표가 생성되었습니다.');mo('moVote',false);
     $('btnVoteConfirm').textContent='투표 생성';
     setTimeout(()=>{renderAdm();if(S.tab==='t-vote')renderVote()},1500);
