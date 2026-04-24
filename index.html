@@ -302,7 +302,7 @@ input,textarea,select{font-family:inherit;font-size:.875rem;outline:none}
     <div class="fg"><label class="fl">별칭 *</label><input class="fi" id="rAlias" placeholder="북클럽 별칭"></div>
     <div class="fg"><label class="fl">이름 *</label><input class="fi" id="rName" placeholder="실명"></div>
     <div class="row2">
-      <div class="fg"><label class="fl">생년월일</label><input class="fi" id="rBirth" placeholder="1990-01-01"></div>
+      <div class="fg"><label class="fl">출생연도</label><input class="fi" id="rBirth" placeholder="예) 1990"></div>
       <div class="fg"><label class="fl">성별</label>
         <select class="fs" id="rGender">
           <option value="">선택</option><option>여</option><option>남</option><option>기타</option>
@@ -478,7 +478,7 @@ async function renderBook(){
   try{
     const d=await getDash();
     const cb=d.currentBook||null;   // {bookTitle,bookAuthor,month,date1,date2,memo}
-    const nb=d.nextBook||null;      // {title,author,month,date1,date2,memo}
+    const nb=d.nextBook||null;      // {bookTitle,bookAuthor,month,date1,date2,memo}
     let h='';
 
     /* ─ 이달의 책 ─ */
@@ -517,9 +517,9 @@ async function renderBook(){
     h+=`<div class="book-block">
       <div class="book-block-head gd">
         <div class="sttl">🔜 다음달 책</div>`;
-    if(nb&&nb.title){
-      h+=`<div class="bttl">${esc(nb.title)}</div>
-          <div class="bau">${esc(nb.author||'')}</div>
+    if(nb&&nb.bookTitle){
+      h+=`<div class="bttl">${esc(nb.bookTitle)}</div>
+          <div class="bau">${esc(nb.bookAuthor||'')}</div>
           ${nb.month?`<div style="margin-top:5px"><span class="tag gd">${esc(nb.month)}</span></div>`:''}`;
     } else {
       h+=`<div style="font-size:.82rem;color:var(--sub)">다음달 책이 아직 선정되지 않았습니다.</div>`;
@@ -922,9 +922,9 @@ async function renderAdm(){
     h+=`<div class="sess-card">
       <div class="sess-card-head gd">
         <div style="font-size:.66rem;font-weight:700;color:var(--gd);margin-bottom:4px">🔜 다음달 책</div>`;
-    if(nb&&nb.title){
-      h+=`<div style="font-size:.88rem;font-weight:700">${esc(nb.title)}</div>
-          <div style="font-size:.72rem;color:var(--sub)">${esc(nb.author||'')}${nb.month?' · '+esc(nb.month):''}</div>
+    if(nb&&nb.bookTitle){
+      h+=`<div style="font-size:.88rem;font-weight:700">${esc(nb.bookTitle)}</div>
+          <div style="font-size:.72rem;color:var(--sub)">${esc(nb.bookAuthor||'')}${nb.month?' · '+esc(nb.month):''}</div>
           <div style="font-size:.7rem;color:var(--sub);margin-top:3px">
             ${nb.date1?fmtD(nb.date1):'일정 미정'}${nb.date2?' / '+fmtD(nb.date2):''}
           </div>`;
@@ -932,7 +932,7 @@ async function renderAdm(){
       h+=`<div style="font-size:.8rem;color:var(--sub)">미설정</div>`;
     }
     h+=`</div><div class="sess-card-body">`;
-    const nxtSess=nb&&nb.title?sessions.find(s=>String(s.bookTitle).trim()===String(nb.title).trim()):null;
+    const nxtSess=nb&&nb.bookTitle?sessions.find(s=>String(s.bookTitle).trim()===String(nb.bookTitle).trim()):null;
     if(nxtSess){
       h+=`<div style="font-size:.7rem;color:var(--sub);margin-bottom:8px">세션 ID: ${esc(nxtSess.sessionId)} · 상태: <span class="tag gd">${esc(nxtSess.status)}</span></div>`;
     }
@@ -985,8 +985,8 @@ function openBookModal(type){
   $('bookMoSessId').value='';
   $('bookMoTtl').textContent=type==='current'?'이달의 책 설정':'다음달 책 설정';
   const src=type==='current'?dash?.currentBook:dash?.nextBook;
-  $('bmTitle').value=src?(src.bookTitle||src.title||''):'';
-  $('bmAuthor').value=src?(src.bookAuthor||src.author||''):'';
+  $('bmTitle').value=src?src.bookTitle||'':'';
+  $('bmAuthor').value=src?src.bookAuthor||'':'';
   $('bmMonth').value=src?src.month||'':'';
   $('bmD1').value=src?src.date1||'':'';
   $('bmD2').value=src?src.date2||'':'';
@@ -1002,9 +1002,9 @@ async function doCreateCurSess(){
   toast('세션이 생성되었습니다.');S.dash=null;setTimeout(()=>renderAdm(),1500);
 }
 async function doCreateNxtSess(){
-  if(!S.dash?.nextBook?.title){toast('먼저 다음달 책을 설정해주세요.');return}
+  if(!S.dash?.nextBook?.bookTitle){toast('먼저 다음달 책을 설정해주세요.');return}
   const nb=S.dash.nextBook;
-  await apiPost({action:'createSession',bookTitle:nb.title,bookAuthor:nb.author||'',
+  await apiPost({action:'createSession',bookTitle:nb.bookTitle,bookAuthor:nb.bookAuthor||'',
     date1:nb.date1||'',date2:nb.date2||''});
   toast('세션이 생성되었습니다.');S.dash=null;setTimeout(()=>renderAdm(),1500);
 }
@@ -1111,7 +1111,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const alias=$('rAlias').value.trim(),name=$('rName').value.trim();
     if(!alias||!name){toast('별칭과 이름은 필수입니다.');return}
     $('btnRegConfirm').textContent='등록 중...';
-    await apiPost({action:'registerMember',alias,name,birth:$('rBirth').value.trim(),
+    await apiPost({action:'registerMember',alias,name,birthyear:$('rBirth').value.trim(),
       gender:$('rGender').value,emotionalLabor:$('rEmot').value.trim()});
     toast('등록 요청을 전송했습니다. 잠시 후 로그인해주세요.');
     mo('moReg',false);$('btnRegConfirm').textContent='등록하기';
@@ -1182,7 +1182,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       body={action:'setCurrentBook',bookTitle:title,bookAuthor:$('bmAuthor').value.trim(),
             month,date1:d1,date2:d2,memo};
     } else {
-      body={action:'setNextBook',title,author:$('bmAuthor').value.trim(),month,date1:d1,date2:d2,memo};
+      body={action:'setNextBook',bookTitle:title,bookAuthor:$('bmAuthor').value.trim(),month,date1:d1,date2:d2,memo};
     }
     $('btnBookConfirm').textContent='저장 중...';
     await apiPost(body);
@@ -1190,7 +1190,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(S.dash){
       const sessions=S.dash.sessions||[];
       const matchSess=sessions.find(s=>{
-        const bt=type==='current'?S.dash.currentBook?.bookTitle:S.dash.nextBook?.title;
+        const bt=type==='current'?S.dash.currentBook?.bookTitle:S.dash.nextBook?.bookTitle;
         return bt&&String(s.bookTitle).trim()===bt.trim();
       });
       if(matchSess){
